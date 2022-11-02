@@ -1,17 +1,63 @@
 :root {
     --size: 30rem;
-    --violet: rgba(255, 56, 228, 0.329);
+    --violet: rgba(255, 56, 228, 0.141);
     --round: 100%;
+    --z: -1;
+    --blur: 8px;
+    --overflow: -15rem;
+    --duration: 30s;
 }
 
-.left-circle-bg {
+.circle-bg {
+    position: absolute;
     width: var(--size);
     height: var(--size);
+    background: var(--violet);
     border-radius: var(--round);
+    z-index: var(--z);
+    filter: blur(var(--blur));
 }
 
-.right-circle-bg {
-    width: var(--size);
-    height: var(--size);
-    border-radius: var(--round);
+.float-1 {
+    left: var(--overflow);
+    animation: float var(--duration) ease-in-out -1s infinite alternate;
+}
+
+.float-2 {
+    left: var(--overflow);
+    animation: float var(--duration) ease-in-out -10s infinite alternate;
+}
+
+.float-3 {
+    right: var(--overflow);
+    animation: float var(--duration) ease-in-out -2s infinite alternate;
+}
+
+.float-4 {
+    right: var(--overflow);
+    animation: float var(--duration) ease-in-out -10s infinite alternate;
+}
+
+
+
+@keyframes float {
+    0%   {
+        transform: translate(2rem, -2rem);
+    }
+
+    25%  {
+        transform: translate(4rem, 4rem);
+    }
+
+    50%  {
+        transform: translate(5rem, -3rem);
+    }
+
+    75%  {
+        transform: translate(3.6rem, 4rem);
+    }
+
+    100% {
+        transform: translate(2rem, 0rem);
+    }
 }
