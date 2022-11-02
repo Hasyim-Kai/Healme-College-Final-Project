@@ -4,7 +4,7 @@ import { useAppSelector } from "../../app/store";
 import { selectUserState } from "../../app/UserSlice";
 import Alert from "../components/global/Alert";
 
-type Props = { children: JSX.Element | JSX.Element[] | null, additionalStyle: string, pageTitle: string }
+type Props = { children: JSX.Element | JSX.Element[] | null, additionalStyle?: string, pageTitle: string }
 
 export default function DefaultLayout({ children, additionalStyle, pageTitle = 'Healen' }: Props) {
   const { isLoggedIn, userInfo } = useAppSelector(selectUserState);
