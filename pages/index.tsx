@@ -4,7 +4,7 @@ import Navbar from '../presentation/components/features/landing-page/Navbar'
 import Hero from '../presentation/components/features/landing-page/Hero'
 
 const Home: NextPage = () => {    
-  return <DefaultLayout pageTitle='Healen'>
+  return <DefaultLayout>
     <Navbar/>
     <Hero/>
     {/* <Features/>
