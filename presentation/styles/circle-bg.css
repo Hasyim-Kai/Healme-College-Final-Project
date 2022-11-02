@@ -1,0 +1,17 @@
+:root {
+    --size: 30rem;
+    --violet: rgba(255, 56, 228, 0.329);
+    --round: 100%;
+}
+
+.left-circle-bg {
+    width: var(--size);
+    height: var(--size);
+    border-radius: var(--round);
+}
+
+.right-circle-bg {
+    width: var(--size);
+    height: var(--size);
+    border-radius: var(--round);
+}
