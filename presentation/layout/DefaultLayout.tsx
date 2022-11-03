@@ -17,7 +17,6 @@ export default function DefaultLayout({ children, additionalStyle = '', pageTitl
     </Head>
 
     <main className={`w-full min-h-screen overflow-hidden ${additionalStyle}`}>
-      <Alert text="AAAAAAAAAAA"/>
       {children}
     </main>
   </>
