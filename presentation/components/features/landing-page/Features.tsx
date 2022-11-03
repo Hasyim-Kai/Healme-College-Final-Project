@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import { pinkGradientBg, pinkGradientText } from '../../../styles/tailwind/Transition'
+import { pinkGradientBg, pinkGradientText } from '../../../styles/TailwindStyle'
 
 export default function Features() {
     return <article className=''>

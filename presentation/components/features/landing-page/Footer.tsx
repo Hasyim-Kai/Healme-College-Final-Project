@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import LoginBtn from './LoginBtn'
-import { pinkGradientBg, pinkGradientText } from '../../../styles/tailwind/Transition'
+import { pinkGradientBg, pinkGradientText } from '../../../styles/TailwindStyle'
 import WhiteLoginBtn from './WhiteLoginBtn'
 
 export default function Footer() {
