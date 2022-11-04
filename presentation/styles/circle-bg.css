@@ -9,7 +9,7 @@
 }
 
 .circle-bg {
-    position: absolute;
+    position: fixed;
     width: var(--size);
     height: var(--size);
     background: var(--violet);
