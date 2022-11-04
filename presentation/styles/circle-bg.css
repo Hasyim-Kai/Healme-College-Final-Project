@@ -1,15 +1,15 @@
 :root {
     --size: 30rem;
-    --violet: rgba(255, 56, 228, 0.141);
+    --violet: rgba(255, 56, 228, 0.196);
     --round: 100%;
     --z: -1;
-    --blur: 8px;
+    --blur: 7px;
     --overflow: -15rem;
     --duration: 30s;
 }
 
 .circle-bg {
-    position: absolute;
+    position: fixed;
     width: var(--size);
     height: var(--size);
     background: var(--violet);
@@ -41,19 +41,19 @@
 
 
 @keyframes float {
-    0%   {
+    0% {
         transform: translate(2rem, -2rem);
     }
 
-    25%  {
+    25% {
         transform: translate(4rem, 4rem);
     }
 
-    50%  {
+    50% {
         transform: translate(5rem, -3rem);
     }
 
-    75%  {
+    75% {
         transform: translate(3.6rem, 4rem);
     }
 
