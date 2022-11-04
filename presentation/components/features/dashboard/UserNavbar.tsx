@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import LogoutBtn from '../auth/LogoutBtn';
+import LogoutBtn from './LogoutBtn';
 
 export default function UserNavbar() {
   const router = useRouter()
