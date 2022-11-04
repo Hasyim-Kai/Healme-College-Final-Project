@@ -12,6 +12,5 @@ export default function ScheduleList() {
     <section className='grid lg:grid-cols-2 grid-cols-1 gap-6 mt-10'>
       {dummy.map((item, index) => <ScheduleCard />)}
     </section>
-    <CircleBgAnimation />
   </div>
 }

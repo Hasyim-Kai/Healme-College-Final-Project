@@ -1,14 +1,17 @@
 import Image from 'next/image'
+import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { pinkGradientText, simpleInput, pinkGradientBg } from '../../../styles/TailwindStyle'
 
 export default function Form() {
+  const router = useRouter()
   const [gender, setGender] = useState<string>('male')
 
   function handleGender(e: any) { setGender(e.target.value) }
   function handleSubmit(e: any) {
     e.preventDefault()
     console.log(e.target)
+    router.push('/user/dashboard')
   }
 
 
