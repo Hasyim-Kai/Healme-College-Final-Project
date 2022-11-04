@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router'
-import { pinkGradientBg, pinkGradientText, simpleInput } from '../../styles/TailwindStyle'
+import { pinkGradientText, pinkGradientBg } from '../../../styles/TailwindStyle'
 
 export default function GoogleLogin() {
 

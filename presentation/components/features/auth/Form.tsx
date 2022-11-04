@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import { useState } from 'react'
-import { pinkGradientBg, pinkGradientText, simpleInput } from '../../styles/TailwindStyle'
+import { pinkGradientText, simpleInput, pinkGradientBg } from '../../../styles/TailwindStyle'
 
 export default function Form() {
   const [gender, setGender] = useState<string>('male')
