@@ -7,6 +7,7 @@ import FloatBottomBtn from '../../../global/FloatBottomBtn';
 import JournalFormModal from '../journal/JournalFormModal';
 import UserNavbar from '../UserNavbar';
 import { useRouter } from 'next/router';
+import UserScheduleFormModal from './UserScheduleFormModal';
 
 type Props = { scheduleId: string | string[] }
 
@@ -32,8 +33,12 @@ export default function ScheduleDetail({ scheduleId = `1` }: Props) {
         </div>
 
         <div className={`flex justify-center p-7 rounded-xl shadow-xl ${glassCard}`}>
-          <Image alt="Profile Photo" src='/img/gmeet.png' width={230} height={50} priority />
+          <Image alt="Profile Photo" src='/img/gmeet.png' width={240} height={50} priority />
         </div>
+
+        <button className={`flex justify-center p-5 rounded-xl shadow-xl ${glassCard}`} onClick={() => dispatch(toggleModal())}>
+          <span className={`text-3xl font-semibold ${pinkGradientText}`}>Apply Here</span>
+        </button>
       </div>
 
       <article className={`col-span-3 flex flex-col rounded-xl shadow-xl p-10 mx-5 lg:mx-0 ${glassCard}`}>
@@ -58,6 +63,6 @@ export default function ScheduleDetail({ scheduleId = `1` }: Props) {
     <FloatBottomBtn text='Edit' clickFunc={goToForm}>
       <Image src="/icons/edit-note.svg" alt="edit note Icons" width={25} height={25} />
     </FloatBottomBtn>
-    <JournalFormModal isEdit={true} />
+    <UserScheduleFormModal isEdit={true} />
   </div>
 }
