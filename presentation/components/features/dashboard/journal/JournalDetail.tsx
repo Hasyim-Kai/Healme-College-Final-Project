@@ -1,7 +1,9 @@
 import Image from 'next/image'
 import { toggleModal } from '../../../../../app/GlobalSlice'
 import { useAppDispatch } from '../../../../../app/store'
+import VioletButton from "../../../global/VioletButton";
 import { cardHover, pinkGradientText } from '../../../../styles/TailwindStyle'
+import FloatBottomBtn from '../../../global/FloatBottomBtn'
 import UserNavbar from '../UserNavbar'
 import JournalFormModal from './JournalFormModal'
 
@@ -29,16 +31,38 @@ export default function JournalDetail({ journalId = `1` }: Props) {
         </div>
       </div>
 
-      <button onClick={() => dispatch(toggleModal())}>Edit</button>
-      <article className={`mt-5 rounded-xl shadow-xl p-10 bg-white bg-opacity-20 backdrop-blur-lg ${cardHover}`}>
+      <article className={`flex flex-col mt-5 mb-16 rounded-xl shadow-xl p-10 bg-white bg-opacity-20 backdrop-blur-lg mx-5 lg:mx-0`}>
         <p className='text-lg'>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
           Natus similique alias repudiandae, unde dolor, pariatur incidunt fugit
           architecto accusantium impedit voluptatem. Ad eius similique recusandae
           assumenda incidunt, aperiam ex maxime.</p>
+        <p className='text-lg'>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+          Natus similique alias repudiandae, unde dolor, pariatur incidunt fugit
+          architecto accusantium impedit voluptatem. Ad eius similique recusandae
+          assumenda incidunt, aperiam ex maxime.</p>
+        <p className='text-lg'>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+          Natus similique alias repudiandae, unde dolor, pariatur incidunt fugit
+          architecto accusantium impedit voluptatem. Ad eius similique recusandae
+          assumenda incidunt, aperiam ex maxime.</p>
+        <p className='text-lg'>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+          Natus similique alias repudiandae, unde dolor, pariatur incidunt fugit
+          architecto accusantium impedit voluptatem. Ad eius similique recusandae
+          assumenda incidunt, aperiam ex maxime.</p>
+        <p className='text-lg'>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+          Natus similique alias repudiandae, unde dolor, pariatur incidunt fugit
+          architecto accusantium impedit voluptatem. Ad eius similique recusandae
+          assumenda incidunt, aperiam ex maxime.</p>
+
+        <button className='mx-auto mt-7 p-2 rounded-full border-2 border-rose-300' onClick={() => console.log(`Jalan :)`)}>
+          <Image src="/icons/trash.svg" alt="trash Icons" width={35} height={30} />
+        </button>
       </article>
 
     </section>
 
+    <FloatBottomBtn text='Edit' clickFunc={() => dispatch(toggleModal())}>
+      <Image src="/icons/edit-note.svg" alt="edit note Icons" width={25} height={25} />
+    </FloatBottomBtn>
     <JournalFormModal isEdit={true} />
   </div>
 }
