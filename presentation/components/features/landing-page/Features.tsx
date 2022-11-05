@@ -11,7 +11,7 @@ export default function Features() {
                 <Image className='shadow-2xl' src="/consultation.png" alt="consultation" width={400} height={400} />
             </div>
             <div className='max-w-xs'>
-                <p className={`text-5xl font-semibold ${pinkGradientText}`}>Consultation</p>
+                <p className={`text-5xl font-semibold ${pinkGradientText}`}>Counseling</p>
                 <p className={`my-5 text-gray-600`}>Choose the Consultation Schedule with the Professional that fits your time</p>
                 <div className={`w-36 h-1 rounded-lg ${pinkGradientBg}`}></div>
             </div>

@@ -11,7 +11,7 @@ export default function Form() {
   function handleSubmit(e: any) {
     e.preventDefault()
     console.log(e.target)
-    router.push('/user/dashboard')
+    router.push('/user/counseling')
   }
 
 
