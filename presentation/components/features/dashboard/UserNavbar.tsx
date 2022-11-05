@@ -14,7 +14,7 @@ export default function UserNavbar() {
   return <header className='flex flex-col items-center text-gray-600'>
     <section className='flex gap-5 text-2xl items-center mt-5 mb-3'>
       <div className='relative w-10 h-10 rounded-full overflow-hidden'>
-        <Image alt="Profile Photo" src='/smile1.png' layout='fill' objectFit='fill' />
+        <Image alt="Profile Photo" src='/img/smile1.png' layout='fill' objectFit='fill' />
       </div>
 
       <p className=''>Name</p>
