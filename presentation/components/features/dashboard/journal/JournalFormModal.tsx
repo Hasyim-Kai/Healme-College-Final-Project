@@ -1,6 +1,7 @@
 import { useState } from "react";
 import ModalLayout from "../../../../layout/ModalLayout";
 import { simpleInput } from "../../../../styles/TailwindStyle";
+import { Toast, ToastType } from "../../../global/Alert";
 import VioletButton from "../../../global/VioletButton";
 
 type Props = { isEdit?: boolean }
@@ -8,8 +9,9 @@ type Props = { isEdit?: boolean }
 export default function JournalFormModal({ isEdit = false }: Props) {
   const [wellScore, setWellScore] = useState<number>(50)
 
-  const handleSubmit = () => {
-    console.log(`Kumpul bu`)
+  const handleSubmit = (e: any) => {
+    e.preventDefault()
+    Toast(`Journal Succesfully Created`, ToastType.info)
   }
 
   return <ModalLayout>
