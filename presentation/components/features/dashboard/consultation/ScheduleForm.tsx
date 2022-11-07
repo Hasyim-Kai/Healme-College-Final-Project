@@ -24,7 +24,7 @@ export default function ScheduleForm({ scheduleId = `1` }: Props) {
       <form className={`flex flex-col mt-5 mb-16 rounded-xl shadow-xl p-10 mx-5 lg:mx-0 ${glassCard}`} onSubmit={handleSubmit}>
         <div>
           <label htmlFor="Gmeet">Gmeet Link</label><br />
-          <input className={simpleInput} type="text" name="Gmeet" id="Gmeet" placeholder="Enter Gmeet Link here" />
+          <input className={`bg-transparent ${simpleInput}`} type="text" name="Gmeet" id="Gmeet" placeholder="Enter Gmeet Link here" />
         </div>
 
         <ul className="mt-5 grid gap-6 w-full grid-cols-1 lg:grid-cols-3">
