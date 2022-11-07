@@ -6,7 +6,7 @@ import WhiteLoginBtn from './WhiteLoginBtn'
 export default function Footer() {
   return <article className='relative mt-10 h-full text-white'>
     <div className='absolute w-full h-full -z-10'>
-      <Image alt="wave-bg" src='/wave-bg.png' layout='fill' />
+      <Image alt="wave-bg" src='/img/wave-bg.png' layout='fill' />
     </div>
 
     <section className='text-center my-5 pt-28'>

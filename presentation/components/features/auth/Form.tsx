@@ -11,7 +11,7 @@ export default function Form() {
   function handleSubmit(e: any) {
     e.preventDefault()
     console.log(e.target)
-    router.push('/user/dashboard')
+    router.push('/user/counseling')
   }
 
 
@@ -21,17 +21,17 @@ export default function Form() {
 
       <div>
         <label htmlFor="job">Job</label><br />
-        <input className={simpleInput} type="text" name="job" id="job" />
+        <input className={simpleInput} type="text" name="job" id="job" placeholder="Enter your Job" />
       </div>
 
       <div>
         <label htmlFor="number">Phone Number</label>
-        <input className={simpleInput} type="number" name="number" id="number" />
+        <input className={simpleInput} type="number" name="number" id="number" placeholder="Enter your Phone Number" />
       </div>
 
       <div>
         <label htmlFor="age">Age</label>
-        <input className={simpleInput} type="number" name="age" id="age" />
+        <input className={simpleInput} type="number" name="age" id="age" placeholder="Enter your Age" />
       </div>
 
       <label htmlFor="age">Gender</label>

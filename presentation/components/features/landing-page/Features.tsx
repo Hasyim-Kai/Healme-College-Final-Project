@@ -8,10 +8,10 @@ export default function Features() {
 
         <section className='flex flex-wrap justify-center items-center lg:gap-24 my-5'>
             <div className=''>
-                <Image className='shadow-2xl' src="/consultation.png" alt="consultation" width={400} height={400} />
+                <Image className='shadow-2xl' src="/img/consultation.png" alt="consultation" width={400} height={400} />
             </div>
             <div className='max-w-xs'>
-                <p className={`text-5xl font-semibold ${pinkGradientText}`}>Consultation</p>
+                <p className={`text-5xl font-semibold ${pinkGradientText}`}>Counseling</p>
                 <p className={`my-5 text-gray-600`}>Choose the Consultation Schedule with the Professional that fits your time</p>
                 <div className={`w-36 h-1 rounded-lg ${pinkGradientBg}`}></div>
             </div>
@@ -19,7 +19,7 @@ export default function Features() {
 
         <section className='flex flex-wrap lg:flex-row-reverse justify-center items-center lg:gap-24 my-5'>
             <div className=''>
-                <Image className='shadow-2xl' src="/journal.png" alt="journal" width={400} height={400} />
+                <Image className='shadow-2xl' src="/img/journal.png" alt="journal" width={400} height={400} />
             </div>
             <div className='max-w-xs'>
                 <p className={`text-5xl font-semibold ${pinkGradientText}`}>Journal</p>
@@ -30,7 +30,7 @@ export default function Features() {
 
         <section className='flex flex-wrap justify-center items-center lg:gap-24 my-5'>
             <div className=''>
-                <Image className='shadow-2xl' src="/circle.png" alt="consultation" width={400} height={400} />
+                <Image className='shadow-2xl' src="/img/circle.png" alt="consultation" width={400} height={400} />
             </div>
             <div className='max-w-xs'>
                 <p className={`text-5xl font-semibold ${pinkGradientText}`}>Circle</p>
