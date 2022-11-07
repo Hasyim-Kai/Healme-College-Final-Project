@@ -2,11 +2,11 @@ import type { NextPage } from 'next'
 import DefaultLayout from '../../../presentation/layout/DefaultLayout'
 import JournalList from '../../../presentation/components/features/dashboard/journal/JournalList'
 import CircleBgAnimation from '../../../presentation/components/global/CircleBgAnimation'
-import UserNavbar from '../../../presentation/components/features/dashboard/UserNavbar'
+import CounselorNavbar from '../../../presentation/components/features/dashboard/CounselorNavbar'
 
 const Journal: NextPage = () => {
   return <DefaultLayout pageTitle='Your Journal' additionalStyle='relative'>
-    <UserNavbar />
+    <CounselorNavbar />
     <JournalList />
     <CircleBgAnimation />
   </DefaultLayout>

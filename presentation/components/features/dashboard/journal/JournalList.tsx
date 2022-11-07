@@ -11,9 +11,8 @@ export default function JournalList() {
   const dummy = [1, 2, 3, 4, 5, 6]
 
   return <div className='mx-auto lg:max-w-5xl'>
-    <UserNavbar />
     <section className='grid lg:grid-cols-3 grid-cols-1 gap-6 mt-10'>
-      {dummy.map((item, index) => <JournalCard />)}
+      {dummy.map((item, index) => <JournalCard key={index} />)}
     </section>
 
     <FloatBottomBtn text='Create' clickFunc={() => dispatch(toggleModal())}>

@@ -4,21 +4,18 @@ import { toggleModal } from '../../../../../app/GlobalSlice';
 import { useAppDispatch } from '../../../../../app/store';
 import { glassCard, pinkGradientBg, pinkGradientText } from '../../../../styles/TailwindStyle';
 import FloatBottomBtn from '../../../global/FloatBottomBtn';
-import JournalFormModal from '../journal/JournalFormModal';
-import UserNavbar from '../UserNavbar';
 import { useRouter } from 'next/router';
 import UserScheduleFormModal from './UserScheduleFormModal';
 
-type Props = { scheduleId: string | string[] }
+type Props = { scheduleId: string | string[], isCounselor: boolean }
 
-export default function ScheduleDetail({ scheduleId = `1` }: Props) {
+export default function ScheduleDetail({ scheduleId = `1`, isCounselor = false }: Props) {
   const dispatch = useAppDispatch();
   const router = useRouter()
-  const goToForm = () => { router.push('/user/counseling/form/1') }
+  const goToForm = () => { router.push('/counselor/counseling/form/1') }
 
   return <div className='mx-auto lg:max-w-6xl'>
-    <UserNavbar />
-    <section className='mt-10 grid lg:grid-cols-4 grid-cols-1 gap-6'>
+    <section className='mt-10 grid lg:grid-cols-4 grid-cols-1 gap-6 mb-16'>
 
       <div className={`flex flex-col gap-5`}>
         <div className={`px-7 text-center py-10 rounded-xl shadow-xl ${glassCard}`}>
@@ -36,15 +33,15 @@ export default function ScheduleDetail({ scheduleId = `1` }: Props) {
           <Image alt="Profile Photo" src='/img/gmeet.png' width={240} height={50} priority />
         </div>
 
-        <button className={`flex justify-center p-5 rounded-xl shadow-xl ${glassCard}`} onClick={() => dispatch(toggleModal())}>
+        {!isCounselor && <button className={`flex justify-center p-5 rounded-xl shadow-xl ${glassCard}`} onClick={() => dispatch(toggleModal())}>
           <span className={`text-3xl font-semibold ${pinkGradientText}`}>Apply Here</span>
-        </button>
+        </button>}
       </div>
 
       <article className={`col-span-3 flex flex-col rounded-xl shadow-xl p-10 mx-5 lg:mx-0 ${glassCard}`}>
         <div className={`flex jusb items-center gap-5 mb-5`}>
           <h1 className='text-3xl font-semibold'>By Pemuda</h1>
-          <Link href={`/user/journal`}>
+          <Link href={isCounselor ? `/counselor/journal` : `/user/journal`}>
             <button className='p-2 rounded-full border-2 border-rose-300' onClick={() => console.log(`Jalan :)`)}>
               <Image src="/icons/orchid-book.svg" alt="orchid-book Icons" width={35} height={30} />
             </button>
@@ -60,9 +57,9 @@ export default function ScheduleDetail({ scheduleId = `1` }: Props) {
 
     </section>
 
-    <FloatBottomBtn text='Edit' clickFunc={goToForm}>
+    {isCounselor && <FloatBottomBtn text='Edit' clickFunc={goToForm}>
       <Image src="/icons/edit-note.svg" alt="edit note Icons" width={25} height={25} />
-    </FloatBottomBtn>
-    <UserScheduleFormModal isEdit={true} />
+    </FloatBottomBtn>}
+    {isCounselor && <UserScheduleFormModal isEdit={true} />}
   </div>
 }

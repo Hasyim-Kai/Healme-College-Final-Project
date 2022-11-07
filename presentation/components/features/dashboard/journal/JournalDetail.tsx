@@ -13,7 +13,6 @@ export default function JournalDetail({ journalId = `1` }: Props) {
   const dispatch = useAppDispatch();
 
   return <div className='mx-auto lg:max-w-5xl'>
-    <UserNavbar />
     <section className='mt-10'>
 
       <div className='flex lg:items-center justify-between mx-5 flex-col-reverse lg:flex-row gap-3'>

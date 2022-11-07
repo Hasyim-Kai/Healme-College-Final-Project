@@ -17,7 +17,6 @@ export default function ScheduleForm({ scheduleId = `1` }: Props) {
   }
 
   return <div className='mx-auto lg:max-w-5xl'>
-    <UserNavbar />
     <section className='mt-10'>
       <h1 className={`py-2 text-5xl font-semibold text-center drop-shadow-md ${pinkGradientText}`}>Create Counseling Schedule</h1>
 
