@@ -7,7 +7,7 @@ import FloatBottomBtn from '../../../global/FloatBottomBtn';
 import { useRouter } from 'next/router';
 import UserScheduleFormModal from './UserScheduleFormModal';
 
-type Props = { scheduleId: string | string[], isCounselor: boolean }
+type Props = { scheduleId: string | string[], isCounselor?: boolean }
 
 export default function ScheduleDetail({ scheduleId = `1`, isCounselor = false }: Props) {
   const dispatch = useAppDispatch();

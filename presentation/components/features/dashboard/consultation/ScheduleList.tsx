@@ -6,7 +6,7 @@ import UserNavbar from '../UserNavbar'
 import { useRouter } from 'next/router'
 import FloatBottomBtn from '../../../global/FloatBottomBtn'
 
-type Props = { isCounselor: boolean }
+type Props = { isCounselor?: boolean }
 
 export default function ScheduleList({ isCounselor = false }: Props) {
   const router = useRouter()
