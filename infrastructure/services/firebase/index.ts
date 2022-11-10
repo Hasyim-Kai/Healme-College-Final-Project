@@ -1,5 +1,6 @@
 import { getApp, getApps, initializeApp } from "firebase/app";
 import { signOut, getAuth, GoogleAuthProvider } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -17,7 +18,9 @@ const app = !getApps().length ? initializeApp(firebaseConfig) : getApp()
 // Auth
 const auth = getAuth(app);
 const googleAuthProvider = new GoogleAuthProvider();
-
 const logout = () => signOut(auth);
 
-export { auth, googleAuthProvider, logout };
+// Firestore
+const db = getFirestore(app);
+
+export { auth, googleAuthProvider, logout, db };
