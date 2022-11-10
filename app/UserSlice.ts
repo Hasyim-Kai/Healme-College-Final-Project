@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { onAuthStateChanged, signInWithPopup, UserCredential } from "firebase/auth";
 import { auth, googleAuthProvider } from "../infrastructure/services/firebase";
-import { getSingleUserFirebase } from "../infrastructure/services/firebase/User";
+import { getSingleUserFirebase, saveUserFirebase } from "../infrastructure/services/firebase/User";
 import { RootState } from "./store"
 
 export const loginGoogle = createAsyncThunk('user/loginGoogle', async () => {
@@ -12,15 +12,21 @@ export const checkUserExistance = createAsyncThunk('user/checkUserExistance', as
     return await getSingleUserFirebase(email)
 })
 
+export const saveUser = createAsyncThunk('user/saveUser', async (theUser: UserInputType) => {
+    return await saveUserFirebase(theUser)
+})
+
+const initState: UserSliceType = {
+    isLoggedIn: false,
+    isExist: false,
+    userInfo: { token: '', email: '', name: '', photoUrl: '', },
+    isLoading: false,
+    errorMessage: ''
+}
+
 const userSlice = createSlice({
     name: 'user',
-    initialState: {
-        isLoggedIn: false,
-        isExist: false,
-        userInfo: {},
-        isLoading: false,
-        errorMessage: ''
-    },
+    initialState: initState,
     reducers: {
         getUserFromLS(state) {
             state.isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn') || `false`);
@@ -38,7 +44,7 @@ const userSlice = createSlice({
         },
         logUserOut(state) {
             state.isLoggedIn = false
-            state.userInfo = {}
+            state.userInfo = { token: '', email: '', name: '', photoUrl: '', }
         },
     },
     extraReducers: builder => {
@@ -47,7 +53,7 @@ const userSlice = createSlice({
             state.isLoading = true
             state.errorMessage = ''
         })
-        builder.addCase(loginGoogle.fulfilled, (state, action) => {
+        builder.addCase(loginGoogle.fulfilled, (state, action: any) => {
             state.isLoggedIn = true
             state.isLoading = false
             state.userInfo = {
@@ -75,6 +81,20 @@ const userSlice = createSlice({
             localStorage.setItem('isExist', JSON.stringify(!action.payload));
         })
         builder.addCase(checkUserExistance.rejected, (state, action) => {
+            state.isLoading = false
+            state.errorMessage = action.error.message || 'Something went wrong'
+        })
+        // SAVE USER
+        builder.addCase(saveUser.pending, state => {
+            state.isLoading = true
+            state.errorMessage = ''
+        })
+        builder.addCase(saveUser.fulfilled, (state, action) => {
+            state.isLoading = false
+            state.isExist = true
+            localStorage.setItem('isExist', JSON.stringify(true));
+        })
+        builder.addCase(saveUser.rejected, (state, action) => {
             state.isLoading = false
             state.errorMessage = action.error.message || 'Something went wrong'
         })

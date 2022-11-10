@@ -8,7 +8,6 @@ export const saveUserFirebase = (userData: any) => {
     age: userData.age,
     email: userData.email,
     gender: userData.gender,
-    name: userData.name,
     phone_number: userData.phone_number
   }).then((response) => response)
     .catch((error) => error)
