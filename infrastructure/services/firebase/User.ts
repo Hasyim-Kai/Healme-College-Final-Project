@@ -4,12 +4,7 @@ import { db } from '.';
 const userRef = collection(db, 'user');
 
 export const saveUserFirebase = (userData: any) => {
-  addDoc(userRef, {
-    age: userData.age,
-    email: userData.email,
-    gender: userData.gender,
-    phone_number: userData.phone_number
-  }).then((response) => response)
+  addDoc(userRef, userData).then((response) => response)
     .catch((error) => error)
 }
 
