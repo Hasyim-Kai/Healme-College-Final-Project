@@ -19,3 +19,25 @@ type UserInputType = {
   gender: string,
   phone_number: string,
 }
+
+type JournalSliceType = {
+  journals: [],
+  journalDetail: any,
+  isLoading: boolean,
+  errorMessage: string
+}
+
+type JournalType = {
+  date: string,
+  title: string,
+  text: string,
+  mood: string,
+  user_email: string | null,
+}
+
+type JournalInputType = {
+  title: string,
+  text: string,
+  mood: string,
+  user_email: string,
+}
