@@ -5,6 +5,7 @@ import ScheduleCard from './ScheduleCard'
 import UserNavbar from '../UserNavbar'
 import { useRouter } from 'next/router'
 import FloatBottomBtn from '../../../global/FloatBottomBtn'
+import Loading from '../../../global/Loading'
 
 type Props = { isCounselor?: boolean }
 
