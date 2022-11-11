@@ -1,0 +1,1 @@
+export const formatDate = (data: any) => new Date(Number(data)).toDateString()

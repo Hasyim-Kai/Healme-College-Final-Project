@@ -1,18 +1,25 @@
 import Image from 'next/image'
+import { useEffect } from 'react';
 import { toggleModal } from '../../../../../app/GlobalSlice';
-import { useAppDispatch } from '../../../../../app/store';
+import { getJournals, selectJournalState } from '../../../../../app/JournalSlice';
+import { useAppDispatch, useAppSelector } from '../../../../../app/store';
 import FloatBottomBtn from '../../../global/FloatBottomBtn';
-import UserNavbar from '../UserNavbar'
+import Loading from '../../../global/Loading';
 import JournalCard from './JournalCard'
 import JournalFormModal from './JournalFormModal';
 
 export default function JournalList() {
   const dispatch = useAppDispatch();
-  const dummy = [1, 2, 3, 4, 5, 6]
+  const journalState = useAppSelector(selectJournalState);
+
+  useEffect(() => {
+    dispatch(getJournals())
+  }, [])
 
   return <div className='mx-auto lg:max-w-5xl'>
     <section className='grid lg:grid-cols-3 grid-cols-1 gap-6 mt-10'>
-      {dummy.map((item, index) => <JournalCard key={index} />)}
+      {journalState.isLoading ? <Loading />
+        : journalState.journals.map((item, index) => <JournalCard item={item} key={index} />)}
     </section>
 
     <FloatBottomBtn text='Create' clickFunc={() => dispatch(toggleModal())}>
