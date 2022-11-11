@@ -3,7 +3,8 @@ type UserSliceType = {
   isExist: boolean,
   userInfo: UserType,
   isLoading: boolean,
-  errorMessage: string
+  errorMessage: string,
+  patientEmail: string
 }
 
 type UserType = {

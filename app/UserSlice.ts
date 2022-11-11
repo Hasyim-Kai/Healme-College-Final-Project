@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { onAuthStateChanged, signInWithPopup, UserCredential } from "firebase/auth";
 import { auth, googleAuthProvider } from "../infrastructure/services/firebase";
-import { getSingleUserFirebase, saveUserFirebase } from "../infrastructure/services/firebase/User";
+import { getSingleUserFirebase, getSingleCounselorFirebase, saveUserFirebase } from "../infrastructure/services/firebase/User";
 import { RootState } from "./store"
 
 export const loginGoogle = createAsyncThunk('user/loginGoogle', async () => {
@@ -16,12 +16,19 @@ export const saveUser = createAsyncThunk('user/saveUser', async (theUser: UserIn
     return await saveUserFirebase(theUser)
 })
 
+export const loginGoogleAsCounselor = createAsyncThunk('user/loginGoogleAsCounselor', async () => {
+    const res = await signInWithPopup(auth, googleAuthProvider)
+    const isCounselorExist = await getSingleCounselorFirebase(res.user.email || '')
+    return { res, isCounselorExist }
+})
+
 const initState: UserSliceType = {
     isLoggedIn: false,
     isExist: false,
     userInfo: { token: '', email: '', name: '', photoUrl: '', },
     isLoading: false,
-    errorMessage: ''
+    errorMessage: '',
+    patientEmail: ''
 }
 
 const userSlice = createSlice({
@@ -95,6 +102,33 @@ const userSlice = createSlice({
             localStorage.setItem('isExist', JSON.stringify(true));
         })
         builder.addCase(saveUser.rejected, (state, action) => {
+            state.isLoading = false
+            state.errorMessage = action.error.message || 'Something went wrong'
+        })
+        // LOGIN GOOGLE AS COUNSELOR
+        builder.addCase(loginGoogleAsCounselor.pending, state => {
+            state.isLoading = true
+            state.errorMessage = ''
+        })
+        builder.addCase(loginGoogleAsCounselor.fulfilled, (state, action: any) => {
+            if (!action.payload.isCounselorExist) {
+                state.isExist = !action.payload.isCounselorExist
+            } else {
+                state.errorMessage = 'Sorry, You Are Not Registered'
+            }
+            state.isLoggedIn = true
+            state.isLoading = false
+            state.userInfo = {
+                token: action.payload.res.user.accessToken,
+                email: action.payload.res.user.email,
+                name: action.payload.res.user.displayName,
+                photoUrl: action.payload.res.user.photoURL,
+            }
+            localStorage.setItem('user', JSON.stringify(state.userInfo));
+            localStorage.setItem('isLoggedIn', JSON.stringify(state.isLoggedIn));
+            localStorage.setItem('isExist', JSON.stringify(!action.payload.isCounselorExist));
+        })
+        builder.addCase(loginGoogleAsCounselor.rejected, (state, action) => {
             state.isLoading = false
             state.errorMessage = action.error.message || 'Something went wrong'
         })
