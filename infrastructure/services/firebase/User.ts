@@ -3,7 +3,7 @@ import { db } from '.';
 
 const userRef = collection(db, 'user');
 
-export const saveUserFirebase = (userData: any) => {
+export const saveUserFirebase = async (userData: any) => {
   addDoc(userRef, userData).then((response) => response)
     .catch((error) => error)
 }

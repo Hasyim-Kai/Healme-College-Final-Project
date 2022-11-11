@@ -1,19 +1,21 @@
 import Image from 'next/image'
 import { toggleModal } from '../../../../../app/GlobalSlice'
 import { useAppDispatch, useAppSelector } from '../../../../../app/store'
-import VioletButton from "../../../global/VioletButton";
-import { cardHover, pinkGradientText } from '../../../../styles/TailwindStyle'
+import { pinkGradientText } from '../../../../styles/TailwindStyle'
 import FloatBottomBtn from '../../../global/FloatBottomBtn'
-import UserNavbar from '../UserNavbar'
 import JournalFormModal from './JournalFormModal'
 import { formatDate } from '../../../../utils/DateFormatter';
-import { getJournals, selectJournalState } from '../../../../../app/JournalSlice';
+import { delJournals, selectJournalState } from '../../../../../app/JournalSlice';
+import { useRouter } from 'next/router'
 
 type Props = { journalId: string | string[] }
 
 export default function JournalDetail({ journalId = `1` }: Props) {
+  const router = useRouter()
   const dispatch = useAppDispatch();
   const journalState = useAppSelector(selectJournalState);
+  const goToJournals = () => { router.push('/user/journal') }
+  const handleDel = async () => { await dispatch(delJournals(journalState.journalDetail.id)); goToJournals() }
 
   return <div className='mx-auto lg:max-w-5xl'>
     <section className='mt-10'>
@@ -36,7 +38,7 @@ export default function JournalDetail({ journalId = `1` }: Props) {
       <article className={`flex flex-col mt-5 mb-16 rounded-xl shadow-xl p-10 bg-white bg-opacity-20 backdrop-blur-lg mx-5 lg:mx-0`}>
         <p className='text-lg'>{journalState.journalDetail.text}</p>
 
-        <button className='mx-auto mt-7 p-2 rounded-full border-2 border-rose-300' onClick={() => console.log(`Jalan :)`)}>
+        <button className='mx-auto mt-7 p-2 rounded-full border-2 border-rose-300' onClick={handleDel}>
           <Image src="/icons/trash.svg" alt="trash Icons" width={35} height={30} />
         </button>
       </article>
