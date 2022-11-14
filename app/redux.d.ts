@@ -42,3 +42,25 @@ type JournalInputType = {
   mood: string,
   user_email: string,
 }
+
+type ScheduleSliceType = {
+  schedules: [],
+  scheduleDetail: any,
+  isLoading: boolean,
+  errorMessage: string
+}
+
+type ScheduleType = {
+  date: string,
+  title: string,
+  text: string,
+  mood: string,
+  user_email: string | null,
+}
+
+type ScheduleInputType = {
+  title: string,
+  text: string,
+  mood: string,
+  user_email: string,
+}

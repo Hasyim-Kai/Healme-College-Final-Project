@@ -3,12 +3,14 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import globalStateReducer from './GlobalSlice'
 import userStateReducer from './UserSlice'
 import journalStateReducer from './JournalSlice'
+import scheduleStateReducer from './ScheduleSlice'
 
 const store = configureStore({
   reducer: {
     globalState: globalStateReducer,
     user: userStateReducer,
     journal: journalStateReducer,
+    schedule: scheduleStateReducer,
   },
 })
 
