@@ -1,5 +1,6 @@
+import { signOut } from "firebase/auth";
 import { collection, addDoc, getDocs, query, where } from 'firebase/firestore';
-import { db } from '.';
+import { auth, db } from '.';
 
 const userRef = collection(db, 'user');
 const counselorRef = collection(db, 'counselor');
@@ -23,3 +24,5 @@ export const getSingleCounselorFirebase = async (email: string) => {
   const data = await getDocs(q);
   return data?.empty
 }
+
+export const logout = () => signOut(auth);

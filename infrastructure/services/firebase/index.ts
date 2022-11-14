@@ -18,9 +18,8 @@ const app = !getApps().length ? initializeApp(firebaseConfig) : getApp()
 // Auth
 const auth = getAuth(app);
 const googleAuthProvider = new GoogleAuthProvider();
-const logout = () => signOut(auth);
 
 // Firestore
 const db = getFirestore(app);
 
-export { auth, googleAuthProvider, logout, db };
+export { auth, googleAuthProvider, db };

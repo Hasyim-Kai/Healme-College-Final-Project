@@ -1,7 +1,7 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit"
-import { onAuthStateChanged, signInWithPopup, UserCredential } from "firebase/auth";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
+import { signInWithPopup } from "firebase/auth";
 import { auth, googleAuthProvider } from "../infrastructure/services/firebase";
-import { getSingleUserFirebase, getSingleCounselorFirebase, saveUserFirebase } from "../infrastructure/services/firebase/User";
+import { getSingleUserFirebase, getSingleCounselorFirebase, saveUserFirebase, logout } from "../infrastructure/services/firebase/User";
 import { RootState } from "./store"
 
 export const loginGoogle = createAsyncThunk('user/loginGoogle', async () => {
@@ -21,6 +21,8 @@ export const loginGoogleAsCounselor = createAsyncThunk('user/loginGoogleAsCounse
     const isCounselorExist = await getSingleCounselorFirebase(res.user.email || '')
     return { res, isCounselorExist }
 })
+
+export const logOut = createAsyncThunk('user/logOut', async () => { return await logout() })
 
 const initState: UserSliceType = {
     isLoggedIn: false,
@@ -129,6 +131,21 @@ const userSlice = createSlice({
             localStorage.setItem('isExist', JSON.stringify(!action.payload.isCounselorExist));
         })
         builder.addCase(loginGoogleAsCounselor.rejected, (state, action) => {
+            state.isLoading = false
+            state.errorMessage = action.error.message || 'Something went wrong'
+        })
+        // LOGOUT
+        builder.addCase(logOut.pending, state => { state.isLoading = true; state.errorMessage = '' })
+        builder.addCase(logOut.fulfilled, (state, action: any) => {
+            state.isLoading = false
+            state.isLoggedIn = false
+            state.isExist = false
+            state.userInfo = { token: '', email: '', name: '', photoUrl: '', }
+            localStorage.removeItem('user');
+            localStorage.removeItem('isLoggedIn');
+            localStorage.removeItem('isExist');
+        })
+        builder.addCase(logOut.rejected, (state, action) => {
             state.isLoading = false
             state.errorMessage = action.error.message || 'Something went wrong'
         })
