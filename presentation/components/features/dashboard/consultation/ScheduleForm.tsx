@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import { useRouter } from 'next/router';
 import { useState } from 'react'
-import { createSchedule, selectScheduleState } from '../../../../../app/ScheduleSlice';
+import { createSchedule, editSchedule, selectScheduleState } from '../../../../../app/ScheduleSlice';
 import { useAppDispatch, useAppSelector } from '../../../../../app/store';
 import { selectUserState } from '../../../../../app/UserSlice';
 import { counselingSchedule } from '../../../../model/counseling-schedule';
@@ -17,9 +17,9 @@ export default function ScheduleForm({ scheduleId = `1`, isEdit = false }: Props
   const { userInfo } = useAppSelector(selectUserState);
   const scheduleState = useAppSelector(selectScheduleState);
 
-  const [gmeetLink, setGmeetLink] = useState<string>('#');
+  const [gmeetLink, setGmeetLink] = useState<string>(id === `edit` ? scheduleState.scheduleDetail.gmeetLink : '#');
   const handleGmeetLink = (event: any) => { setGmeetLink(event.target.value) }
-  const [session, setSession] = useState<string>('1');
+  const [session, setSession] = useState<string>(id === `edit` ? scheduleState.scheduleDetail.session : '1');
   const handleRadio = (event: any) => { setSession(event.target.value) }
 
   const goToMySchedule = () => { router.push('/counselor/counseling') }
@@ -29,8 +29,7 @@ export default function ScheduleForm({ scheduleId = `1`, isEdit = false }: Props
     if (id !== `edit`) {
       await dispatch(createSchedule({ counselor_email: userInfo.email, counselor_name: userInfo.name, gmeetLink, session }))
     } else if (id === `edit`) {
-      // await dispatch(createSchedule({ counselor_email: userInfo.email, counselor_name: userInfo.name, gmeetLink, session }))
-      console.log({ counselor_email: userInfo.email, counselor_name: userInfo.name, gmeetLink, session })
+      await dispatch(editSchedule({ id: scheduleState.scheduleDetail.id, counselor_email: userInfo.email, counselor_name: userInfo.name, gmeetLink, session }))
     }
     goToMySchedule()
   }
@@ -42,7 +41,7 @@ export default function ScheduleForm({ scheduleId = `1`, isEdit = false }: Props
       <form className={`flex flex-col mt-5 mb-16 rounded-xl shadow-xl p-10 mx-5 lg:mx-0 ${glassCard}`} onSubmit={handleSubmit}>
         <div>
           <label htmlFor="Gmeet">Gmeet Link</label><br />
-          <input className={`bg-transparent ${simpleInput}`} type="text" name="Gmeet" id="Gmeet" placeholder="Enter Gmeet Link here" onChange={handleGmeetLink} required />
+          <input className={`bg-transparent ${simpleInput}`} type="text" name="Gmeet" id="Gmeet" placeholder="Enter Gmeet Link here" onChange={handleGmeetLink} value={gmeetLink} required />
         </div>
 
         <ul className="mt-5 grid gap-6 w-full grid-cols-1 lg:grid-cols-3">

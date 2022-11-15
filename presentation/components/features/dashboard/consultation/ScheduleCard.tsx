@@ -11,7 +11,7 @@ export default function ScheduleCard({ item }: any) {
     <section className='lg:text-xl text-lg text-center p-5'>
       <h1>Section</h1>
       <h1 className='lg:text-7xl text-6xl font-light'>{item.data.session}</h1>
-      <h1 className='text-sm mt-1'>{counselingSchedule[Number(item.data.session)].desc}</h1>
+      <h1 className='text-sm mt-1'>{counselingSchedule[Number(item.data.session) - 1].desc}</h1>
     </section>
 
     <div className={`w-1 h-4/5 rounded-lg ${pinkGradientBg}`}></div>

@@ -18,7 +18,7 @@ export const createSchedule = createAsyncThunk('schedule/createSchedule', async 
 })
 
 export const editSchedule = createAsyncThunk('schedule/editSchedule', async (data: any) => {
-   return await toast.promise(saveScheduleFirestore(data), {
+   return await toast.promise(updateScheduleFirestore(data), {
       pending: 'Updating ...', success: 'Update Complete 👌', error: 'Update Failed 🤯'
    });
 })
@@ -85,7 +85,7 @@ const scheduleSlice = createSlice({
       })
       // EDIT SCHEDULE
       builder.addCase(editSchedule.pending, state => { state.isLoading = true; state.errorMessage = '' })
-      builder.addCase(editSchedule.fulfilled, (state) => {
+      builder.addCase(editSchedule.fulfilled, (state, action) => {
          state.isLoading = false
       })
       builder.addCase(editSchedule.rejected, (state, action) => {
