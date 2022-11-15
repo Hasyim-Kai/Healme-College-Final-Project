@@ -1,36 +1,43 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { toggleModal } from '../../../../../app/GlobalSlice';
-import { useAppDispatch } from '../../../../../app/store';
+import { useAppDispatch, useAppSelector } from '../../../../../app/store';
 import { glassCard, pinkGradientBg, pinkGradientText } from '../../../../styles/TailwindStyle';
 import FloatBottomBtn from '../../../global/FloatBottomBtn';
 import { useRouter } from 'next/router';
 import UserScheduleFormModal from './UserScheduleFormModal';
+import { selectScheduleState } from '../../../../../app/ScheduleSlice';
+import { counselingSchedule } from '../../../../model/counseling-schedule';
+import { formatDate } from '../../../../utils/DateFormatter';
 
 type Props = { scheduleId: string | string[], isCounselor?: boolean }
 
 export default function ScheduleDetail({ scheduleId = `1`, isCounselor = false }: Props) {
+  const scheduleState = useAppSelector(selectScheduleState);
   const dispatch = useAppDispatch();
+
   const router = useRouter()
-  const goToForm = () => { router.push('/counselor/counseling/form/1') }
+  const goToForm = () => { router.push('/counselor/counseling/form/edit') }
 
   return <div className='mx-auto lg:max-w-6xl'>
     <section className='mt-10 grid lg:grid-cols-4 grid-cols-1 gap-6 mb-16'>
 
       <div className={`flex flex-col gap-5`}>
         <div className={`px-7 text-center py-10 rounded-xl shadow-xl ${glassCard}`}>
-          <h1 className='text-lg text-gray-500'>November 22 2022</h1>
-          <h1 className={`text-2xl font-semibold`}>Mrs. Lesti Keygen Pemuja Kebaikan</h1>
+          <h1 className='text-lg mb-1 text-gray-500'>{formatDate(scheduleState.scheduleDetail.date)}</h1>
+          <h1 className={`text-xl font-semibold`}>{scheduleState.scheduleDetail.counselor_name}</h1>
 
           <div className={`w-11/12 h-1 my-5 rounded-lg mx-auto ${pinkGradientBg}`}></div>
 
           <h1 className='text-lg text-gray-500'>Session</h1>
-          <h1 className={`text-8xl font-light ${pinkGradientText}`}>1</h1>
-          <h1 className='text-lg text-gray-500 mt-2'>1pm - 2pm</h1>
+          <h1 className={`text-8xl font-light ${pinkGradientText}`}>{scheduleState.scheduleDetail.session}</h1>
+          <h1 className='text-lg text-gray-500 mt-2'>{counselingSchedule[Number(scheduleState.scheduleDetail.session)].desc}</h1>
         </div>
 
-        <div className={`flex justify-center p-7 rounded-xl shadow-xl ${glassCard}`}>
-          <Image alt="Profile Photo" src='/img/gmeet.png' width={240} height={50} priority />
+        <div className={`flex justify-center p-7 rounded-xl shadow-xl cursor-pointer ${glassCard}`}>
+          <Link href={scheduleState.scheduleDetail.gmeetLink}>
+            <Image alt="Profile Photo" src='/img/gmeet.png' width={240} height={50} priority />
+          </Link>
         </div>
 
         {!isCounselor && <button className={`flex justify-center p-5 rounded-xl shadow-xl ${glassCard}`} onClick={() => dispatch(toggleModal())}>
