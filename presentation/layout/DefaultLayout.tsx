@@ -2,7 +2,6 @@ import Head from "next/head";
 import { selectGlobalState } from "../../app/GlobalSlice";
 import { useAppSelector } from "../../app/store";
 import { selectUserState } from "../../app/UserSlice";
-import Alert from "../components/global/Alert";
 
 type Props = { children: JSX.Element | JSX.Element[] | null, additionalStyle?: string, pageTitle?: string }
 
