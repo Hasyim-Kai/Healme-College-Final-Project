@@ -6,18 +6,23 @@ import { glassCard, pinkGradientBg, pinkGradientText } from '../../../../styles/
 import FloatBottomBtn from '../../../global/FloatBottomBtn';
 import { useRouter } from 'next/router';
 import UserScheduleFormModal from './UserScheduleFormModal';
-import { selectScheduleState } from '../../../../../app/ScheduleSlice';
+import { delSchedule, selectScheduleState } from '../../../../../app/ScheduleSlice';
 import { counselingSchedule } from '../../../../model/counseling-schedule';
 import { formatDate } from '../../../../utils/DateFormatter';
 
 type Props = { scheduleId: string | string[], isCounselor?: boolean }
 
 export default function ScheduleDetail({ scheduleId = `1`, isCounselor = false }: Props) {
-  const scheduleState = useAppSelector(selectScheduleState);
-  const dispatch = useAppDispatch();
-
   const router = useRouter()
   const goToForm = () => { router.push('/counselor/counseling/form/edit') }
+  const goToSchedules = () => { router.push('/counselor/counseling') }
+
+  const scheduleState = useAppSelector(selectScheduleState);
+  const dispatch = useAppDispatch();
+  const handleDel = async () => {
+    await dispatch(delSchedule(scheduleState.scheduleDetail.id))
+    goToSchedules()
+  }
 
   return <div className='mx-auto lg:max-w-6xl'>
     <section className='mt-10 grid lg:grid-cols-4 grid-cols-1 gap-6 mb-16'>
@@ -31,7 +36,7 @@ export default function ScheduleDetail({ scheduleId = `1`, isCounselor = false }
 
           <h1 className='text-lg text-gray-500'>Session</h1>
           <h1 className={`text-8xl font-light ${pinkGradientText}`}>{scheduleState.scheduleDetail.session}</h1>
-          <h1 className='text-lg text-gray-500 mt-2'>{counselingSchedule[Number(scheduleState.scheduleDetail.session)].desc}</h1>
+          <h1 className='text-lg text-gray-500 mt-2'>{counselingSchedule[Number(scheduleState.scheduleDetail.session) - 1].desc}</h1>
         </div>
 
         <div className={`flex justify-center p-7 rounded-xl shadow-xl cursor-pointer ${glassCard}`}>
@@ -57,9 +62,9 @@ export default function ScheduleDetail({ scheduleId = `1`, isCounselor = false }
 
         <p className='text-lg'>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Vero sit vitae optio ab rem alias, maxime omnis porro nobis blanditiis deleniti tempore, nisi est! Non aliquid molestias hic harum soluta.</p>
 
-        <button className='mx-auto mt-12 p-2 rounded-full border-2 border-rose-300' onClick={() => console.log(`Jalan :)`)}>
+        {isCounselor && <button className='mx-auto mt-12 p-2 rounded-full border-2 border-rose-300' onClick={handleDel}>
           <Image src="/icons/trash.svg" alt="trash Icons" width={35} height={30} />
-        </button>
+        </button>}
       </article>
 
     </section>
