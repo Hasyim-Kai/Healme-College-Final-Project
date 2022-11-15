@@ -24,13 +24,11 @@ export default function GoogleLogin({ isCounselor = false }: { isCounselor?: boo
   }
   async function navigateCounselor() {
     dispatch(getUserFromLS())
-    console.log(userState.errorMessage)
-    console.log(userState.errorMessage !== '')
     if (userState.isLoggedIn && userState.isExist) { router.push('/counselor/counseling') }
     else if (userState.errorMessage !== '') { Toast(userState.errorMessage, ToastType.error) }
   }
 
-  useEffect(() => { isCounselor ? navigateCounselor() : navigateUser() }, [isCounselor ? (userState.isExist, userState.errorMessage) : userState.isLoggedIn])
+  useEffect(() => { isCounselor ? navigateCounselor() : navigateUser() }, [isCounselor ? userState.isExist : userState.isLoggedIn])
 
   return <section className="flex items-center flex-col p-14 w-full lg:w-1/3">
     {userState.isLoading ? <Loading /> : <>
