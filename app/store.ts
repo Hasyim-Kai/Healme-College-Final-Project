@@ -4,6 +4,7 @@ import globalStateReducer from './GlobalSlice'
 import userStateReducer from './UserSlice'
 import journalStateReducer from './JournalSlice'
 import scheduleStateReducer from './ScheduleSlice'
+import circleStateReducer from './CircleSlice'
 
 const store = configureStore({
   reducer: {
@@ -11,6 +12,7 @@ const store = configureStore({
     user: userStateReducer,
     journal: journalStateReducer,
     schedule: scheduleStateReducer,
+    circle: circleStateReducer,
   },
 })
 
