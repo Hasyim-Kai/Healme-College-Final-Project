@@ -6,7 +6,7 @@ const scheduleRef = collection(db, 'schedule');
 
 export const getAllScheduleFirestore = async (email: string | null = '') => {
    try {
-      const q = query(scheduleRef, where("user_email", "==", email));
+      const q = query(scheduleRef, where("counselor_email", "==", email));
       return await getDocs(q)
    } catch (error) {
       return error
@@ -15,7 +15,7 @@ export const getAllScheduleFirestore = async (email: string | null = '') => {
 
 export const getMyScheduleFirestore = async (email: string | null = '') => {
    try {
-      const q = query(scheduleRef, where("user_email", "==", email));
+      const q = query(scheduleRef, where("counselor_email", "==", email));
       return await getDocs(q)
    } catch (error) {
       return error

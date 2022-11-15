@@ -13,10 +13,7 @@ export default function JournalList() {
   const dispatch = useAppDispatch();
   const journalState = useAppSelector(selectJournalState);
   const { userInfo } = useAppSelector(selectUserState);
-
-  useEffect(() => {
-    dispatch(getJournals(userInfo.email))
-  }, [])
+  useEffect(() => { dispatch(getJournals(userInfo.email)) }, [])
 
   return <div className='mx-auto lg:max-w-5xl'>
     <section className='grid lg:grid-cols-3 grid-cols-1 gap-6 mt-10'>

@@ -12,22 +12,26 @@ export const getMySchedule = createAsyncThunk('schedule/getMySchedule', async (e
 })
 
 export const createSchedule = createAsyncThunk('schedule/createSchedule', async (data: any) => {
-   return await saveScheduleFirestore(data)
+   return await toast.promise(saveScheduleFirestore(data), {
+      pending: 'Creating ...', success: 'Create Complete 👌', error: 'Create Failed 🤯'
+   });
 })
 
 export const editSchedule = createAsyncThunk('schedule/editSchedule', async (data: any) => {
-   return await updateScheduleFirestore(data)
+   return await toast.promise(saveScheduleFirestore(data), {
+      pending: 'Updating ...', success: 'Update Complete 👌', error: 'Update Failed 🤯'
+   });
 })
 
 export const delSchedule = createAsyncThunk('schedule/delSchedule', async (id: any) => {
-   return await delScheduleFirestore(id)
+   return await toast.promise(delScheduleFirestore(id), {
+      pending: 'Deleting ...', success: 'Delete Complete 👌', error: 'Delete Failed 🤯'
+   });
 })
 
 export const applySchedule = createAsyncThunk('schedule/applySchedule', async (id: any) => {
    return await toast.promise(applyScheduleFirestore(id), {
-      pending: 'Creating ...',
-      success: 'Create Complete 👌',
-      error: 'Create Failed 🤯'
+      pending: 'Applying ...', success: 'Apply Complete 👌', error: 'Apply Failed 🤯'
    });
 })
 
@@ -40,25 +44,24 @@ const initState: ScheduleSliceType = {
 
 const scheduleSlice = createSlice({
    name: 'schedule', initialState: initState, reducers: {
-      setIsLoading(state) { state.isLoading = true; state.errorMessage = '' },
       setScheduleDetail(state, action) {
          state.scheduleDetail = action.payload
       },
    }, extraReducers: builder => {
       // GET ALL SCHEDULE
-      builder.addCase(getMySchedule.pending, state => { setIsLoading() })
-      builder.addCase(getMySchedule.fulfilled, (state, action: any) => {
+      builder.addCase(getAllSchedule.pending, state => { state.isLoading = true; state.errorMessage = '' })
+      builder.addCase(getAllSchedule.fulfilled, (state, action: any) => {
          state.isLoading = false
          state.schedules = action.payload.docs.map((doc: any) => {
             return { data: doc.data(), id: doc.id }
          })
       })
-      builder.addCase(getMySchedule.rejected, (state, action) => {
+      builder.addCase(getAllSchedule.rejected, (state, action) => {
          state.isLoading = false
          state.errorMessage = action.error.message || 'Something went wrong'
       })
       // GET MY SCHEDULE
-      builder.addCase(getMySchedule.pending, state => { setIsLoading() })
+      builder.addCase(getMySchedule.pending, state => { state.isLoading = true; state.errorMessage = '' })
       builder.addCase(getMySchedule.fulfilled, (state, action: any) => {
          state.isLoading = false
          state.schedules = action.payload.docs.map((doc: any) => {
@@ -70,7 +73,7 @@ const scheduleSlice = createSlice({
          state.errorMessage = action.error.message || 'Something went wrong'
       })
       // CERATE SCHEDULE
-      builder.addCase(createSchedule.pending, state => { setIsLoading() })
+      builder.addCase(createSchedule.pending, state => { state.isLoading = true; state.errorMessage = '' })
       builder.addCase(createSchedule.fulfilled, (state, action: any) => {
          if (action.payload.id !== '' || action.payload.id !== undefined) {
             state.isLoading = false
@@ -81,7 +84,7 @@ const scheduleSlice = createSlice({
          state.errorMessage = action.error.message || 'Something went wrong'
       })
       // EDIT SCHEDULE
-      builder.addCase(editSchedule.pending, state => { setIsLoading() })
+      builder.addCase(editSchedule.pending, state => { state.isLoading = true; state.errorMessage = '' })
       builder.addCase(editSchedule.fulfilled, (state) => {
          state.isLoading = false
       })
@@ -90,7 +93,7 @@ const scheduleSlice = createSlice({
          state.errorMessage = action.error.message || 'Something went wrong'
       })
       // DEL SCHEDULE
-      builder.addCase(delSchedule.pending, state => { setIsLoading() })
+      builder.addCase(delSchedule.pending, state => { state.isLoading = true; state.errorMessage = '' })
       builder.addCase(delSchedule.fulfilled, (state) => {
          state.isLoading = false
       })
@@ -99,7 +102,7 @@ const scheduleSlice = createSlice({
          state.errorMessage = action.error.message || 'Something went wrong'
       })
       // APPLY SCHEDULE
-      builder.addCase(applySchedule.pending, state => { setIsLoading() })
+      builder.addCase(applySchedule.pending, state => { state.isLoading = true; state.errorMessage = '' })
       builder.addCase(applySchedule.fulfilled, (state) => {
          state.isLoading = false
       })
@@ -110,6 +113,6 @@ const scheduleSlice = createSlice({
    }
 })
 
-export const { setIsLoading, setScheduleDetail } = scheduleSlice.actions
+export const { setScheduleDetail } = scheduleSlice.actions
 export const selectScheduleState = (state: RootState) => state.schedule  // SELECTOR
 export default scheduleSlice.reducer
