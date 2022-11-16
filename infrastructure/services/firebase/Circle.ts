@@ -3,10 +3,9 @@ import { db } from '.';
 
 const circleRef = collection(db, 'circle');
 
-export const getAllCircleFirestore = async (email: string | null = '') => {
+export const getAllCircleFirestore = async () => {
   try {
-    const q = query(circleRef, where("user_email", "==", email));
-    return await getDocs(q)
+    return await getDocs(circleRef);
   } catch (error) {
     return error
   }
@@ -14,18 +13,16 @@ export const getAllCircleFirestore = async (email: string | null = '') => {
 
 export const getMyCircleFirestore = async (email: string | null = '') => {
   try {
-    const q = query(circleRef, where("user_email", "==", email));
+    const q = query(circleRef, where("owner", "==", email));
     return await getDocs(q)
   } catch (error) {
     return error
   }
 }
 
-export const saveCircleFirestore = async (journalInput: any) => {
+export const saveCircleFirestore = async (updateData: any) => {
   try {
-    return await addDoc(circleRef, {
-      date: Date.now(), ...journalInput
-    })
+    return await addDoc(circleRef, updateData)
   } catch (error) {
     return error
   }
@@ -33,12 +30,7 @@ export const saveCircleFirestore = async (journalInput: any) => {
 
 export const updateCircleFirestore = async (updateData: any) => {
   try {
-    return await setDoc(doc(db, "journal", updateData.id), {
-      date: Date.now(),
-      title: updateData.title,
-      text: updateData.text,
-      mood: updateData.mood,
-    }, { merge: true })
+    return await setDoc(doc(db, "journal", updateData.id), updateData, { merge: true })
   } catch (error) {
     return error
   }
