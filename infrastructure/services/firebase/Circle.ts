@@ -1,9 +1,9 @@
-import { collection, addDoc, getDocs, query, where, deleteDoc, doc, setDoc } from 'firebase/firestore';
+import { collection, query, where, getDocs, addDoc, setDoc, doc, deleteDoc } from 'firebase/firestore';
 import { db } from '.';
 
 const circleRef = collection(db, 'circle');
 
-export const getJournalFirestore = async (email: string | null = '') => {
+export const getAllCircleFirestore = async (email: string | null = '') => {
   try {
     const q = query(circleRef, where("user_email", "==", email));
     return await getDocs(q)
@@ -12,7 +12,16 @@ export const getJournalFirestore = async (email: string | null = '') => {
   }
 }
 
-export const saveJournalFirestore = async (journalInput: any) => {
+export const getMyCircleFirestore = async (email: string | null = '') => {
+  try {
+    const q = query(circleRef, where("user_email", "==", email));
+    return await getDocs(q)
+  } catch (error) {
+    return error
+  }
+}
+
+export const saveCircleFirestore = async (journalInput: any) => {
   try {
     return await addDoc(circleRef, {
       date: Date.now(), ...journalInput
@@ -22,7 +31,7 @@ export const saveJournalFirestore = async (journalInput: any) => {
   }
 }
 
-export const updateJournalFirestore = async (updateData: any) => {
+export const updateCircleFirestore = async (updateData: any) => {
   try {
     return await setDoc(doc(db, "journal", updateData.id), {
       date: Date.now(),
@@ -35,7 +44,7 @@ export const updateJournalFirestore = async (updateData: any) => {
   }
 }
 
-export const delJournalFirestore = async (id: string) => {
+export const delCircleFirestore = async (id: string) => {
   try {
     return await deleteDoc(doc(db, "journal", id))
   } catch (error) {
