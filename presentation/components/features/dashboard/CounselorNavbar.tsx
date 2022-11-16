@@ -7,14 +7,15 @@ import LogoutBtn from './LogoutBtn';
 export default function CounselorNavbar() {
   const { userInfo } = useAppSelector(selectUserState);
   const navStyle = 'pb-1 border-b-4 border-pink-300 drop-shadow-lg flex item-center gap-1';
+  const src = userInfo.photoUrl || '/img/smile1.png';
 
   return <header className='flex flex-col items-center text-gray-600'>
     <section className='flex gap-5 text-2xl items-center mt-5 mb-3'>
       <div className='relative w-10 h-10 rounded-full overflow-hidden'>
-        <Image alt="Profile Photo" src={userInfo.photoUrl || '/img/smile1.png'} layout='fill' objectFit='fill' placeholder="blur" blurDataURL='/img/blur-placeholder.png' priority />
+        <Image alt="Profile Photo" loader={() => src} src={src} layout='fill' objectFit='fill' placeholder="blur" blurDataURL='/img/blur-placeholder.png' referrerPolicy="no-referrer" priority />
       </div>
 
-      <p className=''>{userInfo.name}</p>
+      <p className='text-lg'>{userInfo.name}</p>
 
       <LogoutBtn />
     </section>
