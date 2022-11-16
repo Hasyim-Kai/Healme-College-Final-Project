@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import { getAllCircle, getMyCircle, selectCircleState } from '../../../../../app/CircleSlice'
 import { toggleModal } from '../../../../../app/GlobalSlice'
@@ -24,14 +25,12 @@ export default function CircleList({ isAll = true }: Props) {
   return <div className='mx-auto lg:max-w-5xl'>
     <section className='grid lg:grid-cols-3 grid-cols-1 gap-8 mt-10'>
       {circleState.isLoading ? <Loading additionalStyle='col-span-3' />
-        : circleState.circles.map((item, index) => <CircleCard item={item} openModalFunc={openApplyModal} key={index} />)}
+        : circleState.circles.map((item, index) => <CircleCard item={item} key={index} />)}
     </section>
 
-    <FloatBottomBtn text='Create' clickFunc={openFormModal} >
+    <FloatBottomBtn text='Create' clickFunc={openFormModal}>
       <b>+</b>
     </FloatBottomBtn>
-    {activeModal === `form` ? <ModalForm />
-      : activeModal === `formEdit` ? <ModalForm isEdit={true} />
-        : <ApplyCircleModal changeModalFunc={() => { setActiveModal(`formEdit`) }} />}
+    <ModalForm />
   </div>
 }
