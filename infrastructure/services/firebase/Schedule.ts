@@ -50,12 +50,7 @@ export const delScheduleFirestore = async (id: string) => {
 
 export const applyScheduleFirestore = async (updateData: any) => {
    try {
-      return await setDoc(doc(db, "schedule", updateData.id), {
-         date: Date.now(),
-         title: updateData.title,
-         text: updateData.text,
-         mood: updateData.mood,
-      }, { merge: true })
+      return await setDoc(doc(db, "schedule", updateData.id), updateData, { merge: true })
    } catch (error) {
       return error
    }

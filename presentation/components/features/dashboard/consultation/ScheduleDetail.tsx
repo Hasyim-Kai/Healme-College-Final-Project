@@ -72,6 +72,6 @@ export default function ScheduleDetail({ scheduleId = `1`, isCounselor = false }
     {isCounselor && <FloatBottomBtn text='Edit' clickFunc={goToForm}>
       <Image src="/icons/edit-note.svg" alt="edit note Icons" width={25} height={25} />
     </FloatBottomBtn>}
-    {isCounselor && <UserScheduleFormModal isEdit={true} />}
+    {!isCounselor && <UserScheduleFormModal isEdit={true} />}
   </div>
 }

@@ -1,4 +1,9 @@
+import { useRouter } from "next/router";
 import { useState } from "react";
+import { toggleModal } from "../../../../../app/GlobalSlice";
+import { applySchedule, selectScheduleState } from "../../../../../app/ScheduleSlice";
+import { useAppDispatch, useAppSelector } from "../../../../../app/store";
+import { selectUserState } from "../../../../../app/UserSlice";
 import ModalLayout from "../../../../layout/ModalLayout";
 import { simpleInput } from "../../../../styles/TailwindStyle";
 import VioletButton from "../../../global/VioletButton";
@@ -6,20 +11,31 @@ import VioletButton from "../../../global/VioletButton";
 type Props = { isEdit?: boolean }
 
 export default function UserScheduleFormModal({ isEdit = false }: Props) {
-  const [wellScore, setWellScore] = useState<number>(50)
+  const router = useRouter()
+  const goToMySchedule = () => { router.push('/user/counseling') }
 
-  const handleSubmit = () => {
-    console.log(`Kumpul bu`)
+  const dispatch = useAppDispatch();
+  const { userInfo } = useAppSelector(selectUserState);
+  const scheduleState = useAppSelector(selectScheduleState);
+  const [summary, setSummary] = useState<string>(`...`)
+  const handleSummary = (e: any) => { setSummary(e.target.value) }
+
+  const handleSubmit = async (event: any) => {
+    event.preventDefault()
+    await dispatch(applySchedule({ id: scheduleState.scheduleDetail.id, user_email: userInfo.email, summary }))
+    console.log({ id: scheduleState.scheduleDetail.id, user_email: userInfo.email, summary })
+    dispatch(toggleModal())
+    goToMySchedule()
   }
 
   return <ModalLayout>
     <form onSubmit={handleSubmit} className='text-gray-600'>
       <div>
         <label htmlFor="Summary">Please Write your Summary beofre apply</label><br />
-        <textarea className={simpleInput} name="Summary" id="Summary" cols={70} rows={10} placeholder="Write some Summary .."></textarea>
+        <textarea className={simpleInput} name="Summary" id="Summary" cols={70} rows={10} placeholder="Write some Summary .." value={summary} onChange={handleSummary} required></textarea>
       </div>
 
-      <VioletButton text={isEdit ? 'Update' : 'Create'} clickFunc={() => console.log(`Jalan :)`)} isCenter={true} />
+      <VioletButton text={'Apply'} isCenter={true} />
     </form>
   </ModalLayout>
 }
