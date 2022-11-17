@@ -19,7 +19,7 @@ export default function GoogleLogin({ isCounselor = false }: { isCounselor?: boo
   async function navigateUser() {
     dispatch(getUserFromLS())
     if (userState.isLoggedIn && userState.isExist) { router.push('/user/counseling') }
-    else if (userState.isLoggedIn && !userState.isExist) { router.push('/profile-form') }
+    else if (userState.isLoggedIn) { router.push('/profile-form') }
     else if (userState.errorMessage !== '') { Toast(userState.errorMessage, ToastType.error) }
   }
   async function navigateCounselor() {
