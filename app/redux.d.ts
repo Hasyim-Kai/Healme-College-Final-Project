@@ -54,5 +54,7 @@ type CircleSliceType = {
   circles: [],
   circlesDetail: any,
   isLoading: boolean,
-  errorMessage: string
+  errorMessage: string,
+  isMine: boolean,
+  amIMember: boolean
 }

@@ -30,15 +30,19 @@ export const delCircle = createAsyncThunk('circle/delCircle', async (id: any) =>
   });
 })
 
-export const applyCircle = createAsyncThunk('circle/applyCircle', async (id: any) => {
-  return await toast.promise(applyScheduleFirestore(id), {
+export const applyCircle = createAsyncThunk('circle/applyCircle', async (data: any) => {
+  data.filled = Number(data.filled) + 1
+  data.members = [...data.members, data.member_email]
+  return await toast.promise(updateCircleFirestore(data), {
     pending: 'Applying ...', success: 'Apply Complete 👌', error: 'Apply Failed 🤯'
   });
 })
 
-export const leaveCircle = createAsyncThunk('circle/leaveCircle', async (id: any) => {
-  return await toast.promise(applyScheduleFirestore(id), {
-    pending: 'Applying ...', success: 'Apply Complete 👌', error: 'Apply Failed 🤯'
+export const leaveCircle = createAsyncThunk('circle/leaveCircle', async (data: any) => {
+  data.filled = Number(data.filled) - 1
+  data.members = data.members.filter((user: any) => user !== data.member_email)
+  return await toast.promise(updateCircleFirestore(data), {
+    pending: 'Leaving ...', success: 'Leave Circle Complete 👌', error: 'Leave Circle Failed 🤯'
   });
 })
 
@@ -46,13 +50,22 @@ const initState: CircleSliceType = {
   circles: [],
   circlesDetail: {},
   isLoading: false,
-  errorMessage: ''
+  errorMessage: '',
+  isMine: false,
+  amIMember: false
 }
 
 const circleSlice = createSlice({
   name: 'circle', initialState: initState, reducers: {
     setCircleDetail(state, action) {
       state.circlesDetail = action.payload
+    },
+    checCircleOwnership(state, action) {
+      state.isMine = state.circlesDetail.owner === action.payload
+    },
+    checkUserMembership(state, action) {
+      const res = state.circlesDetail.members.length > 0 ? state.circlesDetail.members.find((user: any) => user === action.payload) : []
+      state.amIMember = res.length > 0 ? true : false
     },
   }, extraReducers: builder => {
     // GET ALL CIRCLE
@@ -129,6 +142,6 @@ const circleSlice = createSlice({
   }
 })
 
-export const { setCircleDetail } = circleSlice.actions
+export const { setCircleDetail, checCircleOwnership, checkUserMembership } = circleSlice.actions
 export const selectCircleState = (state: RootState) => state.circle  // SELECTOR
 export default circleSlice.reducer
