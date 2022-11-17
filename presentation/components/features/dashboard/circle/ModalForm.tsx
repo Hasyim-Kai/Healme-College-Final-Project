@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { createCircle, selectCircleState } from "../../../../../app/CircleSlice";
-import { selectJournalState } from "../../../../../app/JournalSlice";
+import { createCircle, editCircle, selectCircleState, delCircle, getMyCircle } from "../../../../../app/CircleSlice";
+import { toggleModal } from "../../../../../app/GlobalSlice";
 import { useAppDispatch, useAppSelector } from "../../../../../app/store";
 import { selectUserState } from "../../../../../app/UserSlice";
 import ModalLayout from "../../../../layout/ModalLayout";
@@ -13,14 +13,16 @@ type Props = { isEdit?: boolean }
 
 export default function ModalForm({ isEdit = false }: Props) {
   const router = useRouter()
+  const goToCircles = () => { router.push('/user/circle') }
+  const goToMyCircles = () => { router.push('/user/circle/my-circle') }
   const dispatch = useAppDispatch();
   const { userInfo } = useAppSelector(selectUserState);
   const circleState = useAppSelector(selectCircleState);
 
-  const [name, setName] = useState<string>(``)
-  const [gmeetLink, setGmeetLink] = useState<string>(``)
-  const [capacity, setCapacity] = useState<number>(0)
-  const [desc, setDesc] = useState<string>(``)
+  const [name, setName] = useState<string>(isEdit ? circleState.circlesDetail.name : ``)
+  const [gmeetLink, setGmeetLink] = useState<string>(isEdit ? circleState.circlesDetail.gmeetLink : ``)
+  const [capacity, setCapacity] = useState<number>(isEdit ? circleState.circlesDetail.capacity : 0)
+  const [desc, setDesc] = useState<string>(isEdit ? circleState.circlesDetail.desc : ``)
   const handleName = (e: any) => { setName(e.target.value) }
   const handleGmeetLink = (e: any) => { setGmeetLink(e.target.value) }
   const handleCapacity = (e: any) => { setCapacity(e.target.value) }
@@ -30,17 +32,19 @@ export default function ModalForm({ isEdit = false }: Props) {
     e.preventDefault()
     const type = e.nativeEvent.submitter.innerText
     if (type === `Create`) {
-      dispatch(createCircle({ name, gmeetLink, capacity, desc, owner: userInfo.email }))
-      console.log(`Buat ya`)
-      console.log({ name, gmeetLink, capacity, desc, owner: userInfo.email })
+      await dispatch(createCircle({ name, gmeetLink, capacity, desc, owner: userInfo.email }))
     } else if (type === `Update`) {
-      console.log({ name, gmeetLink, capacity, desc, owner: userInfo.email })
-      console.log(`Update ini ya`)
+      await dispatch(editCircle({ id: circleState.circlesDetail.id, name, gmeetLink, capacity, desc }))
+    } else if (type === `Delete`) {
+      await dispatch(delCircle(circleState.circlesDetail.id))
     }
+    await dispatch(getMyCircle(userInfo.email))
+    dispatch(toggleModal())
+    goToMyCircles()
   }
 
   return <ModalLayout>
-    {circleState.isLoading ? <Loading additionalStyle="m-12" />
+    {circleState.isLoading ? <Loading additionalStyle="p-36" />
       : <form onSubmit={handleSubmit} className='text-gray-600'>
         <div>
           <label htmlFor="circleName">Circle Name</label><br />
@@ -61,7 +65,7 @@ export default function ModalForm({ isEdit = false }: Props) {
 
         <div>
           <label htmlFor="desc">Desc</label><br />
-          <textarea className={simpleInput} name="desc" id="desc" cols={70} rows={10} placeholder="Write down your feelings .." value={desc} onChange={handleDesc} required></textarea>
+          <textarea className={simpleInput} name="desc" id="desc" cols={70} rows={10} placeholder="Write down circle's description .." value={desc} onChange={handleDesc} required></textarea>
         </div>
 
         <div className="flex gap-5 justify-center">
