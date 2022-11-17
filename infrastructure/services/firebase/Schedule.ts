@@ -4,10 +4,9 @@ import { db } from '.';
 
 const scheduleRef = collection(db, 'schedule');
 
-export const getAllScheduleFirestore = async (email: string | null = '') => {
+export const getAllScheduleFirestore = async () => {
    try {
-      const q = query(scheduleRef, where("counselor_email", "==", email));
-      return await getDocs(q)
+      return await getDocs(scheduleRef)
    } catch (error) {
       return error
    }
