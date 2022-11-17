@@ -18,7 +18,7 @@ export default function ApplyCircleModal({ isEdit = false, changeModalFunc = () 
   const circleState = useAppSelector(selectCircleState);
   const dispatch = useAppDispatch();
   const handleApply = async () => {
-    await dispatch(applyCircle({ members: circleState.circlesDetail.members, member_email: userInfo.email, id: circleState.circlesDetail.id, filled: circleState.circlesDetail.filled }))
+    await dispatch(applyCircle({ members: circleState.circlesDetail.members, member_name: userInfo.name, id: circleState.circlesDetail.id, filled: circleState.circlesDetail.filled }))
     dispatch(toggleModal())
     goToMyCircle()
   }

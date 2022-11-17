@@ -25,7 +25,7 @@ export default function ModalForm({ isEdit = false }: Props) {
   const [desc, setDesc] = useState<string>(isEdit ? circleState.circlesDetail.desc : ``)
   const handleName = (e: any) => { setName(e.target.value) }
   const handleGmeetLink = (e: any) => { setGmeetLink(e.target.value) }
-  const handleCapacity = (e: any) => { setCapacity(e.target.value) }
+  const handleCapacity = (e: any) => { setCapacity(Number(e.target.value)) }
   const handleDesc = (e: any) => { setDesc(e.target.value) }
 
   const handleSubmit = async (e: any) => {

@@ -54,6 +54,7 @@ const userSlice = createSlice({
             }
         },
         logUserOut(state) {
+            state.isExist = false
             state.isLoggedIn = false
             state.userInfo = { token: '', email: '', name: '', photoUrl: '', }
         },
@@ -65,8 +66,9 @@ const userSlice = createSlice({
             state.errorMessage = ''
         })
         builder.addCase(loginGoogle.fulfilled, (state, action: any) => {
+            console.log(action.payload.isUserExist)
             if (!action.payload.isUserExist) {
-                state.isExist = !action.payload.isCounselorExist
+                state.isExist = !action.payload.isUserExist
             }
             state.isLoggedIn = true
             state.isLoading = false
@@ -78,7 +80,7 @@ const userSlice = createSlice({
             }
             localStorage.setItem('user', JSON.stringify(state.userInfo));
             localStorage.setItem('isLoggedIn', JSON.stringify(state.isLoggedIn));
-            localStorage.setItem('isExist', JSON.stringify(!action.payload.isCounselorExist));
+            localStorage.setItem('isExist', JSON.stringify(!action.payload.isUserExist));
         })
         builder.addCase(loginGoogle.rejected, (state, action) => {
             state.isLoading = false

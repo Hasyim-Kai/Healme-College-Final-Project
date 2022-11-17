@@ -56,5 +56,6 @@ type CircleSliceType = {
   isLoading: boolean,
   errorMessage: string,
   isMine: boolean,
-  amIMember: boolean
+  amIMember: boolean,
+  isFull: boolean
 }

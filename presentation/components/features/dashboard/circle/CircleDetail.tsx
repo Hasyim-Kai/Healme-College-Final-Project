@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { toggleModal } from '../../../../../app/GlobalSlice';
 import { useAppDispatch, useAppSelector } from '../../../../../app/store';
 import { glassCard, pinkGradientBg, pinkGradientText } from '../../../../styles/TailwindStyle';
-import { checCircleOwnership, checkUserMembership, delCircle, leaveCircle, selectCircleState } from '../../../../../app/CircleSlice';
+import { checCircleOwnership, checkCapacity, checkUserMembership, delCircle, leaveCircle, selectCircleState } from '../../../../../app/CircleSlice';
 import { selectUserState } from "../../../../../app/UserSlice";
 import FloatBottomBtn from '../../../global/FloatBottomBtn';
 import ApplyCircleModal from './ApplyCircleModal';
@@ -30,13 +30,14 @@ export default function CircleDetail({ isCounselor = false }: Props) {
   }
 
   const handleLeave = async () => {
-    await dispatch(leaveCircle({ members: circleState.circlesDetail.members, member_email: userInfo.email, id: circleState.circlesDetail.id, filled: circleState.circlesDetail.filled }))
+    await dispatch(leaveCircle({ members: circleState.circlesDetail.members, member_name: userInfo.name, id: circleState.circlesDetail.id, filled: circleState.circlesDetail.filled }))
     goToSchedules()
   }
 
   useEffect(() => {
-    dispatch(checCircleOwnership(userInfo.email))
-    dispatch(checkUserMembership(userInfo.email))
+    dispatch(checCircleOwnership(userInfo.name))
+    dispatch(checkUserMembership(userInfo.name))
+    dispatch(checkCapacity())
   }, [])
 
   return <div className='mx-auto lg:max-w-6xl'>
@@ -58,8 +59,12 @@ export default function CircleDetail({ isCounselor = false }: Props) {
           </Link>
         </div>
 
-        {!circleState.isMine && <button className={`flex justify-center p-5 rounded-xl shadow-xl ${glassCard}`} onClick={circleState.amIMember ? handleLeave : openApplyModal}>
-          <span className={`text-3xl font-semibold ${pinkGradientText}`}>{circleState.amIMember ? 'Leave Circle' : 'Apply Here'}</span>
+        {(!circleState.isMine && !circleState.isFull && !circleState.amIMember) && <button className={`flex justify-center p-5 rounded-xl shadow-xl ${glassCard}`} onClick={circleState.amIMember ? handleLeave : openApplyModal}>
+          <span className={`text-3xl font-semibold ${pinkGradientText}`}>Apply Here</span>
+        </button>}
+
+        {(!circleState.isMine && circleState.amIMember) && <button className={`flex justify-center p-5 rounded-xl shadow-xl ${glassCard}`} onClick={circleState.amIMember ? handleLeave : openApplyModal}>
+          <span className={`text-3xl font-semibold ${pinkGradientText}`}>Leave Circle</span>
         </button>}
       </div>
 
@@ -85,9 +90,9 @@ export default function CircleDetail({ isCounselor = false }: Props) {
 
     </section>
 
-    <FloatBottomBtn text='Edit' clickFunc={openFormEditModal} >
+    {circleState.isMine && <FloatBottomBtn text='Edit' clickFunc={openFormEditModal} >
       <Image src="/icons/edit-note.svg" alt="edit note Icons" width={25} height={25} />
-    </FloatBottomBtn>
+    </FloatBottomBtn>}
     {activeModal === `formEdit` ? <ModalForm isEdit={true} /> : <ApplyCircleModal />}
   </div>
 }
