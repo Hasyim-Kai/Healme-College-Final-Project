@@ -47,7 +47,8 @@ type ScheduleSliceType = {
   schedules: [],
   scheduleDetail: any,
   isLoading: boolean,
-  errorMessage: string
+  errorMessage: string,
+  isBooked: boolean
 }
 
 type CircleSliceType = {

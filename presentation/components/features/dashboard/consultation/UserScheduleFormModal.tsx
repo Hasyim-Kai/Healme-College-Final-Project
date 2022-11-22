@@ -22,8 +22,7 @@ export default function UserScheduleFormModal({ isEdit = false }: Props) {
 
   const handleSubmit = async (event: any) => {
     event.preventDefault()
-    await dispatch(applySchedule({ id: scheduleState.scheduleDetail.id, user_email: userInfo.email, summary }))
-    console.log({ id: scheduleState.scheduleDetail.id, user_email: userInfo.email, summary })
+    await dispatch(applySchedule({ id: scheduleState.scheduleDetail.id, patient_name: userInfo.name, summary }))
     dispatch(toggleModal())
     goToMySchedule()
   }
