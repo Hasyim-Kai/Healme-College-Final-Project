@@ -1,4 +1,10 @@
-export const counselingSchedule = [
+type modelProps = {
+   value: number | string,
+   text: string,
+   desc: string,
+}[]
+
+export const counselingSchedule: modelProps = [
    {
       value: '1',
       text: 'Session 1',

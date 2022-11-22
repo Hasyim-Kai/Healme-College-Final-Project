@@ -54,8 +54,8 @@ export default function CircleDetail({ isCounselor = false }: Props) {
         </div>
 
         <div className={`flex justify-center p-7 rounded-xl shadow-xl cursor-pointer ${glassCard}`}>
-          <Link href={'#'}>
-            <Image alt="Profile Photo" src='/img/gmeet.png' width={240} height={50} priority />
+          <Link href={circleState.circlesDetail.gmeetLink}>
+            <Image alt="gmeet Photo" src='/img/gmeet.png' width={240} height={50} priority />
           </Link>
         </div>
 
