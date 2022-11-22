@@ -47,20 +47,16 @@ type ScheduleSliceType = {
   schedules: [],
   scheduleDetail: any,
   isLoading: boolean,
-  errorMessage: string
+  errorMessage: string,
+  isBooked: boolean
 }
 
-type ScheduleType = {
-  date: string,
-  title: string,
-  text: string,
-  mood: string,
-  user_email: string | null,
-}
-
-type ScheduleInputType = {
-  title: string,
-  text: string,
-  mood: string,
-  user_email: string,
+type CircleSliceType = {
+  circles: [],
+  circlesDetail: any,
+  isLoading: boolean,
+  errorMessage: string,
+  isMine: boolean,
+  amIMember: boolean,
+  isFull: boolean
 }

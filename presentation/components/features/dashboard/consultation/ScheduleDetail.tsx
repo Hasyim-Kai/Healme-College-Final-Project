@@ -6,9 +6,12 @@ import { glassCard, pinkGradientBg, pinkGradientText } from '../../../../styles/
 import FloatBottomBtn from '../../../global/FloatBottomBtn';
 import { useRouter } from 'next/router';
 import UserScheduleFormModal from './UserScheduleFormModal';
-import { delSchedule, selectScheduleState } from '../../../../../app/ScheduleSlice';
+import { checkIsBooked, delSchedule, selectScheduleState } from '../../../../../app/ScheduleSlice';
 import { counselingSchedule } from '../../../../model/counseling-schedule';
 import { formatDate } from '../../../../utils/DateFormatter';
+import { useEffect } from 'react';
+import { userInfo } from 'os';
+import { selectUserState } from '../../../../../app/UserSlice';
 
 type Props = { scheduleId: string | string[], isCounselor?: boolean }
 
@@ -17,12 +20,15 @@ export default function ScheduleDetail({ scheduleId = `1`, isCounselor = false }
   const goToForm = () => { router.push('/counselor/counseling/form/edit') }
   const goToSchedules = () => { router.push('/counselor/counseling') }
 
+  const { userInfo } = useAppSelector(selectUserState);
   const scheduleState = useAppSelector(selectScheduleState);
   const dispatch = useAppDispatch();
   const handleDel = async () => {
     await dispatch(delSchedule(scheduleState.scheduleDetail.id))
     goToSchedules()
   }
+
+  useEffect(() => { dispatch(checkIsBooked()) }, [])
 
   return <div className='mx-auto lg:max-w-6xl'>
     <section className='mt-10 grid lg:grid-cols-4 grid-cols-1 gap-6 mb-16'>
@@ -39,28 +45,28 @@ export default function ScheduleDetail({ scheduleId = `1`, isCounselor = false }
           <h1 className='text-lg text-gray-500 mt-2'>{counselingSchedule[Number(scheduleState.scheduleDetail.session) - 1].desc}</h1>
         </div>
 
-        <div className={`flex justify-center p-7 rounded-xl shadow-xl cursor-pointer ${glassCard}`}>
+        {(scheduleState.scheduleDetail.patient_name === userInfo.name || isCounselor) && <div className={`flex justify-center p-7 rounded-xl shadow-xl cursor-pointer ${glassCard}`}>
           <Link href={scheduleState.scheduleDetail.gmeetLink}>
             <Image alt="Profile Photo" src='/img/gmeet.png' width={240} height={50} priority />
           </Link>
-        </div>
+        </div>}
 
-        {!isCounselor && <button className={`flex justify-center p-5 rounded-xl shadow-xl ${glassCard}`} onClick={() => dispatch(toggleModal())}>
+        {(!scheduleState.isBooked && !isCounselor) && <button className={`flex justify-center p-5 rounded-xl shadow-xl ${glassCard}`} onClick={() => dispatch(toggleModal())}>
           <span className={`text-3xl font-semibold ${pinkGradientText}`}>Apply Here</span>
         </button>}
       </div>
 
       <article className={`col-span-3 flex flex-col rounded-xl shadow-xl p-10 mx-5 lg:mx-0 ${glassCard}`}>
         <div className={`flex jusb items-center gap-5 mb-5`}>
-          <h1 className='text-3xl font-semibold'>By Pemuda</h1>
+          <h1 className='text-3xl font-semibold'>By {scheduleState.scheduleDetail?.patient_name}</h1>
           <Link href={isCounselor ? `/counselor/journal` : `/user/journal`}>
-            <button className='p-2 rounded-full border-2 border-rose-300' onClick={() => console.log(`Jalan :)`)}>
+            <button className='p-2 rounded-full border-2 border-rose-300'>
               <Image src="/icons/orchid-book.svg" alt="orchid-book Icons" width={35} height={30} />
             </button>
           </Link>
         </div>
 
-        <p className='text-lg'>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Vero sit vitae optio ab rem alias, maxime omnis porro nobis blanditiis deleniti tempore, nisi est! Non aliquid molestias hic harum soluta.</p>
+        <p className='text-lg'>{scheduleState.scheduleDetail?.summary}</p>
 
         {isCounselor && <button className='mx-auto mt-12 p-2 rounded-full border-2 border-rose-300' onClick={handleDel}>
           <Image src="/icons/trash.svg" alt="trash Icons" width={35} height={30} />
@@ -72,6 +78,6 @@ export default function ScheduleDetail({ scheduleId = `1`, isCounselor = false }
     {isCounselor && <FloatBottomBtn text='Edit' clickFunc={goToForm}>
       <Image src="/icons/edit-note.svg" alt="edit note Icons" width={25} height={25} />
     </FloatBottomBtn>}
-    {isCounselor && <UserScheduleFormModal isEdit={true} />}
+    {!isCounselor && <UserScheduleFormModal isEdit={true} />}
   </div>
 }

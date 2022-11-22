@@ -1,26 +1,34 @@
+import { useRouter } from "next/router";
 import { useState } from "react";
+import { selectCircleState, applyCircle } from "../../../../../app/CircleSlice";
+import { toggleModal } from "../../../../../app/GlobalSlice";
+import { useAppSelector, useAppDispatch } from "../../../../../app/store";
+import { selectUserState } from "../../../../../app/UserSlice";
 import ModalLayout from "../../../../layout/ModalLayout";
 import { pinkGradientBg, pinkGradientText, simpleInput } from "../../../../styles/TailwindStyle";
+import Loading from "../../../global/Loading";
 import VioletButton from "../../../global/VioletButton";
 
 type Props = { isEdit?: boolean, changeModalFunc?: Function }
 
 export default function ApplyCircleModal({ isEdit = false, changeModalFunc = () => { } }: Props) {
-  const handleApply = () => { console.log(`Join ahh`) }
-  const handleGotoGmeet = () => { console.log(`Join Gmeet`) }
+  const router = useRouter()
+  const goToMyCircle = () => { router.push('/user/circle/my-circle') }
+  const { userInfo } = useAppSelector(selectUserState);
+  const circleState = useAppSelector(selectCircleState);
+  const dispatch = useAppDispatch();
+  const handleApply = async () => {
+    await dispatch(applyCircle({ members: circleState.circlesDetail.members, member_name: userInfo.name, id: circleState.circlesDetail.id, filled: circleState.circlesDetail.filled }))
+    dispatch(toggleModal())
+    goToMyCircle()
+  }
 
   return <ModalLayout>
-    <section className='text-gray-600 text-center'>
-      <h1 className={`text-3xl font-semibold ${pinkGradientText}`}>Name</h1>
-      <h4 className="mb-3">Capacity</h4>
-      <div className={`w-2/3 h-1 rounded-lg mx-auto ${pinkGradientBg}`}></div>
-      <p className="mt-5 mb-10">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Enim itaque laborum accusantium, consequuntur distinctio obcaecati, nesciunt magni alias vel possimus voluptatem excepturi? Culpa perspiciatis obcaecati doloribus sint deserunt illo saepe!</p>
-
+    {circleState.isLoading ? <Loading additionalStyle="p-24" /> : <section className='text-gray-600 text-center'>
+      <h1 className={`text-4xl p-12 font-semibold ${pinkGradientText}`}>Are You Sure <br /> Want to Join <br /> this Circle ?</h1>
       <div className="flex gap-5 justify-center">
         <VioletButton text={'Join'} clickFunc={handleApply} />
-        <VioletButton text={'Go to Gmeet'} clickFunc={handleApply} />
-        <VioletButton text={'Edit'} clickFunc={changeModalFunc} />
       </div>
-    </section>
+    </section>}
   </ModalLayout>
 }

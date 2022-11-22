@@ -1,29 +1,38 @@
-import { useState } from 'react'
+import Image from 'next/image'
+import { useEffect, useState } from 'react'
+import { getAllCircle, getMyCircle, selectCircleState } from '../../../../../app/CircleSlice'
 import { toggleModal } from '../../../../../app/GlobalSlice'
-import { useAppDispatch } from '../../../../../app/store'
+import { useAppDispatch, useAppSelector } from '../../../../../app/store'
+import { selectUserState } from '../../../../../app/UserSlice'
 import FloatBottomBtn from '../../../global/FloatBottomBtn'
-import UserNavbar from '../UserNavbar'
+import Loading from '../../../global/Loading'
 import ApplyCircleModal from './ApplyCircleModal'
 import CircleCard from './CircleCard'
 import ModalForm from './ModalForm'
 
-export default function CircleList() {
-  const dispatch = useAppDispatch();
+type Props = { isAll?: boolean }
+
+export default function CircleList({ isAll = true }: Props) {
   const [activeModal, setActiveModal] = useState<string>(`form`)
   const openApplyModal = () => { setActiveModal(`apply`); dispatch(toggleModal()) }
   const openFormModal = () => { setActiveModal(`form`); dispatch(toggleModal()) }
-  const dummy = [1, 2, 3, 4, 5, 6]
+
+  const dispatch = useAppDispatch();
+  const { userInfo } = useAppSelector(selectUserState);
+  const circleState = useAppSelector(selectCircleState);
+  useEffect(() => { isAll ? dispatch(getAllCircle()) : dispatch(getMyCircle(userInfo.email)) }, [])
 
   return <div className='mx-auto lg:max-w-5xl'>
     <section className='grid lg:grid-cols-3 grid-cols-1 gap-8 mt-10'>
-      {dummy.map((item, index) => <CircleCard openModalFunc={openApplyModal} key={index} />)}
+      {circleState.isLoading ? <Loading additionalStyle='col-span-3' />
+        : circleState.circles.map((item, index) => <CircleCard item={item} key={index} />)}
     </section>
 
-    <FloatBottomBtn text='Create' clickFunc={openFormModal} >
-      <b>+</b>
-    </FloatBottomBtn>
-    {activeModal === `form` ? <ModalForm />
-      : activeModal === `formEdit` ? <ModalForm isEdit={true} />
-        : <ApplyCircleModal changeModalFunc={() => { setActiveModal(`formEdit`) }} />}
+    {!isAll && <>
+      <FloatBottomBtn text='Create' clickFunc={openFormModal}>
+        <b>+</b>
+      </FloatBottomBtn>
+      <ModalForm />
+    </>}
   </div>
 }

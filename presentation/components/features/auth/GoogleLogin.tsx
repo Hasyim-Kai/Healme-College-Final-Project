@@ -30,7 +30,7 @@ export default function GoogleLogin({ isCounselor = false }: { isCounselor?: boo
 
   useEffect(() => { isCounselor ? navigateCounselor() : navigateUser() }, [isCounselor ? userState.isExist : userState.isLoggedIn])
 
-  return <section className="flex items-center flex-col p-14 w-full lg:w-1/3">
+  return <section className="flex justify-center items-center flex-col p-14 w-full lg:w-1/3">
     {userState.isLoading ? <Loading /> : <>
       <h1 className={`text-4xl mt-10 mb-2 text-center font-semibold ${pinkGradientText}`}>{isCounselor ? 'Hi!, Thankyou for your effort to Heal Community' : 'Welcome to \n Healme'}</h1>
       <h1 className={`text-xl mb-7 text-gray-500`}>Please Login First</h1>
