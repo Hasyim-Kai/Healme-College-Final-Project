@@ -1,7 +1,7 @@
 import { RootState } from "./store"
 import { toast } from "react-toastify";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
-import { getAllScheduleFirestore, getMyScheduleFirestore, saveScheduleFirestore, updateScheduleFirestore, delScheduleFirestore, applyScheduleFirestore } from "../infrastructure/services/firebase/Schedule";
+import { getAllScheduleFirestore, getMyScheduleFirestore, saveScheduleFirestore, updateScheduleFirestore, delScheduleFirestore } from "../infrastructure/services/firebase/Schedule";
 
 export const getAllSchedule = createAsyncThunk('schedule/getAllSchedule', async () => {
    return await getAllScheduleFirestore()
@@ -29,8 +29,8 @@ export const delSchedule = createAsyncThunk('schedule/delSchedule', async (id: a
    });
 })
 
-export const applySchedule = createAsyncThunk('schedule/applySchedule', async (id: any) => {
-   return await toast.promise(applyScheduleFirestore(id), {
+export const applySchedule = createAsyncThunk('schedule/applySchedule', async (data: any) => {
+   return await toast.promise(updateScheduleFirestore(data), {
       pending: 'Applying ...', success: 'Apply Complete 👌', error: 'Apply Failed 🤯'
    });
 })
@@ -39,13 +39,17 @@ const initState: ScheduleSliceType = {
    schedules: [],
    scheduleDetail: {},
    isLoading: false,
-   errorMessage: ''
+   errorMessage: '',
+   isBooked: false
 }
 
 const scheduleSlice = createSlice({
    name: 'schedule', initialState: initState, reducers: {
       setScheduleDetail(state, action) {
          state.scheduleDetail = action.payload
+      },
+      checkIsBooked(state) {
+         state.isBooked = state.scheduleDetail.patient_name === undefined ? false : true
       },
    }, extraReducers: builder => {
       // GET ALL SCHEDULE
@@ -113,6 +117,6 @@ const scheduleSlice = createSlice({
    }
 })
 
-export const { setScheduleDetail } = scheduleSlice.actions
+export const { setScheduleDetail, checkIsBooked } = scheduleSlice.actions
 export const selectScheduleState = (state: RootState) => state.schedule  // SELECTOR
 export default scheduleSlice.reducer
