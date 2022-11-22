@@ -4,6 +4,7 @@ import { getAllCircle, getMyCircle, selectCircleState } from '../../../../../app
 import { toggleModal } from '../../../../../app/GlobalSlice'
 import { useAppDispatch, useAppSelector } from '../../../../../app/store'
 import { selectUserState } from '../../../../../app/UserSlice'
+import Empty from '../../../global/Empty'
 import FloatBottomBtn from '../../../global/FloatBottomBtn'
 import Loading from '../../../global/Loading'
 import ApplyCircleModal from './ApplyCircleModal'
@@ -24,8 +25,9 @@ export default function CircleList({ isAll = true }: Props) {
 
   return <div className='mx-auto lg:max-w-5xl'>
     <section className='grid lg:grid-cols-3 grid-cols-1 gap-8 mt-10'>
-      {circleState.isLoading ? <Loading additionalStyle='col-span-3' />
-        : circleState.circles.map((item, index) => <CircleCard item={item} key={index} />)}
+      {circleState.isLoading ? <Loading additionalStyle='lg:grid-cols-3' />
+        : circleState.circles.length < 1 ? <Empty additionalstyle='lg:grid-cols-3' />
+          : circleState.circles.map((item, index) => <CircleCard item={item} key={index} />)}
     </section>
 
     {!isAll && <>

@@ -53,11 +53,11 @@ export default function CircleDetail({ isCounselor = false }: Props) {
           <h1 className='mt-3 text-lg text-gray-500'>Member by {circleState.circlesDetail.capacity}</h1>
         </div>
 
-        <div className={`flex justify-center p-7 rounded-xl shadow-xl cursor-pointer ${glassCard}`}>
-          <Link href={'#'}>
-            <Image alt="Profile Photo" src='/img/gmeet.png' width={240} height={50} priority />
+        {(circleState.isMine || circleState.amIMember) && <div className={`flex justify-center p-7 rounded-xl shadow-xl cursor-pointer ${glassCard}`}>
+          <Link href={circleState.circlesDetail.gmeetLink}>
+            <Image alt="gmeet Photo" src='/img/gmeet.png' width={240} height={50} priority />
           </Link>
-        </div>
+        </div>}
 
         {(!circleState.isMine && !circleState.isFull && !circleState.amIMember) && <button className={`flex justify-center p-5 rounded-xl shadow-xl ${glassCard}`} onClick={circleState.amIMember ? handleLeave : openApplyModal}>
           <span className={`text-3xl font-semibold ${pinkGradientText}`}>Apply Here</span>

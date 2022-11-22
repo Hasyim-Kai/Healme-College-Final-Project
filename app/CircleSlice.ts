@@ -1,7 +1,6 @@
 import { RootState } from "./store"
 import { toast } from "react-toastify";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
-import { applyScheduleFirestore } from "../infrastructure/services/firebase/Schedule";
 import { getAllCircleFirestore, getMyCircleFirestore, saveCircleFirestore, updateCircleFirestore, delCircleFirestore } from "../infrastructure/services/firebase/Circle";
 
 export const getAllCircle = createAsyncThunk('circle/getAllCircle', async () => {
@@ -49,7 +48,7 @@ export const leaveCircle = createAsyncThunk('circle/leaveCircle', async (data: a
 
 const initState: CircleSliceType = {
   circles: [],
-  circlesDetail: {},
+  circlesDetail: { members: [], gmeetLink: '#' },
   isLoading: false,
   errorMessage: '',
   isMine: false,

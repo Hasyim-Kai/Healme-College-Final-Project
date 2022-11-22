@@ -13,6 +13,6 @@ export default function CircleCard({ item }: Props) {
     <p className={`text-2xl font-medium mt-6`}>{item.data.name}</p>
     <div className={`w-2/3 h-1 my-2 rounded-lg mx-auto ${pinkGradientBg}`}></div>
     <p className={`text-sm mb-1`}>{item.data.filled} Members from {item.data.capacity}</p>
-    <p className={`text-lg`}>{item.data.desc}</p>
+    <p className={`text-lg truncate`}>{item.data.desc}</p>
   </div></Link>
 }

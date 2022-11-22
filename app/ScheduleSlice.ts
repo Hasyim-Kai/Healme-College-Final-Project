@@ -37,7 +37,7 @@ export const applySchedule = createAsyncThunk('schedule/applySchedule', async (d
 
 const initState: ScheduleSliceType = {
    schedules: [],
-   scheduleDetail: {},
+   scheduleDetail: { session: '1', gmeetLink: '#' },
    isLoading: false,
    errorMessage: '',
    isBooked: false
