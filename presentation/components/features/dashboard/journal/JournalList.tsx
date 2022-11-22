@@ -4,6 +4,7 @@ import { toggleModal } from '../../../../../app/GlobalSlice';
 import { getJournals, selectJournalState } from '../../../../../app/JournalSlice';
 import { useAppDispatch, useAppSelector } from '../../../../../app/store';
 import { selectUserState } from '../../../../../app/UserSlice';
+import Empty from '../../../global/Empty';
 import FloatBottomBtn from '../../../global/FloatBottomBtn';
 import Loading from '../../../global/Loading';
 import JournalCard from './JournalCard'
@@ -17,8 +18,9 @@ export default function JournalList() {
 
   return <div className='mx-auto lg:max-w-5xl'>
     <section className='grid lg:grid-cols-3 grid-cols-1 gap-6 mt-10'>
-      {journalState.isLoading ? <Loading additionalStyle='col-span-3' />
-        : journalState.journals.map((item, index) => <JournalCard item={item} key={index} />)}
+      {journalState.isLoading ? <Loading additionalStyle='lg:col-span-3' />
+        : journalState.journals.length < 1 ? <Empty additionalstyle='lg:grid-cols-3' />
+          : journalState.journals.map((item, index) => <JournalCard item={item} key={index} />)}
     </section>
 
     <FloatBottomBtn text='Create' clickFunc={() => dispatch(toggleModal())}>

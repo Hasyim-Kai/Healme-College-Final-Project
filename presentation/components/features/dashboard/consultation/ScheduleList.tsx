@@ -6,6 +6,7 @@ import { useEffect } from 'react'
 import { selectScheduleState, getMySchedule, getAllSchedule } from '../../../../../app/ScheduleSlice'
 import { useAppDispatch, useAppSelector } from '../../../../../app/store'
 import { selectUserState } from '../../../../../app/UserSlice'
+import Empty from '../../../global/Empty'
 
 type Props = { isCounselor?: boolean, isAll?: boolean }
 
@@ -19,8 +20,9 @@ export default function ScheduleList({ isCounselor = false, isAll = true }: Prop
 
   return <div className='mx-auto lg:max-w-5xl mb-16'>
     <section className='grid lg:grid-cols-2 grid-cols-1 gap-6 mt-10'>
-      {scheduleState.isLoading ? <Loading additionalStyle='col-span-3' />
-        : scheduleState.schedules.map((item, index) => <ScheduleCard item={item} key={index} />)}
+      {scheduleState.isLoading ? <Loading additionalStyle='lg:col-span-2' />
+        : scheduleState.schedules.length < 1 ? <Empty additionalstyle='lg:col-span-2' />
+          : scheduleState.schedules.map((item, index) => <ScheduleCard item={item} key={index} />)}
     </section>
 
     {isCounselor && <FloatBottomBtn text='Create' clickFunc={goToAddForm}>
