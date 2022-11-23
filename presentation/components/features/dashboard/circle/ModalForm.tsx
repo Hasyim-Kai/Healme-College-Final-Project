@@ -32,7 +32,7 @@ export default function ModalForm({ isEdit = false }: Props) {
     e.preventDefault()
     const type = e.nativeEvent.submitter.innerText
     if (type === `Create`) {
-      await dispatch(createCircle({ name, gmeetLink, capacity, desc, owner: userInfo.email }))
+      await dispatch(createCircle({ name, gmeetLink, capacity, desc, owner: userInfo.email, filled: 0, members: [] }))
     } else if (type === `Update`) {
       await dispatch(editCircle({ id: circleState.circlesDetail.id, name, gmeetLink, capacity, desc }))
     } else if (type === `Delete`) {
