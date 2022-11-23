@@ -19,7 +19,7 @@ export default function JournalList() {
   return <div className='mx-auto lg:max-w-5xl'>
     <section className='grid lg:grid-cols-3 grid-cols-1 gap-6 mt-10'>
       {journalState.isLoading ? <Loading additionalStyle='lg:col-span-3' />
-        : journalState.journals.length < 1 ? <Empty additionalstyle='lg:grid-cols-3' />
+        : journalState.journals.length < 1 ? <Empty additionalstyle='lg:col-span-3' />
           : journalState.journals.map((item, index) => <JournalCard item={item} key={index} />)}
     </section>
 
