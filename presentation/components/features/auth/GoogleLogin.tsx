@@ -1,13 +1,10 @@
-import { onAuthStateChanged } from 'firebase/auth';
 import Image from 'next/image'
 import Link from 'next/link';
 import { useRouter } from 'next/router'
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../../app/store';
-import { getUserFromLS, loginGoogle, loginGoogleAsCounselor, selectUserState, setUser } from '../../../../app/UserSlice';
-import { auth } from '../../../../infrastructure/services/firebase';
-import { cardHover, pinkGradientText } from '../../../styles/TailwindStyle'
-import { Toast, ToastType } from '../../global/Alert';
+import { getUserFromLS, loginGoogle, loginGoogleAsCounselor, selectUserState } from '../../../../app/UserSlice';
+import { pinkGradientText } from '../../../styles/TailwindStyle'
 import Loading from '../../global/Loading';
 
 export default function GoogleLogin({ isCounselor = false }: { isCounselor?: boolean }) {
@@ -20,12 +17,10 @@ export default function GoogleLogin({ isCounselor = false }: { isCounselor?: boo
     dispatch(getUserFromLS())
     if (userState.isLoggedIn && userState.isExist) { router.push('/user/counseling') }
     else if (userState.isLoggedIn) { router.push('/profile-form') }
-    else if (userState.errorMessage !== '') { Toast(userState.errorMessage, ToastType.error) }
   }
   async function navigateCounselor() {
     dispatch(getUserFromLS())
     if (userState.isLoggedIn && userState.isExist) { router.push('/counselor/counseling') }
-    else if (userState.errorMessage !== '') { Toast(userState.errorMessage, ToastType.error) }
   }
 
   useEffect(() => { isCounselor ? navigateCounselor() : navigateUser() }, [isCounselor ? userState.isExist : userState.isLoggedIn])
@@ -38,6 +33,10 @@ export default function GoogleLogin({ isCounselor = false }: { isCounselor?: boo
         <Image src="/icons/google-logo.svg" alt="Google Logo" width={40} height={40} />
         Login with Google
       </button>
+
+      {userState.errorMessage.length > 0 && <div className='mt-7 p-5 bg-red-200 border-2 border-red-400 rounded-lg'>
+        <h1 className='text-gray-600 text-center'>{userState.errorMessage}</h1>
+      </div>}
 
       <Link href={isCounselor ? '/login' : '/counselor-login'}>
         <a className='mt-5 text-gray-500'>Login as <span className={pinkGradientText}>{isCounselor ? 'User' : 'Counselor ?'}</span></a>

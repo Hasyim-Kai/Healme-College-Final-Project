@@ -123,10 +123,10 @@ const userSlice = createSlice({
         builder.addCase(loginGoogleAsCounselor.fulfilled, (state, action: any) => {
             if (!action.payload.isCounselorExist) {
                 state.isExist = !action.payload.isCounselorExist
+                state.isLoggedIn = true
             } else {
-                state.errorMessage = 'Sorry, You Are Not Registered'
+                state.errorMessage = 'Sorry, You Are Not Registered Counselor'
             }
-            state.isLoggedIn = true
             state.isLoading = false
             state.userInfo = {
                 token: action.payload.res.user.accessToken,
