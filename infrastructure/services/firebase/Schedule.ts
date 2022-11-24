@@ -12,9 +12,18 @@ export const getAllScheduleFirestore = async () => {
    }
 }
 
-export const getMyScheduleFirestore = async (email: string | null = '') => {
+export const getCounselorScheduleFirestore = async (name: string | null = '') => {
    try {
-      const q = query(scheduleRef, where("counselor_email", "==", email));
+      const q = query(scheduleRef, where("counselor_name", "==", name));
+      return await getDocs(q)
+   } catch (error) {
+      return error
+   }
+}
+
+export const getUserScheduleFirestore = async (name: string | null = '') => {
+   try {
+      const q = query(scheduleRef, where("patient_name", "==", name));
       return await getDocs(q)
    } catch (error) {
       return error

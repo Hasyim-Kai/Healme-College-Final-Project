@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import FloatBottomBtn from '../../../global/FloatBottomBtn'
 import Loading from '../../../global/Loading'
 import { useEffect } from 'react'
-import { selectScheduleState, getMySchedule, getAllSchedule } from '../../../../../app/ScheduleSlice'
+import { selectScheduleState, getAllSchedule, getCounselorSchedule, getUserSchedule } from '../../../../../app/ScheduleSlice'
 import { useAppDispatch, useAppSelector } from '../../../../../app/store'
 import { selectUserState } from '../../../../../app/UserSlice'
 import Empty from '../../../global/Empty'
@@ -16,7 +16,11 @@ export default function ScheduleList({ isCounselor = false, isAll = true }: Prop
   const dispatch = useAppDispatch();
   const { userInfo } = useAppSelector(selectUserState);
   const scheduleState = useAppSelector(selectScheduleState);
-  useEffect(() => { isAll ? dispatch(getAllSchedule()) : dispatch(getMySchedule(userInfo.email)) }, [])
+  useEffect(() => {
+    if (isCounselor) { dispatch(getCounselorSchedule(userInfo.name)) }
+    else if (isAll) { dispatch(getAllSchedule()) }
+    else { dispatch(getUserSchedule(userInfo.name)) }
+  }, [])
 
   return <div className='mx-auto lg:max-w-5xl mb-16'>
     <section className='grid lg:grid-cols-2 grid-cols-1 gap-6 mt-10'>

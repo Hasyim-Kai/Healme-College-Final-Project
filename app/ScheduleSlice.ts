@@ -1,14 +1,18 @@
 import { RootState } from "./store"
 import { toast } from "react-toastify";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
-import { getAllScheduleFirestore, getMyScheduleFirestore, saveScheduleFirestore, updateScheduleFirestore, delScheduleFirestore } from "../infrastructure/services/firebase/Schedule";
+import { getAllScheduleFirestore, saveScheduleFirestore, updateScheduleFirestore, delScheduleFirestore, getUserScheduleFirestore, getCounselorScheduleFirestore } from "../infrastructure/services/firebase/Schedule";
 
 export const getAllSchedule = createAsyncThunk('schedule/getAllSchedule', async () => {
    return await getAllScheduleFirestore()
 })
 
-export const getMySchedule = createAsyncThunk('schedule/getMySchedule', async (email: string | null = '') => {
-   return await getMyScheduleFirestore(email)
+export const getCounselorSchedule = createAsyncThunk('schedule/getCounselorSchedule', async (name: string | null = '') => {
+   return await getCounselorScheduleFirestore(name)
+})
+
+export const getUserSchedule = createAsyncThunk('schedule/getUserSchedule', async (name: string | null = '') => {
+   return await getUserScheduleFirestore(name)
 })
 
 export const createSchedule = createAsyncThunk('schedule/createSchedule', async (data: any) => {
@@ -64,15 +68,27 @@ const scheduleSlice = createSlice({
          state.isLoading = false
          state.errorMessage = action.error.message || 'Something went wrong'
       })
-      // GET MY SCHEDULE
-      builder.addCase(getMySchedule.pending, state => { state.isLoading = true; state.errorMessage = '' })
-      builder.addCase(getMySchedule.fulfilled, (state, action: any) => {
+      // GET COUNSELOR SCHEDULE
+      builder.addCase(getCounselorSchedule.pending, state => { state.isLoading = true; state.errorMessage = '' })
+      builder.addCase(getCounselorSchedule.fulfilled, (state, action: any) => {
          state.isLoading = false
          state.schedules = action.payload.docs.map((doc: any) => {
             return { data: doc.data(), id: doc.id }
          })
       })
-      builder.addCase(getMySchedule.rejected, (state, action) => {
+      builder.addCase(getCounselorSchedule.rejected, (state, action) => {
+         state.isLoading = false
+         state.errorMessage = action.error.message || 'Something went wrong'
+      })
+      // GET USER SCHEDULE
+      builder.addCase(getUserSchedule.pending, state => { state.isLoading = true; state.errorMessage = '' })
+      builder.addCase(getUserSchedule.fulfilled, (state, action: any) => {
+         state.isLoading = false
+         state.schedules = action.payload.docs.map((doc: any) => {
+            return { data: doc.data(), id: doc.id }
+         })
+      })
+      builder.addCase(getUserSchedule.rejected, (state, action) => {
          state.isLoading = false
          state.errorMessage = action.error.message || 'Something went wrong'
       })
