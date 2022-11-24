@@ -7,7 +7,7 @@ import CounselorNavbar from '../../../presentation/components/features/dashboard
 const Journal: NextPage = () => {
   return <DefaultLayout pageTitle='Your Journal' additionalStyle='relative'>
     <CounselorNavbar />
-    <JournalList />
+    <JournalList isCounselor={true} />
     <CircleBgAnimation />
   </DefaultLayout>
 }
