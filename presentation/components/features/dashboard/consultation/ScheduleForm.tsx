@@ -17,7 +17,7 @@ export default function ScheduleForm({ scheduleId = `1`, isEdit = false }: Props
   const { userInfo } = useAppSelector(selectUserState);
   const scheduleState = useAppSelector(selectScheduleState);
 
-  const [gmeetLink, setGmeetLink] = useState<string>(id === `edit` ? scheduleState.scheduleDetail.gmeetLink : '#');
+  const [gmeetLink, setGmeetLink] = useState<string>(id === `edit` ? scheduleState.scheduleDetail.gmeetLink : '');
   const handleGmeetLink = (event: any) => { setGmeetLink(event.target.value) }
   const [session, setSession] = useState<string>(id === `edit` ? scheduleState.scheduleDetail.session : '1');
   const handleRadio = (event: any) => { setSession(event.target.value) }

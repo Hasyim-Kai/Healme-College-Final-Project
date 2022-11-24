@@ -26,7 +26,7 @@ export default function ScheduleList({ isCounselor = false, isAll = true }: Prop
     <section className='grid lg:grid-cols-2 grid-cols-1 gap-6 mt-10'>
       {scheduleState.isLoading ? <Loading additionalStyle='lg:col-span-2' />
         : scheduleState.schedules.length < 1 ? <Empty additionalstyle='lg:col-span-2' />
-          : scheduleState.schedules.map((item, index) => <ScheduleCard item={item} key={index} />)}
+          : scheduleState.schedules.map((item, index) => <ScheduleCard item={item} key={index} isCounselor={isCounselor} />)}
     </section>
 
     {isCounselor && <FloatBottomBtn text='Create' clickFunc={goToAddForm}>

@@ -5,9 +5,9 @@ import { counselingSchedule } from '../../../../model/counseling-schedule';
 import { cardHover, pinkGradientBg } from '../../../../styles/TailwindStyle'
 import { formatDate } from '../../../../utils/DateFormatter';
 
-export default function ScheduleCard({ item }: any) {
+export default function ScheduleCard({ item, isCounselor= false }: any) {
   const dispatch = useAppDispatch();
-  return <Link href={`/user/counseling/detail`}><div onClick={() => dispatch(setScheduleDetail({ id: item.id, ...item.data }))} className={`flex items-center rounded-lg shadow-lg h-48 bg-white bg-opacity-10 backdrop-blur-lg ${cardHover} overflow-hidden`}>
+  return <Link href={isCounselor ? `/counselor/counseling/detail` : `/user/counseling/detail`}><div onClick={() => dispatch(setScheduleDetail({ id: item.id, ...item.data }))} className={`flex items-center rounded-lg shadow-lg h-48 bg-white bg-opacity-10 backdrop-blur-lg ${cardHover} overflow-hidden`}>
     <section className='lg:text-xl text-lg text-center p-5'>
       <h1>Section</h1>
       <h1 className='lg:text-7xl text-6xl font-light'>{item.data.session}</h1>

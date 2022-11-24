@@ -17,12 +17,12 @@ export default function UserScheduleFormModal({ isEdit = false }: Props) {
   const dispatch = useAppDispatch();
   const { userInfo } = useAppSelector(selectUserState);
   const scheduleState = useAppSelector(selectScheduleState);
-  const [summary, setSummary] = useState<string>(`...`)
+  const [summary, setSummary] = useState<string>(``)
   const handleSummary = (e: any) => { setSummary(e.target.value) }
 
   const handleSubmit = async (event: any) => {
     event.preventDefault()
-    await dispatch(applySchedule({ id: scheduleState.scheduleDetail.id, patient_name: userInfo.name, summary }))
+    await dispatch(applySchedule({ id: scheduleState.scheduleDetail.id, patient_email: userInfo.email, patient_name: userInfo.name, summary }))
     dispatch(toggleModal())
     goToMySchedule()
   }

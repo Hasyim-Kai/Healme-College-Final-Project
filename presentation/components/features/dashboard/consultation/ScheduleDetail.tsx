@@ -29,7 +29,7 @@ export default function ScheduleDetail({ scheduleId = `1`, isCounselor = false }
   }
 
   useEffect(() => { dispatch(checkIsBooked()) }, [])
-
+  
   return <div className='mx-auto lg:max-w-6xl'>
     <section className='mt-10 grid lg:grid-cols-4 grid-cols-1 gap-6 mb-16'>
 
@@ -58,12 +58,13 @@ export default function ScheduleDetail({ scheduleId = `1`, isCounselor = false }
 
       <article className={`col-span-3 flex flex-col rounded-xl shadow-xl p-10 mx-5 lg:mx-0 ${glassCard}`}>
         <div className={`flex jusb items-center gap-5 mb-5`}>
-          <h1 className='text-3xl font-semibold'>By {scheduleState.scheduleDetail?.patient_name}</h1>
-          <Link href={isCounselor ? `/counselor/journal` : `/user/journal`}>
-            <button className='p-2 rounded-full border-2 border-rose-300'>
-              <Image src="/icons/orchid-book.svg" alt="orchid-book Icons" width={35} height={30} />
-            </button>
-          </Link>
+          {scheduleState.scheduleDetail?.patient_name === undefined ? <h1 className='text-xl font-semibold'><i>Not Applied yet</i></h1>
+            : <><h1 className='text-3xl font-semibold'>By {scheduleState.scheduleDetail?.patient_name}</h1>
+              <Link href={isCounselor ? `/counselor/journal` : `/user/journal`}>
+                <button className='p-2 rounded-full border-2 border-rose-300'>
+                  <Image src="/icons/orchid-book.svg" alt="orchid-book Icons" width={35} height={30} />
+                </button>
+              </Link></>}
         </div>
 
         <p className='text-lg'>{scheduleState.scheduleDetail?.summary}</p>
