@@ -2,6 +2,7 @@ import { RootState } from "./store"
 import { toast } from "react-toastify";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { getAllScheduleFirestore, saveScheduleFirestore, updateScheduleFirestore, delScheduleFirestore, getUserScheduleFirestore, getCounselorScheduleFirestore } from "../infrastructure/services/firebase/Schedule";
+import { getCurrentDate, formatDate } from "../presentation/utils/DateFormatter";
 
 export const getAllSchedule = createAsyncThunk('schedule/getAllSchedule', async () => {
    return await getAllScheduleFirestore()
@@ -62,6 +63,8 @@ const scheduleSlice = createSlice({
          state.isLoading = false
          state.schedules = action.payload.docs.map((doc: any) => {
             return { data: doc.data(), id: doc.id }
+         }).filter((schedule: any) => { // Filtering only today Schedule
+            return getCurrentDate() === formatDate(schedule.data.date)
          })
       })
       builder.addCase(getAllSchedule.rejected, (state, action) => {

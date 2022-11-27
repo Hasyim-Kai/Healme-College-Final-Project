@@ -36,7 +36,7 @@ export default function ScheduleForm({ scheduleId = `1`, isEdit = false }: Props
 
   return <div className='mx-auto lg:max-w-5xl'>
     <section className='mt-10'>
-      <h1 className={`py-2 text-5xl font-semibold text-center drop-shadow-md ${pinkGradientText}`}>Create Counseling Schedule</h1>
+      <h1 className={`py-2 text-5xl font-semibold text-center drop-shadow-md ${pinkGradientText}`}>Create Counseling Schedule for Today</h1>
 
       <form className={`flex flex-col mt-5 mb-16 rounded-xl shadow-xl p-10 mx-5 lg:mx-0 ${glassCard}`} onSubmit={handleSubmit}>
         <div>

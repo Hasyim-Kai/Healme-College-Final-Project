@@ -25,7 +25,7 @@ export default function ScheduleList({ isCounselor = false, isAll = true }: Prop
   return <div className='mx-auto lg:max-w-5xl mb-16'>
     <section className='grid lg:grid-cols-2 grid-cols-1 gap-6 mt-10'>
       {scheduleState.isLoading ? <Loading additionalStyle='lg:col-span-2' />
-        : scheduleState.schedules.length < 1 ? <Empty additionalstyle='lg:col-span-2' />
+        : scheduleState.schedules.length < 1 ? <Empty additionalstyle='lg:col-span-2' text='There are no Schedule for Today' />
           : scheduleState.schedules.map((item, index) => <ScheduleCard item={item} key={index} isCounselor={isCounselor} />)}
     </section>
 
