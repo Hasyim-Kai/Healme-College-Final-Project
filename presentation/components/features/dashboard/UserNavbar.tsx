@@ -24,7 +24,7 @@ export default function UserNavbar() {
         <Image alt="Profile Photo" loader={() => src} src={src} layout='fill' objectFit='fill' placeholder="blur" blurDataURL='/img/blur-placeholder.png' referrerPolicy="no-referrer" priority />
       </div>
 
-      <p className='text-lg'>{userInfo.name}</p>
+      <Link href="https://myaccount.google.com/personal-info" target={`_blank`}><a target="_blank" className={`text-lg cursor-pointer`}>{userInfo.name || 'Guest'}</a></Link>
 
       <LogoutBtn />
     </section>
