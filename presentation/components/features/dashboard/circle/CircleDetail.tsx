@@ -35,7 +35,7 @@ export default function CircleDetail({ isCounselor = false }: Props) {
   }
 
   useEffect(() => {
-    dispatch(checCircleOwnership(userInfo.name))
+    dispatch(checCircleOwnership(userInfo.email))
     dispatch(checkUserMembership(userInfo.name))
     dispatch(checkCapacity())
   }, [])

@@ -25,8 +25,8 @@ export default function CircleList({ isAll = true }: Props) {
 
   return <div className='mx-auto lg:max-w-5xl'>
     <section className='grid lg:grid-cols-3 grid-cols-1 gap-8 mt-10'>
-      {circleState.isLoading ? <Loading additionalStyle='lg:grid-cols-3' />
-        : circleState.circles.length < 1 ? <Empty additionalstyle='lg:grid-cols-3' />
+      {circleState.isLoading ? <Loading additionalStyle='lg:col-span-3' />
+        : circleState.circles.length < 1 ? <Empty additionalstyle='lg:col-span-3' />
           : circleState.circles.map((item, index) => <CircleCard item={item} key={index} />)}
     </section>
 

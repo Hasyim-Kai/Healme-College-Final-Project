@@ -11,7 +11,7 @@ const JournalDetailPage: NextPage = () => {
 
   return <DefaultLayout pageTitle='Your Journal' additionalStyle='relative'>
     <CounselorNavbar />
-    <JournalDetail journalId={id} />
+    <JournalDetail journalId={id} isCounselor={true} />
     <CircleBgAnimation />
   </DefaultLayout>
 }
