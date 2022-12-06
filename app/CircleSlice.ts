@@ -65,8 +65,8 @@ const circleSlice = createSlice({
       state.isMine = state.circlesDetail.owner === action.payload
     },
     checkUserMembership(state, action) {
-      const res = state.circlesDetail.members.length > 0 ? state.circlesDetail.members.find((user: any) => user === action.payload) : []
-      state.amIMember = res === `undefined` || res.length === 0 ? false : true
+      const res = state.circlesDetail?.members.length > 0 ? state.circlesDetail.members.find((user: any) => user === action.payload) : []
+      state.amIMember = res === `undefined` || res?.length === 0 ? false : true
     },
     checkCapacity(state) {
       state.isFull = state.circlesDetail.filled == state.circlesDetail.capacity
