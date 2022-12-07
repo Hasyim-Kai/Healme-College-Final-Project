@@ -13,8 +13,8 @@ export default function Hero() {
       <LoginBtn />
     </article>
 
-    <div className=''>
-      <Image src="/img/smile1.png" alt="Smiling Woman" width={500} height={500} placeholder="blur" blurDataURL='/img/blur-placeholder.png' priority />
+    <div className='relative w-96 aspect-square rounded-lg shadow-lg overflow-hidden'>
+      <Image src="/img/smile1.png" alt="Smiling Woman" layout='fill' objectFit='fill' placeholder="blur" blurDataURL='/img/blur-placeholder.png' priority />
     </div>
   </section>
 }
