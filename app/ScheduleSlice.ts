@@ -3,6 +3,9 @@ import { toast } from "react-toastify";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { getAllScheduleFirestore, saveScheduleFirestore, updateScheduleFirestore, delScheduleFirestore, getUserScheduleFirestore, getCounselorScheduleFirestore } from "../infrastructure/services/firebase/Schedule";
 import { getCurrentDate, formatDate } from "../presentation/utils/DateFormatter";
+import { getAllUserFirebase } from "../infrastructure/services/firebase/User";
+import { NotifyNewScheduleToUsers } from "../infrastructure/services/mailer/Schedule";
+import { Toast, ToastType } from "../presentation/components/global/Alert";
 
 export const getAllSchedule = createAsyncThunk('schedule/getAllSchedule', async () => {
    return await getAllScheduleFirestore()
@@ -17,9 +20,13 @@ export const getUserSchedule = createAsyncThunk('schedule/getUserSchedule', asyn
 })
 
 export const createSchedule = createAsyncThunk('schedule/createSchedule', async (data: any) => {
-   return await toast.promise(saveScheduleFirestore(data), {
-      pending: 'Creating ...', success: 'Create Complete 👌', error: 'Create Failed 🤯'
-   });
+   const newSchedule = await saveScheduleFirestore(data)
+   const allUsers: any = await getAllUserFirebase() || { docs: [] }
+   const allUsersEmail = allUsers.docs.map((doc: any) => {
+      return doc.data().email
+   })
+   const notifyUsers = await NotifyNewScheduleToUsers(allUsersEmail)
+   return notifyUsers
 })
 
 export const editSchedule = createAsyncThunk('schedule/editSchedule', async (data: any) => {
@@ -98,9 +105,7 @@ const scheduleSlice = createSlice({
       // CERATE SCHEDULE
       builder.addCase(createSchedule.pending, state => { state.isLoading = true; state.errorMessage = '' })
       builder.addCase(createSchedule.fulfilled, (state, action: any) => {
-         if (action.payload.id !== '' || action.payload.id !== undefined) {
-            state.isLoading = false
-         }
+         action.payload.status ? Toast('Consultation Created', ToastType.success) : Toast("Consultation has Created, but we failed to Notify Users", ToastType.warn)
       })
       builder.addCase(createSchedule.rejected, (state, action) => {
          state.isLoading = false
