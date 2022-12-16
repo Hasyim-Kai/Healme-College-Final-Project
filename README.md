@@ -19,7 +19,9 @@ Healme is a Web App that focus on Management of Consultation Schedule with Couns
 ## :camera: Desktop Screenshot
 ## :star: Landing Page
 <img src="./public/screenshot/Landing-Page.png" alt="Landing Page" width="400">
+
 <br>
+
 ## :star: Login Page
 <img src="./public/screenshot/login.png" alt="Login Page" width="600">
 <br>
