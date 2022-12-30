@@ -10,6 +10,14 @@ export const saveUserFirebase = async (userData: any) => {
     .catch((error) => error)
 }
 
+export const getAllUserFirebase = async () => {
+  try {
+    return await getDocs(userRef)
+  } catch (error) {
+    return error
+  }
+}
+
 export const getSingleUserFirebase = async (email: string) => {
   const q = query(userRef, where("email", "==", email));
   const data = await getDocs(q);
