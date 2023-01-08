@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --turbo",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -31,8 +31,6 @@
     "eslint": "8.21.0",
     "eslint-config-next": "12.2.4",
     "jest": "^29.3.1",
-    "jest-environment-jsdom": "^29.3.1",
-    "jest-node-exports-resolver": "^1.1.6",
     "postcss": "^8.4.16",
     "tailwindcss": "^3.1.8",
     "ts-jest": "^29.0.3",
