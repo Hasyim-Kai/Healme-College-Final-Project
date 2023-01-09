@@ -12,7 +12,7 @@ describe("Journal Unit Test", () => {
     title: 'Edit Testing', text: 'Edit Testing', date: Date.now()
   }
 
-  it("should get my journal", async () => {
+  it("should get my journal after Creation", async () => {
     await saveJournalFirestore(journalData)
     const data: any = await getJournalFirestore(journalData.user_email)
     const result = data.docs.map((doc: any) => {

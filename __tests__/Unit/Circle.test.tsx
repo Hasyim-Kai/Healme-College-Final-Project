@@ -1,5 +1,4 @@
 import { delCircleFirestore, getMyCircleFirestore, saveCircleFirestore, updateCircleFirestore } from "../../infrastructure/services/firebase/Circle";
-import { updateJournalFirestore } from "../../infrastructure/services/firebase/Journal";
 
 describe("Circle Unit Test", () => {
    let circleId: string;
@@ -32,7 +31,7 @@ describe("Circle Unit Test", () => {
       filled: 0
    }
 
-   it("should get my circle", async () => {
+   it("should get my circle after Creation", async () => {
       await saveCircleFirestore(circleData)
       const data: any = await getMyCircleFirestore(circleData.owner)
       const result = data.docs.map((doc: any) => {
@@ -54,7 +53,7 @@ describe("Circle Unit Test", () => {
       expect(result.desc).toBe(editCircleData.desc)
    });
 
-   it("should get my circle someone applied", async () => {
+   it("should get my circle after someone applied", async () => {
       await updateCircleFirestore(applyCircle)
       const data: any = await getMyCircleFirestore(circleData.owner)
       const result = data.docs[0].data()
@@ -62,7 +61,7 @@ describe("Circle Unit Test", () => {
       expect(result.filled).toBe(1)
    });
 
-   it("should get my circle someone leave", async () => {
+   it("should get my circle after someone leave", async () => {
       await updateCircleFirestore(leaveCircle)
       const data: any = await getMyCircleFirestore(circleData.owner)
       const result = data.docs[0].data()
