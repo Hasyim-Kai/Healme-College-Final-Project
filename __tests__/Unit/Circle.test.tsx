@@ -19,6 +19,19 @@ describe("Circle Unit Test", () => {
       desc: 'test cirlce edit'
    }
 
+   const applyCircle = {
+      id: '',
+      member_name: '191111006@mhs.stiki.ac.id',
+      members: ['191111006@mhs.stiki.ac.id'],
+      filled: 1
+   }
+
+   const leaveCircle = {
+      id: '',
+      members: [],
+      filled: 0
+   }
+
    it("should get my circle", async () => {
       await saveCircleFirestore(circleData)
       const data: any = await getMyCircleFirestore(circleData.owner)
@@ -27,6 +40,8 @@ describe("Circle Unit Test", () => {
       })
       circleId = data.docs[0].id
       editCircleData.id = circleId
+      applyCircle.id = circleId
+      leaveCircle.id = circleId
       expect(result.length).toBe(1)
    });
 
@@ -40,21 +55,19 @@ describe("Circle Unit Test", () => {
    });
 
    it("should get my circle someone applied", async () => {
-      await updateJournalFirestore(editCircleData)
+      await updateCircleFirestore(applyCircle)
       const data: any = await getMyCircleFirestore(circleData.owner)
       const result = data.docs[0].data()
-      expect(result.name).toBe(editCircleData.name)
-      expect(result.capacity).toBe(editCircleData.capacity)
-      expect(result.desc).toBe(editCircleData.desc)
+      expect(result.members.length).toBe(1)
+      expect(result.filled).toBe(1)
    });
 
    it("should get my circle someone leave", async () => {
-      await updateJournalFirestore(editCircleData)
+      await updateCircleFirestore(leaveCircle)
       const data: any = await getMyCircleFirestore(circleData.owner)
       const result = data.docs[0].data()
-      expect(result.name).toBe(editCircleData.name)
-      expect(result.capacity).toBe(editCircleData.capacity)
-      expect(result.desc).toBe(editCircleData.desc)
+      expect(result.members.length).toBe(0)
+      expect(result.filled).toBe(0)
    });
 
    it("should get no circle after deletion", async () => {
