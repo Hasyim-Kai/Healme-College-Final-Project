@@ -20,7 +20,7 @@ describe("Consultation Schedule Unit Test", () => {
     summary: 'saya ingin masuk ...'
   }
 
-  it("should get my circle after Creation", async () => {
+  it("should get my Consultation Schedule after Creation", async () => {
     await saveScheduleFirestore(scheduleData)
     const data: any = await getAllScheduleFirestore()
     const result = data.docs.map((doc: any) => {
@@ -32,14 +32,14 @@ describe("Consultation Schedule Unit Test", () => {
     expect(result.length).toBe(1)
   });
 
-  it("should get my circle after session edited to 2", async () => {
+  it("should get my Consultation Schedule after session edited to 2", async () => {
     await updateScheduleFirestore(editScheduleData)
     const data: any = await getAllScheduleFirestore()
     const result = data.docs[0].data()
     expect(result.session).toBe(editScheduleData.session)
   });
 
-  it("should get my circle someone applied", async () => {
+  it("should get my Consultation Schedule after someone applied", async () => {
     await updateScheduleFirestore(applySchedule)
     const data: any = await getAllScheduleFirestore()
     const result = data.docs[0].data()
@@ -48,7 +48,7 @@ describe("Consultation Schedule Unit Test", () => {
     expect(result.summary).toBe(applySchedule.summary)
   });
 
-  it("should get no circle after deletion", async () => {
+  it("should get no Consultation Schedule after deletion", async () => {
     await delScheduleFirestore(scheduleId)
     const data: any = await getAllScheduleFirestore()
     const result = data.docs
