@@ -1,6 +1,6 @@
 import { RootState } from "./store"
 import { toast } from "react-toastify";
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
+import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit"
 import { getAllCircleFirestore, getMyCircleFirestore, saveCircleFirestore, updateCircleFirestore, delCircleFirestore } from "../infrastructure/services/firebase/Circle";
 
 export const getAllCircle = createAsyncThunk('circle/getAllCircle', async () => {
@@ -66,7 +66,7 @@ const circleSlice = createSlice({
     },
     checkUserMembership(state, action) {
       const res = state.circlesDetail?.members.length > 0 ? state.circlesDetail.members.find((user: any) => user === action.payload) : []
-      state.amIMember = res === `undefined` || res?.length === 0 ? false : true
+      state.amIMember = res === undefined || res?.length === 0 ? false : true
     },
     checkCapacity(state) {
       state.isFull = state.circlesDetail.filled == state.circlesDetail.capacity
