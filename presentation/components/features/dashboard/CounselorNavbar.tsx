@@ -15,7 +15,7 @@ export default function CounselorNavbar() {
         <Image alt="Profile Photo" loader={() => src} src={src} layout='fill' objectFit='fill' placeholder="blur" blurDataURL='/img/blur-placeholder.png' referrerPolicy="no-referrer" priority />
       </div>
 
-      <div className='w-2/3 truncate'>
+      <div className='w-2/3 lg:w-full truncate'>
       <Link href="https://myaccount.google.com/personal-info" target={`_blank`}><a target="_blank" className={`text-sm md:text-lg cursor-pointer`}>{userInfo.name || 'Guest'}</a></Link>
       </div>
 
