@@ -31,9 +31,9 @@ export default function ScheduleDetail({ scheduleId = `1`, isCounselor = false }
   useEffect(() => { dispatch(checkIsBooked()) }, [])
   
   return <div className='mx-auto lg:max-w-6xl'>
-    <section className='mt-10 grid lg:grid-cols-4 grid-cols-1 gap-6 mb-16'>
+    <section className='mt-10 grid lg:grid-cols-4 grid-cols-1 lg:gap-6 mb-16'>
 
-      <div className={`flex flex-col gap-5`}>
+      <div className={`flex flex-col gap-5 mx-5 mb-5 md:mb-0`}>
         <div className={`px-7 text-center py-10 rounded-xl shadow-xl ${glassCard}`}>
           <h1 className='text-lg mb-1 text-gray-500'>{formatDate(scheduleState.scheduleDetail.date)}</h1>
           <h1 className={`text-xl font-semibold`}>{scheduleState.scheduleDetail.counselor_name}</h1>

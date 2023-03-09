@@ -15,12 +15,14 @@ export default function CounselorNavbar() {
         <Image alt="Profile Photo" loader={() => src} src={src} layout='fill' objectFit='fill' placeholder="blur" blurDataURL='/img/blur-placeholder.png' referrerPolicy="no-referrer" priority />
       </div>
 
-      <Link href="https://myaccount.google.com/personal-info" target={`_blank`}><a target="_blank" className={`text-lg cursor-pointer`}>{userInfo.name || 'Guest'}</a></Link>
+      <div className='w-2/3 lg:w-full truncate'>
+      <Link href="https://myaccount.google.com/personal-info" target={`_blank`}><a target="_blank" className={`text-sm md:text-lg cursor-pointer`}>{userInfo.name || 'Guest'}</a></Link>
+      </div>
 
       <LogoutBtn />
     </section>
 
-    <nav className='flex gap-7 text-2xl'>
+    <nav className='flex gap-7 justify-center flex-wrap text-lg md:text-2xl'>
       <Link href="/counselor/counseling"><a className={navStyle}>
         <Image src="/icons/chat.svg" alt="Book Icons" width={25} height={25} />
         Counseling
