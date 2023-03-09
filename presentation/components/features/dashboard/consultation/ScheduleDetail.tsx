@@ -46,9 +46,9 @@ export default function ScheduleDetail({ scheduleId = `1`, isCounselor = false }
         </div>
 
         {(scheduleState.scheduleDetail.patient_name === userInfo.name || isCounselor) && <div className={`flex justify-center p-7 rounded-xl shadow-xl cursor-pointer ${glassCard}`}>
-          <Link href={scheduleState.scheduleDetail.gmeetLink}>
+          <a href={scheduleState.scheduleDetail.gmeetLink} target="_blank" rel="noreferrer">
             <Image alt="Profile Photo" src='/img/gmeet.png' width={240} height={50} priority />
-          </Link>
+          </a>
         </div>}
 
         {(!scheduleState.isBooked && !isCounselor) && <button className={`flex justify-center p-5 rounded-xl shadow-xl ${glassCard}`} onClick={() => dispatch(toggleModal())}>
