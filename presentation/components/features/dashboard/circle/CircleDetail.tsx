@@ -54,9 +54,9 @@ export default function CircleDetail({ isCounselor = false }: Props) {
         </div>
 
         {(circleState.isMine || circleState.amIMember) && <div className={`flex justify-center p-7 rounded-xl shadow-xl cursor-pointer ${glassCard}`}>
-          <Link href={circleState.circlesDetail.gmeetLink}>
+          <a href={circleState.circlesDetail.gmeetLink} target="_blank" rel="noreferrer">
             <Image alt="gmeet Photo" src='/img/gmeet.png' width={240} height={50} priority />
-          </Link>
+          </a>
         </div>}
 
         {(!circleState.isMine && !circleState.isFull && !circleState.amIMember) && <button className={`flex justify-center p-5 rounded-xl shadow-xl ${glassCard}`} onClick={circleState.amIMember ? handleLeave : openApplyModal}>
