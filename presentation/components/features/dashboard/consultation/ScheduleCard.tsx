@@ -17,9 +17,9 @@ export default function ScheduleCard({ item, isCounselor= false }: any) {
     <div className={`w-1 h-4/5 rounded-lg ${pinkGradientBg}`}></div>
 
     <section className=' p-5'>
-      <p className={`text-xl`}>{formatDate(item.data.date)}</p>
+      <p className={`text-lg md:text-xl`}>{formatDate(item.data.date)}</p>
       <p className={`text-sm`}>With</p>
-      <p className={`text-2xl font-medium`}>{item.data.counselor_name}</p>
+      <p className={`text-lg md:text-2xl font-medium`}>{item.data.counselor_name}</p>
     </section>
   </div></Link>
 }
