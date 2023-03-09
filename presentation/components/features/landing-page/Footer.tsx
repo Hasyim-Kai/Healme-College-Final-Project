@@ -9,7 +9,7 @@ export default function Footer() {
       <Image alt="wave-bg" src='/img/wave-bg.png' layout='fill' placeholder="blur" blurDataURL='/img/blur-placeholder.png' />
     </div>
 
-    <section className='text-center my-5 pt-28'>
+    <section className='text-center my-5 pt-32'>
       <p className={`text-4xl font-medium`}>Take your time here</p>
       <p className={`text-3xl my-1`}>On Healme</p>
       <WhiteLoginBtn />

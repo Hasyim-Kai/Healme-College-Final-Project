@@ -11,7 +11,7 @@ export default function Features() {
                 <Image src="/img/consultation.png" alt="consultation" layout='fill' objectFit='fill' placeholder="blur" blurDataURL='/img/blur-placeholder.png' priority />
             </div>
             <div className='max-w-xs'>
-                <p className={`text-5xl font-semibold ${pinkGradientText}`}>Counseling</p>
+                <p className={`mt-7 text-5xl font-semibold ${pinkGradientText}`}>Counseling</p>
                 <p className={`my-5 text-gray-600`}>Choose the Consultation Schedule with the Professional that fits your time</p>
                 <div className={`w-36 h-1 rounded-lg ${pinkGradientBg}`}></div>
             </div>
@@ -22,7 +22,7 @@ export default function Features() {
                 <Image src="/img/journal.png" alt="journal" layout='fill' objectFit='fill' placeholder="blur" blurDataURL='/img/blur-placeholder.png' priority />
             </div>
             <div className='max-w-xs'>
-                <p className={`text-5xl font-semibold ${pinkGradientText}`}>Journal</p>
+                <p className={`mt-7 text-5xl font-semibold ${pinkGradientText}`}>Journal</p>
                 <p className={`my-5 text-gray-600`}>Write down your feeling and track your mental health wellness</p>
                 <div className={`w-36 h-1 rounded-lg ${pinkGradientBg}`}></div>
             </div>
@@ -33,7 +33,7 @@ export default function Features() {
                 <Image src="/img/circle.png" alt="Circle" layout='fill' objectFit='fill' placeholder="blur" blurDataURL='/img/blur-placeholder.png' priority />
             </div>
             <div className='max-w-xs'>
-                <p className={`text-5xl font-semibold ${pinkGradientText}`}>Circle</p>
+                <p className={`mt-7 text-5xl font-semibold ${pinkGradientText}`}>Circle</p>
                 <p className={`my-5 text-gray-600`}>Join a Circle to socialize and share your feeling or support others</p>
                 <div className={`w-36 h-1 rounded-lg ${pinkGradientBg}`}></div>
             </div>
