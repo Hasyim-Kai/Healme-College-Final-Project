@@ -30,7 +30,7 @@ export default function CircleList({ isAll = true }: Props) {
           : circleState.circles.map((item, index) => <CircleCard item={item} key={index} />)}
     </section>
 
-    {!isAll && <>
+    {(!isAll && circleState.circles.length === 0 )&& <>
       <FloatBottomBtn text='Create' clickFunc={openFormModal}>
         <b>+</b>
       </FloatBottomBtn>
