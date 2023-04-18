@@ -28,7 +28,6 @@ export default function CircleDetail({ isCounselor = false }: Props) {
     await dispatch(delCircle(circleState.circlesDetail.id))
     goToSchedules()
   }
-
   const handleLeave = async () => {
     await dispatch(leaveCircle({ members: circleState.circlesDetail.members, member_name: userInfo.name, id: circleState.circlesDetail.id, filled: circleState.circlesDetail.filled }))
     goToSchedules()
@@ -53,6 +52,13 @@ export default function CircleDetail({ isCounselor = false }: Props) {
           <h1 className='mt-3 text-lg text-gray-500'>Member by {circleState.circlesDetail.capacity}</h1>
         </div>
 
+        <div className={`px-7 text-center py-7 rounded-xl shadow-xl ${glassCard}`}>
+          <h1 className='text-xl mb-1'>Meetup Schedule</h1>
+          <div className={`w-11/12 h-1 my-2 rounded-lg mx-auto ${pinkGradientBg}`}></div>
+          <h1 className='text-lg text-gray-600'>{circleState.circlesDetail.meetDay}</h1>
+          <h1 className='text-lg text-gray-600'>{circleState.circlesDetail.meetTime}</h1>
+        </div>
+
         {(circleState.isMine || circleState.amIMember) && <div className={`flex justify-center p-7 rounded-xl shadow-xl cursor-pointer ${glassCard}`}>
           <a href={circleState.circlesDetail.gmeetLink} target="_blank" rel="noreferrer">
             <Image alt="gmeet Photo" src='/img/gmeet.png' width={240} height={50} priority />
@@ -69,7 +75,6 @@ export default function CircleDetail({ isCounselor = false }: Props) {
       </div>
 
       <article className={`col-span-2 flex flex-col rounded-xl shadow-xl p-10 mx-5 mb-5 lg:m-0 ${glassCard}`}>
-
         <h1 className='text-3xl font-semibold text-center'>Desc</h1>
         <div className={`w-11/12 h-1 my-5 rounded-lg mx-auto ${pinkGradientBg}`}></div>
         <p className='text-lg'>{circleState.circlesDetail.desc}</p>
