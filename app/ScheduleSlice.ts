@@ -46,7 +46,7 @@ export const delSchedule = createAsyncThunk('schedule/delSchedule', async (id: a
 
 export const applySchedule = createAsyncThunk('schedule/applySchedule', async (data: any) => {
    const applyScheduleRes = await updateScheduleFirestore(data)
-   const notifyUsers = await NotifyNewScheduleToUsers([data.patient_email])
+   const notifyUsers = await NotifyNewScheduleToUsers([data.patient_email], true)
    return notifyUsers
 })
 
