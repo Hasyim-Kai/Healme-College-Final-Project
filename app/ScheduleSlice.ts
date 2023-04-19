@@ -45,9 +45,9 @@ export const delSchedule = createAsyncThunk('schedule/delSchedule', async (id: a
 })
 
 export const applySchedule = createAsyncThunk('schedule/applySchedule', async (data: any) => {
-   return await toast.promise(updateScheduleFirestore(data), {
-      pending: 'Applying ...', success: 'Apply Complete 👌', error: 'Apply Failed 🤯'
-   });
+   const applyScheduleRes = await updateScheduleFirestore(data)
+   const notifyUsers = await NotifyNewScheduleToUsers([data.patient_email])
+   return notifyUsers
 })
 
 const initState: ScheduleSliceType = {
@@ -136,6 +136,7 @@ const scheduleSlice = createSlice({
       builder.addCase(applySchedule.pending, state => { state.isLoading = true; state.errorMessage = '' })
       builder.addCase(applySchedule.fulfilled, (state) => {
          state.isLoading = false
+         Toast('Applied Succesfully, Check your email to get the notification', ToastType.success)
       })
       builder.addCase(applySchedule.rejected, (state, action) => {
          state.isLoading = false
