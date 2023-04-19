@@ -9,12 +9,12 @@ export default function JournalCard({ item }: any) {
   const { radius, stroke } = { radius: 45, stroke: 6 };
   const normalizedRadius = () => radius - stroke * 2;
   const circumference = () => normalizedRadius() * 2 * Math.PI;
-  const strokeDashoffset = () => circumference() - Number(item.data.mood) / 100 * circumference();
+  const strokeDashoffset = () => circumference() - Number(item.data.mood) / 10 * circumference();
 
   return <Link href={`journal/1`}>
     <div onClick={() => dispatch(setJournalDetail({ id: item.id, ...item.data }))} className={`flex items-center rounded-lg shadow-lg h-36 bg-white bg-opacity-10 backdrop-blur-lg ${cardHover}`}>
       <div className='p-3 relative'>
-        <h1 className='absolute top-10 left-11 text-2xl drop-shadow-lg text-gray-600'>{item.data.mood}</h1>
+        <h1 className='absolute top-10 left-12 text-2xl drop-shadow-lg text-gray-600'>{item.data.mood}</h1>
         <svg height={radius * 2} width={radius * 2}>
           <circle
             stroke="orchid"
