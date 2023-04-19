@@ -22,13 +22,15 @@ export default function ScheduleForm({ scheduleId = `1`, isEdit = false }: Props
   const handleGmeetLink = (event: any) => { setGmeetLink(event.target.value) }
   const [session, setSession] = useState<string>(id === `edit` ? scheduleState.scheduleDetail.session : '1');
   const handleRadio = (event: any) => { setSession(event.target.value) }
+  const [isNotify, setIsNotify] = useState(id === `edit` ? scheduleState.scheduleDetail.session : false);
+  const handleIsNotify = (event: any) => { setIsNotify(!isNotify) }
 
   const goToMySchedule = () => { router.push('/counselor/counseling') }
   const handleSubmit = async (event: any) => {
     event.preventDefault()
     const type = event.nativeEvent.submitter.id
     if (id !== `edit`) {
-      await dispatch(createSchedule({ counselor_email: userInfo.email, counselor_name: userInfo.name, gmeetLink, session }))
+      await dispatch(createSchedule({ counselor_email: userInfo.email, counselor_name: userInfo.name, gmeetLink, session, isNotify }))
     } else if (id === `edit`) {
       await dispatch(editSchedule({ id: scheduleState.scheduleDetail.id, counselor_email: userInfo.email, counselor_name: userInfo.name, gmeetLink, session }))
     }
@@ -46,9 +48,15 @@ export default function ScheduleForm({ scheduleId = `1`, isEdit = false }: Props
             <input className={`bg-transparent ${simpleInput}`} type="text" name="Gmeet" id="Gmeet" placeholder="Enter Gmeet Link here" onChange={handleGmeetLink} value={gmeetLink} required />
           </div>
 
-          <ul className="mt-5 grid gap-6 w-full grid-cols-1 lg:grid-cols-3">
+          <ul className="my-5 grid gap-6 w-full grid-cols-1 lg:grid-cols-3">
             {counselingSchedule.map((item: any) => <SessionCard value={item.value} text={item.text} desc={item.desc} checkedRadio={session} onCangeFunc={handleRadio} key={item.value} />)}
           </ul>
+
+          <div className='mx-auto flex gap-5 items-center'>
+            <input className='w-7 h-7' type="checkbox" name="notify" id="notify" 
+              checked={isNotify} onChange={handleIsNotify}/>
+            <label className='text-xl font-medium' htmlFor="notify">Notify User ?</label>
+          </div>
 
           <button className='mt-12' id='create'>
             <Image src="/icons/orchid-circle-check.svg" alt="trash Icons" width={60} height={60} />

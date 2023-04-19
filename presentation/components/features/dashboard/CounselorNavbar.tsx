@@ -11,8 +11,8 @@ export default function CounselorNavbar() {
 
   return <header className='flex flex-col items-center text-gray-600'>
     <section className='flex gap-5 text-2xl items-center mt-5 mb-3'>
-      <div className='relative w-10 h-10 rounded-full overflow-hidden'>
-        <Image alt="Profile Photo" loader={() => src} src={src} layout='fill' objectFit='fill' placeholder="blur" blurDataURL='/img/blur-placeholder.png' referrerPolicy="no-referrer" priority />
+      <div className='relative w-16 h-10 rounded-full overflow-hidden'>
+        <Image alt="Profile Photo" loader={() => src} src={src} layout='fill' objectFit='fill' placeholder="blur" blurDataURL='/img/blur-placeholder.png' referrerPolicy="no-referrer" />
       </div>
 
       <div className='w-2/3 lg:w-full truncate'>

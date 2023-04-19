@@ -21,12 +21,15 @@ export const getUserSchedule = createAsyncThunk('schedule/getUserSchedule', asyn
 
 export const createSchedule = createAsyncThunk('schedule/createSchedule', async (data: any) => {
    const newSchedule = await saveScheduleFirestore(data)
-   const allUsers: any = await getAllUserFirebase() || { docs: [] }
-   const allUsersEmail = allUsers.docs.map((doc: any) => {
-      return doc.data().email
-   })
-   const notifyUsers = await NotifyNewScheduleToUsers(allUsersEmail)
-   return notifyUsers
+   if(data.isNotify){
+      const allUsers: any = await getAllUserFirebase() || { docs: [] }
+      const allUsersEmail = allUsers.docs.map((doc: any) => {
+         return doc.data().email
+      })
+      const notifyUsers = await NotifyNewScheduleToUsers(allUsersEmail)
+      return notifyUsers
+   }   
+   return newSchedule
 })
 
 export const editSchedule = createAsyncThunk('schedule/editSchedule', async (data: any) => {
@@ -42,9 +45,9 @@ export const delSchedule = createAsyncThunk('schedule/delSchedule', async (id: a
 })
 
 export const applySchedule = createAsyncThunk('schedule/applySchedule', async (data: any) => {
-   return await toast.promise(updateScheduleFirestore(data), {
-      pending: 'Applying ...', success: 'Apply Complete 👌', error: 'Apply Failed 🤯'
-   });
+   const applyScheduleRes = await updateScheduleFirestore(data)
+   const notifyUsers = await NotifyNewScheduleToUsers([data.patient_email], true)
+   return notifyUsers
 })
 
 const initState: ScheduleSliceType = {
@@ -133,6 +136,7 @@ const scheduleSlice = createSlice({
       builder.addCase(applySchedule.pending, state => { state.isLoading = true; state.errorMessage = '' })
       builder.addCase(applySchedule.fulfilled, (state) => {
          state.isLoading = false
+         Toast('Applied Succesfully, Check your email to get the notification', ToastType.success)
       })
       builder.addCase(applySchedule.rejected, (state, action) => {
          state.isLoading = false

@@ -23,16 +23,21 @@ export default function ModalForm({ isEdit = false }: Props) {
   const [gmeetLink, setGmeetLink] = useState<string>(isEdit ? circleState.circlesDetail.gmeetLink : ``)
   const [capacity, setCapacity] = useState<number>(isEdit ? circleState.circlesDetail.capacity : 0)
   const [desc, setDesc] = useState<string>(isEdit ? circleState.circlesDetail.desc : ``)
+  const [meetDay, setMeetDay] = useState(isEdit ? circleState.circlesDetail.meetDay : `monday`)
+  const [meetTime, setMeetTime] = useState(isEdit ? circleState.circlesDetail.meetTime : null)
+  
   const handleName = (e: any) => { setName(e.target.value) }
   const handleGmeetLink = (e: any) => { setGmeetLink(e.target.value) }
   const handleCapacity = (e: any) => { setCapacity(Number(e.target.value)) }
   const handleDesc = (e: any) => { setDesc(e.target.value) }
+  const handleMeetDay = (e: any) => { setMeetDay(e.target.value) }
+  const handleMeetTime = (e: any) => { setMeetTime(e.target.value) }
 
   const handleSubmit = async (e: any) => {
     e.preventDefault()
     const type = e.nativeEvent.submitter.innerText
     if (type === `Create`) {
-      await dispatch(createCircle({ name, gmeetLink, capacity, desc, owner: userInfo.email, filled: 0, members: [] }))
+      await dispatch(createCircle({ name, gmeetLink, capacity, desc, meetDay, meetTime, owner: userInfo.email, filled: 0, members: [] }))
     } else if (type === `Update`) {
       await dispatch(editCircle({ id: circleState.circlesDetail.id, name, gmeetLink, capacity, desc }))
     } else if (type === `Delete`) {
@@ -40,7 +45,8 @@ export default function ModalForm({ isEdit = false }: Props) {
     }
     await dispatch(getMyCircle(userInfo.email))
     dispatch(toggleModal())
-    goToMyCircles()
+    goToCircles()
+    // goToMyCircles()
   }
 
   return <ModalLayout>
@@ -63,9 +69,30 @@ export default function ModalForm({ isEdit = false }: Props) {
           </div>
         </div>
 
+        <div className="flex flex-wrap items-center gap-6">
+          <div className="w-56">
+            <label htmlFor="day">Meetup Day</label><br />
+            <select className={simpleInput} name="day" id="day" value={meetDay} onChange={handleMeetDay} required >
+              <option value="monday">monday</option>
+              <option value="tuesday">tuesday</option>
+              <option value="wednesday">wednesday</option>
+              <option value="thursday">thursday</option>
+              <option value="friday">friday</option>
+              <option value="saturday">saturday</option>
+              <option value="sunday">sunday</option>
+            </select>
+          </div>
+
+          <div className="w-56">
+            <label htmlFor="time">Time</label><br />
+            <input className={simpleInput} type="time" name="time" id="time"
+              value={meetTime} onChange={handleMeetTime} required />
+          </div>
+        </div>
+
         <div>
           <label htmlFor="desc">Desc</label><br />
-          <textarea className={simpleInput} name="desc" id="desc" cols={70} rows={10} placeholder="Write down circle's description .." value={desc} onChange={handleDesc} required></textarea>
+          <textarea className={simpleInput} name="desc" id="desc" cols={70} rows={6} placeholder="Write down circle's description .." value={desc} onChange={handleDesc} required></textarea>
         </div>
 
         <div className="flex gap-5 justify-center">
