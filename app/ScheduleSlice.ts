@@ -21,12 +21,15 @@ export const getUserSchedule = createAsyncThunk('schedule/getUserSchedule', asyn
 
 export const createSchedule = createAsyncThunk('schedule/createSchedule', async (data: any) => {
    const newSchedule = await saveScheduleFirestore(data)
-   const allUsers: any = await getAllUserFirebase() || { docs: [] }
-   const allUsersEmail = allUsers.docs.map((doc: any) => {
-      return doc.data().email
-   })
-   const notifyUsers = await NotifyNewScheduleToUsers(allUsersEmail)
-   return notifyUsers
+   if(data.isNotify){
+      const allUsers: any = await getAllUserFirebase() || { docs: [] }
+      const allUsersEmail = allUsers.docs.map((doc: any) => {
+         return doc.data().email
+      })
+      const notifyUsers = await NotifyNewScheduleToUsers(allUsersEmail)
+      return notifyUsers
+   }   
+   return newSchedule
 })
 
 export const editSchedule = createAsyncThunk('schedule/editSchedule', async (data: any) => {
