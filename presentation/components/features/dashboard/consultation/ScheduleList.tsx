@@ -2,15 +2,20 @@ import ScheduleCard from './ScheduleCard'
 import { useRouter } from 'next/router'
 import FloatBottomBtn from '../../../global/FloatBottomBtn'
 import Loading from '../../../global/Loading'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { selectScheduleState, getAllSchedule, getCounselorSchedule, getUserSchedule } from '../../../../../app/ScheduleSlice'
 import { useAppDispatch, useAppSelector } from '../../../../../app/store'
 import { selectUserState } from '../../../../../app/UserSlice'
 import Empty from '../../../global/Empty'
+import StatisticForCounselor from './StatisticForCounselor'
+import { filterAppliedConsultation, filterTodayAppliedConsultation, filterTodayConsultation } from '../../../../utils/FilterConsultation'
+import { pinkGradientBg, tailwindTransition } from '../../../../styles/TailwindStyle'
 
 type Props = { isCounselor?: boolean, isAll?: boolean }
 
 export default function ScheduleList({ isCounselor = false, isAll = true }: Props) {
+  const [isStatisticOpen, setIsStatisticOpen] = useState(false)
+  const toggleStatistic = () => { setIsStatisticOpen(!isStatisticOpen) }
   const router = useRouter()
   const goToAddForm = () => { router.push('/counselor/counseling/form/add') }
   const dispatch = useAppDispatch();
@@ -23,7 +28,22 @@ export default function ScheduleList({ isCounselor = false, isAll = true }: Prop
   }, [])
 
   return <div className='mx-auto lg:max-w-5xl mb-16'>
-    <section className='grid lg:grid-cols-2 grid-cols-1 gap-6 mt-10'>
+    {/* STATISTIC */}
+    {isCounselor && <>
+      <div className={`${isStatisticOpen ? `lg:h-[25rem] h-[48rem] pb-10 mt-8` : `h-0 p-0`} ${tailwindTransition} overflow-hidden flex flex-wrap justify-evenly gap-5`}>
+        <StatisticForCounselor title='Today Consultation Schedule Statistic'
+          allConsultation={filterTodayConsultation(scheduleState.schedules).length}
+          appliedConsultation={filterTodayAppliedConsultation(scheduleState.schedules).length} />
+        <StatisticForCounselor title='All Consultation Schedule Statistic'
+          allConsultation={scheduleState.schedules.length}
+          appliedConsultation={filterAppliedConsultation(scheduleState.schedules).length} />
+      </div>
+      <button className={`py-3 px-5 text-lg text-white rounded-xl ${pinkGradientBg}`}
+        onClick={toggleStatistic}>{isStatisticOpen ? `Close Statistic` : `Open Statistic`}</button>
+    </>}
+
+    {/* LIST */}
+    <section className='grid lg:grid-cols-2 grid-cols-1 gap-6 mt-8'>
       {scheduleState.isLoading ? <Loading additionalStyle='lg:col-span-2' />
         : scheduleState.schedules.length < 1 ? <Empty additionalstyle='lg:col-span-2' text='There are no Schedule for Today' />
           : scheduleState.schedules.map((item, index) => <ScheduleCard item={item} key={index} isCounselor={isCounselor} />)}
