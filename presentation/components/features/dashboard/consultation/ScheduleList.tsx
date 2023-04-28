@@ -8,7 +8,7 @@ import { useAppDispatch, useAppSelector } from '../../../../../app/store'
 import { selectUserState } from '../../../../../app/UserSlice'
 import Empty from '../../../global/Empty'
 import StatisticForCounselor from './StatisticForCounselor'
-import { filterAppliedConsultation, filterTodayAppliedConsultation, filterTodayConsultation } from '../../../../utils/FilterConsultation'
+import { filterAppliedConsultation, filterNotAppliedConsultation, filterTodayAppliedConsultation, filterTodayConsultation } from '../../../../utils/FilterConsultation'
 import { pinkGradientBg, tailwindTransition } from '../../../../styles/TailwindStyle'
 
 type Props = { isCounselor?: boolean, isAll?: boolean }
@@ -27,6 +27,18 @@ export default function ScheduleList({ isCounselor = false, isAll = true }: Prop
     else { dispatch(getUserSchedule(userInfo.name)) }
   }, [])
 
+  function renderConsultation(){
+    if(scheduleState.isLoading){
+      return <Loading additionalStyle='lg:col-span-2' />
+    } else if (scheduleState.schedules.length < 1 || (isAll && filterNotAppliedConsultation(scheduleState.schedules).length < 1)){
+      return <Empty additionalstyle='lg:col-span-2' text='There are no Schedule for Today' />
+    } else if (isAll){
+      return filterNotAppliedConsultation(scheduleState.schedules).map((item: any, index: any) => <ScheduleCard item={item} key={index} isCounselor={isCounselor} />)
+    } else {
+      return scheduleState.schedules.map((item: any, index: any) => <ScheduleCard item={item} key={index} isCounselor={isCounselor} />)
+    }
+  }
+
   return <div className='mx-auto lg:max-w-5xl mb-16'>
     {/* STATISTIC */}
     {isCounselor && <>
@@ -44,9 +56,12 @@ export default function ScheduleList({ isCounselor = false, isAll = true }: Prop
 
     {/* LIST */}
     <section className='grid lg:grid-cols-2 grid-cols-1 gap-6 mt-8'>
-      {scheduleState.isLoading ? <Loading additionalStyle='lg:col-span-2' />
+      {renderConsultation()}
+      {/* {scheduleState.isLoading ? <Loading additionalStyle='lg:col-span-2' />
         : scheduleState.schedules.length < 1 ? <Empty additionalstyle='lg:col-span-2' text='There are no Schedule for Today' />
-          : scheduleState.schedules.map((item, index) => <ScheduleCard item={item} key={index} isCounselor={isCounselor} />)}
+          : isAll ? 
+              filterNotAppliedConsultation(scheduleState.schedules).map((item: any, index: any) => <ScheduleCard item={item} key={index} isCounselor={isCounselor} />)
+            : scheduleState.schedules.map((item: any, index: any) => <ScheduleCard item={item} key={index} isCounselor={isCounselor} />)} */}
     </section>
 
     {isCounselor && <FloatBottomBtn text='Create' clickFunc={goToAddForm}>
