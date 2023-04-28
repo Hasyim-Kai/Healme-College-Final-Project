@@ -8,6 +8,10 @@ export const filterAppliedConsultation = (array: any) => array.filter((schedule:
     return schedule.data.patient_email !== undefined
 })
 
+export const filterNotAppliedConsultation = (array: any) => array.filter((schedule: any) => {
+    return schedule.data.patient_email === undefined
+})
+
 export const filterTodayAppliedConsultation = (array: any) => array.filter((schedule: any) => {
     return getCurrentDate() === formatDate(schedule.data.date)
     && schedule.data.patient_email !== undefined
