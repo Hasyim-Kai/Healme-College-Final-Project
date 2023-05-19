@@ -28,10 +28,10 @@ export default function JournalCard({ item }: any) {
         </svg>
       </div>
 
-      <section className=''>
+      <section className='truncate text-ellipsis'>
         <p className={`text-sm mb-1`}><i>{formatDate(item.data.date)}</i></p>
         <p className={`text-2xl font-medium`}>{item.data.title}</p>
-        <p className={`text-sm truncate`}>{item.data.text}</p>
+        <p className={`text-sm truncate text-ellipsis`}>{item.data.text}</p>
       </section>
     </div>
   </Link>
