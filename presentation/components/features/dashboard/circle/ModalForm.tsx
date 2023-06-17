@@ -39,7 +39,7 @@ export default function ModalForm({ isEdit = false }: Props) {
     if (type === `Create`) {
       await dispatch(createCircle({ name, gmeetLink, capacity, desc, meetDay, meetTime, owner: userInfo.email, filled: 0, members: [] }))
     } else if (type === `Update`) {
-      await dispatch(editCircle({ id: circleState.circlesDetail.id, name, gmeetLink, capacity, desc }))
+      await dispatch(editCircle({ id: circleState.circlesDetail.id, name, gmeetLink, capacity, desc, meetDay, meetTime }))
     } else if (type === `Delete`) {
       await dispatch(delCircle(circleState.circlesDetail.id))
     }
