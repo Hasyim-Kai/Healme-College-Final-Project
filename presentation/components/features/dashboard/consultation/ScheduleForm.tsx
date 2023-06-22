@@ -18,6 +18,8 @@ export default function ScheduleForm({ scheduleId = `1`, isEdit = false }: Props
   const { userInfo } = useAppSelector(selectUserState);
   const scheduleState = useAppSelector(selectScheduleState);
 
+  const [meetDay, setMeetDay] = useState(isEdit ? scheduleState.scheduleDetail.meetDay : `monday`)
+  const handleMeetDay = (e: any) => { setMeetDay(e.target.value) }
   const [gmeetLink, setGmeetLink] = useState<string>(id === `edit` ? scheduleState.scheduleDetail.gmeetLink : '');
   const handleGmeetLink = (event: any) => { setGmeetLink(event.target.value) }
   const [session, setSession] = useState<string>(id === `edit` ? scheduleState.scheduleDetail.session : '1');
@@ -28,11 +30,10 @@ export default function ScheduleForm({ scheduleId = `1`, isEdit = false }: Props
   const goToMySchedule = () => { router.push('/counselor/counseling') }
   const handleSubmit = async (event: any) => {
     event.preventDefault()
-    const type = event.nativeEvent.submitter.id
     if (id !== `edit`) {
-      await dispatch(createSchedule({ counselor_email: userInfo.email, counselor_name: userInfo.name, gmeetLink, session, isNotify }))
+      await dispatch(createSchedule({ counselor_email: userInfo.email, counselor_name: userInfo.name, gmeetLink, session, isNotify, meetDay }))
     } else if (id === `edit`) {
-      await dispatch(editSchedule({ id: scheduleState.scheduleDetail.id, counselor_email: userInfo.email, counselor_name: userInfo.name, gmeetLink, session }))
+      await dispatch(editSchedule({ id: scheduleState.scheduleDetail.id, counselor_email: userInfo.email, counselor_name: userInfo.name, gmeetLink, session, meetDay }))
     }
     goToMySchedule()
   }
@@ -43,9 +44,24 @@ export default function ScheduleForm({ scheduleId = `1`, isEdit = false }: Props
 
       <form className={`flex flex-col mt-5 mb-16 rounded-xl shadow-xl p-10 mx-5 lg:mx-0 ${glassCard}`} onSubmit={handleSubmit}>
         {scheduleState.isLoading ? <Loading additionalStyle='my-24' /> : <>
-          <div>
-            <label htmlFor="Gmeet">Gmeet Link</label><br />
-            <input className={`bg-transparent ${simpleInput}`} type="text" name="Gmeet" id="Gmeet" placeholder="Enter Gmeet Link here" onChange={handleGmeetLink} value={gmeetLink} required />
+          <div className="flex items-center gap-6">
+            <div className="w-56">
+              <label htmlFor="day">Meetup Day</label><br />
+              <select className={simpleInput} name="day" id="day" value={meetDay} onChange={handleMeetDay} required >
+                <option value="monday">monday</option>
+                <option value="tuesday">tuesday</option>
+                <option value="wednesday">wednesday</option>
+                <option value="thursday">thursday</option>
+                <option value="friday">friday</option>
+                <option value="saturday">saturday</option>
+                <option value="sunday">sunday</option>
+              </select>
+            </div>
+
+            <div className='w-full'>
+              <label htmlFor="Gmeet">Gmeet Link</label><br />
+              <input className={`bg-transparent ${simpleInput}`} type="text" name="Gmeet" id="Gmeet" placeholder="Enter Gmeet Link here" onChange={handleGmeetLink} value={gmeetLink} required />
+            </div>
           </div>
 
           <ul className="my-5 grid gap-6 w-full grid-cols-1 lg:grid-cols-3">
@@ -53,8 +69,8 @@ export default function ScheduleForm({ scheduleId = `1`, isEdit = false }: Props
           </ul>
 
           <div className='mx-auto flex gap-5 items-center'>
-            <input className='w-7 h-7' type="checkbox" name="notify" id="notify" 
-              checked={isNotify} onChange={handleIsNotify}/>
+            <input className='w-7 h-7' type="checkbox" name="notify" id="notify"
+              checked={isNotify} onChange={handleIsNotify} />
             <label className='text-xl font-medium' htmlFor="notify">Notify User ?</label>
           </div>
 
