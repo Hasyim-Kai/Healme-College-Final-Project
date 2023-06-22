@@ -39,7 +39,7 @@ const userSlice = createSlice({
     name: 'user',
     initialState: initState,
     reducers: {
-        getUserFromLS(state) {
+        getUserFromLocalStorage(state) {
             state.isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn') || `false`);
             state.isExist = JSON.parse(localStorage.getItem('isExist') || `false`);
             state.userInfo = JSON.parse(localStorage.getItem('user') || '{}');
@@ -160,6 +160,6 @@ const userSlice = createSlice({
     }
 })
 
-export const { getUserFromLS, setUser, logUserOut } = userSlice.actions
+export const { getUserFromLocalStorage, setUser, logUserOut } = userSlice.actions
 export const selectUserState = (state: RootState) => state.user  // SELECTOR
 export default userSlice.reducer

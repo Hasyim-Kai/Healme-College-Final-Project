@@ -50,6 +50,12 @@ export const applySchedule = createAsyncThunk('schedule/applySchedule', async (d
    return notifyUsers
 })
 
+export const addNote = createAsyncThunk('schedule/addNote', async (data: any) => {
+   return await toast.promise(updateScheduleFirestore(data), {
+      pending: 'Updating ...', success: 'Update Complete 👌', error: 'Update Failed 🤯'
+   });
+})
+
 const initState: ScheduleSliceType = {
    schedules: [],
    scheduleDetail: { session: '1', gmeetLink: '#' },
@@ -137,6 +143,15 @@ const scheduleSlice = createSlice({
          Toast('Applied Succesfully, Check your email to get the notification', ToastType.success)
       })
       builder.addCase(applySchedule.rejected, (state, action) => {
+         state.isLoading = false
+         state.errorMessage = action.error.message || 'Something went wrong'
+      })
+      // ADD NOTE
+      builder.addCase(addNote.pending, state => { state.isLoading = true; state.errorMessage = '' })
+      builder.addCase(addNote.fulfilled, (state) => {
+         state.isLoading = false
+      })
+      builder.addCase(addNote.rejected, (state, action) => {
          state.isLoading = false
          state.errorMessage = action.error.message || 'Something went wrong'
       })
