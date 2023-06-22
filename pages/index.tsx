@@ -7,7 +7,7 @@ import Footer from '../presentation/components/features/landing-page/Footer'
 import CircleBgAnimation from '../presentation/components/global/CircleBgAnimation'
 
 const Home: NextPage = () => {
-  return <DefaultLayout additionalStyle='relative'>
+  return <DefaultLayout additionalStyle='relative' getUserFromLS={false}>
     <Navbar />
     <Hero />
     <Features />

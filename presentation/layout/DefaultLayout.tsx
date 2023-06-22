@@ -1,11 +1,24 @@
 import Head from "next/head";
-import { selectGlobalState } from "../../app/GlobalSlice";
-import { useAppSelector } from "../../app/store";
-import { selectUserState } from "../../app/UserSlice";
+import { useEffect } from "react";
+import { useAppDispatch } from "../../app/store";
+import { getUserFromLocalStorage } from "../../app/UserSlice";
 
-type Props = { children: JSX.Element | JSX.Element[] | null, additionalStyle?: string, pageTitle?: string }
+type Props = {
+  children: JSX.Element | JSX.Element[] | null,
+  additionalStyle?: string,
+  pageTitle?: string,
+  getUserFromLS?: boolean,
+}
 
-export default function DefaultLayout({ children, additionalStyle = '', pageTitle = 'Healme' }: Props) {
+export default function DefaultLayout({ children, additionalStyle = '', pageTitle = 'Healme', getUserFromLS = true }: Props) {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (getUserFromLS) {
+      dispatch(getUserFromLocalStorage())
+    }
+  }, [])
+
   return <>
     <Head>
       <title>{pageTitle}</title>

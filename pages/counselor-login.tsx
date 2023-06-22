@@ -4,7 +4,7 @@ import GoogleLogin from '../presentation/components/features/auth/GoogleLogin'
 import DefaultLayout from '../presentation/layout/DefaultLayout'
 
 const Login: NextPage = () => {
-  return <DefaultLayout additionalStyle='flex' pageTitle='Login'>
+  return <DefaultLayout additionalStyle='flex' pageTitle='Login' getUserFromLS={false}>
     <Banner />
     <GoogleLogin isCounselor={true} />
   </DefaultLayout>

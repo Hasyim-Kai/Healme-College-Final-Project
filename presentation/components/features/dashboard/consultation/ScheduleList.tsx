@@ -22,10 +22,11 @@ export default function ScheduleList({ isCounselor = false, isAll = true }: Prop
   const { userInfo } = useAppSelector(selectUserState);
   const scheduleState = useAppSelector(selectScheduleState);
   useEffect(() => {
+    console.log(userInfo)
     if (isCounselor) { dispatch(getCounselorSchedule(userInfo.name)) }
     else if (isAll) { dispatch(getAllSchedule()) }
     else { dispatch(getUserSchedule(userInfo.name)) }
-  }, [])
+  }, [userInfo])
 
   function renderStatistic() {
     if (isCounselor) {
@@ -51,14 +52,12 @@ export default function ScheduleList({ isCounselor = false, isAll = true }: Prop
       return <Loading additionalStyle='lg:col-span-2' />
     // if get all data & isCounsloer
     } else if (isAll && isCounselor) {
-      console.log(`masuk isAll && isCounselor`)
       return scheduleState.schedules.map((item: any, index: any) => <ScheduleCard item={item} key={index} isCounselor={isCounselor} />)
     // if data kosong
     } else if (scheduleState.schedules.length < 1 || (isAll && filterNotAppliedConsultation(scheduleState.schedules).length < 1)) {
       return <Empty additionalstyle='lg:col-span-2' text='There are no Schedule for Today' />
-    // if if get all data
+    // if get all data
     } else if (isAll) {
-      console.log(`masuk isAll`)
       return filterNotAppliedConsultation(scheduleState.schedules).map((item: any, index: any) => <ScheduleCard item={item} key={index} isCounselor={isCounselor} />)
     } else {
       return scheduleState.schedules.map((item: any, index: any) => <ScheduleCard item={item} key={index} isCounselor={isCounselor} />)
