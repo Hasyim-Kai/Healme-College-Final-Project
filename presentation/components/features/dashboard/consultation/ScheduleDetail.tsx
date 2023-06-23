@@ -6,16 +6,16 @@ import { glassCard, pinkGradientBg, pinkGradientText } from '../../../../styles/
 import FloatBottomBtn from '../../../global/FloatBottomBtn';
 import { useRouter } from 'next/router';
 import UserScheduleFormModal from './UserScheduleFormModal';
-import { checkIsBooked, delSchedule, selectScheduleState } from '../../../../../app/ScheduleSlice';
+import { checkIsBooked, delSchedule, getDetailSchedule, selectScheduleState } from '../../../../../app/ScheduleSlice';
 import { counselingSchedule } from '../../../../model/counseling-schedule';
 import { formatDate } from '../../../../utils/DateFormatter';
 import { useEffect } from 'react';
 import { selectUserState } from '../../../../../app/UserSlice';
 import CounselorScheduleFormModal from './CounselorScheduleFormModal';
 
-type Props = { scheduleId: string | string[], isCounselor?: boolean }
+type Props = { scheduleId: string, isCounselor?: boolean }
 
-export default function ScheduleDetail({ scheduleId = `1`, isCounselor = false }: Props) {
+export default function ScheduleDetail({ scheduleId, isCounselor = false }: Props) {
   const router = useRouter()
   const goToForm = () => { router.push('/counselor/counseling/form/edit') }
   const goToSchedules = () => { router.push('/counselor/counseling') }
@@ -28,7 +28,14 @@ export default function ScheduleDetail({ scheduleId = `1`, isCounselor = false }
     goToSchedules()
   }
 
-  useEffect(() => { dispatch(checkIsBooked()) }, [])
+  useEffect(() => {
+    if (scheduleId !== undefined) {
+      dispatch(getDetailSchedule(scheduleId));
+      dispatch(checkIsBooked());
+    }
+  }, [scheduleId])
+
+  useEffect(() => { dispatch(checkIsBooked()); }, [scheduleState.scheduleDetail])
 
   return <div className='mx-auto lg:max-w-6xl'>
     <section className='mt-10 grid lg:grid-cols-4 grid-cols-1 lg:gap-6 mb-16'>
@@ -36,13 +43,14 @@ export default function ScheduleDetail({ scheduleId = `1`, isCounselor = false }
       <div className={`flex flex-col gap-5 mx-5 mb-5 lg:m-0`}>
         <div className={`px-7 text-center py-10 rounded-xl shadow-xl ${glassCard}`}>
           <h1 className='text-lg mb-1 text-gray-500'>{formatDate(scheduleState.scheduleDetail.date)}</h1>
+          <h1 className={`text-sm`}>{scheduleState.scheduleDetail.meetDay}</h1>
           <h1 className={`text-xl font-semibold`}>{scheduleState.scheduleDetail.counselor_name}</h1>
 
           <div className={`w-11/12 h-1 my-5 rounded-lg mx-auto ${pinkGradientBg}`}></div>
 
           <h1 className='text-lg text-gray-500'>Session</h1>
           <h1 className={`text-8xl font-light ${pinkGradientText}`}>{scheduleState.scheduleDetail.session}</h1>
-          <h1 className='text-lg text-gray-500 mt-2'>{counselingSchedule[Number(scheduleState.scheduleDetail.session) - 1].desc}</h1>
+          <h1 className='text-lg text-gray-500 mt-2'>{counselingSchedule[Number(scheduleState.scheduleDetail.session) - 1]?.desc}</h1>
         </div>
 
         {(scheduleState.scheduleDetail.patient_name === userInfo.name || isCounselor) && <div className={`flex justify-center p-7 rounded-xl shadow-xl cursor-pointer ${glassCard}`}>
@@ -55,7 +63,8 @@ export default function ScheduleDetail({ scheduleId = `1`, isCounselor = false }
           <span className={`text-3xl font-semibold ${pinkGradientText}`}>Apply Here</span>
         </button>}
 
-        {(!isCounselor) && <button className={`flex justify-center p-5 rounded-xl shadow-xl ${glassCard}`} onClick={() => dispatch(toggleModal())}>
+        {(isCounselor) && <button className={`flex justify-center p-5 rounded-xl shadow-xl ${glassCard}`} onClick={() => dispatch(toggleModal())}>
+          <p className='text-lg'>{isCounselor}</p>
           <span className={`text-3xl font-semibold ${pinkGradientText}`}>Add Note</span>
         </button>}
       </div>
@@ -79,9 +88,10 @@ export default function ScheduleDetail({ scheduleId = `1`, isCounselor = false }
           </button>}
         </article>
 
-        <article className={`flex flex-col rounded-xl shadow-xl p-10 mx-5 lg:mx-0 ${glassCard}`}>
-          <p className='text-lg'>{scheduleState.scheduleDetail?.summary}</p>
-        </article>
+        {scheduleState.scheduleDetail.note && scheduleState.scheduleDetail.note.map((item: any, index: any) => <article key={index} className={`flex flex-col rounded-xl shadow-xl p-10 mx-5 lg:mx-0 ${glassCard}`}>
+          <p className='text-xl font-medium'>Note no.{index + 1}</p>
+          <p className=''>{item}</p>
+        </article>)}
       </div>
 
     </section>

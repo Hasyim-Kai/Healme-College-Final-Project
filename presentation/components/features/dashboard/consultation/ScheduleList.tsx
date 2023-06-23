@@ -22,7 +22,6 @@ export default function ScheduleList({ isCounselor = false, isAll = true }: Prop
   const { userInfo } = useAppSelector(selectUserState);
   const scheduleState = useAppSelector(selectScheduleState);
   useEffect(() => {
-    console.log(userInfo)
     if (isCounselor) { dispatch(getCounselorSchedule(userInfo.name)) }
     else if (isAll) { dispatch(getAllSchedule()) }
     else { dispatch(getUserSchedule(userInfo.name)) }

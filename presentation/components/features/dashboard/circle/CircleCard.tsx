@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import { setCircleDetail } from '../../../../../app/CircleSlice';
-import { setScheduleDetail } from '../../../../../app/ScheduleSlice';
 import { useAppDispatch } from '../../../../../app/store';
 import { cardHover, pinkGradientBg } from '../../../../styles/TailwindStyle'
 type Props = { item: any }
