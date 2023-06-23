@@ -13,7 +13,7 @@ import { useEffect } from 'react';
 import { selectUserState } from '../../../../../app/UserSlice';
 import CounselorScheduleFormModal from './CounselorScheduleFormModal';
 
-type Props = { scheduleId: string, isCounselor?: boolean }
+type Props = { scheduleId: string | string[] | undefined, isCounselor?: boolean }
 
 export default function ScheduleDetail({ scheduleId, isCounselor = false }: Props) {
   const router = useRouter()

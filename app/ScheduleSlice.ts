@@ -19,7 +19,7 @@ export const getUserSchedule = createAsyncThunk('schedule/getUserSchedule', asyn
    return await getUserScheduleFirestore(name)
 })
 
-export const getDetailSchedule = createAsyncThunk('schedule/getDetailSchedule', async (id: string = '') => {
+export const getDetailSchedule = createAsyncThunk('schedule/getDetailSchedule', async (id: any = '') => {
    return await getDetailScheduleFirestore(id)
 })
 
