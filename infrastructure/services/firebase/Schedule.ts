@@ -1,5 +1,5 @@
 export const fetchSchedule = () => console.log(`fetch`)
-import { collection, addDoc, getDocs, query, where, deleteDoc, doc, setDoc } from 'firebase/firestore';
+import { collection, addDoc, getDocs, query, where, deleteDoc, doc, setDoc, getDoc, DocumentReference } from 'firebase/firestore';
 import { db } from '.';
 
 const scheduleRef = collection(db, 'schedule');
@@ -25,6 +25,16 @@ export const getUserScheduleFirestore = async (name: string | null = '') => {
    try {
       const q = query(scheduleRef, where("patient_name", "==", name));
       return await getDocs(q)
+   } catch (error) {
+      return error
+   }
+}
+
+export const getDetailScheduleFirestore = async (id: string = '') => {
+   try {
+      const detailRef: DocumentReference = doc(db, 'schedule', id);
+      const res = await getDoc(detailRef);
+      return res
    } catch (error) {
       return error
    }

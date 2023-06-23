@@ -7,7 +7,7 @@ import { formatDate } from '../../../../utils/DateFormatter';
 
 export default function ScheduleCard({ item, isCounselor = false }: any) {
   const dispatch = useAppDispatch();
-  return isCounselor ? <Link href='/counselor/counseling/detail'><div onClick={() => dispatch(setScheduleDetail({ id: item.id, ...item.data }))} className={`flex items-center rounded-lg shadow-lg h-48 bg-white bg-opacity-10 backdrop-blur-lg ${cardHover} overflow-hidden`}>
+  return isCounselor ? <Link href={`/counselor/counseling/${item.id}`}><div className={`flex items-center rounded-lg shadow-lg h-48 bg-white bg-opacity-10 backdrop-blur-lg ${cardHover} overflow-hidden`}>
     <section className='text-lg text-center p-5 w-40'>
       <h1>Session</h1>
       <h1 className='lg:text-3xl text-2xl font-light'>{item.data.session}</h1>
@@ -22,7 +22,7 @@ export default function ScheduleCard({ item, isCounselor = false }: any) {
       <p className={`text-lg md:text-xl`}>{item.data.counselor_name}</p>
     </section>
   </div></Link>
-    : <Link href='/user/counseling/detail'><div onClick={() => dispatch(setScheduleDetail({ id: item.id, ...item.data }))} className={`flex items-center rounded-lg shadow-lg h-48 bg-white bg-opacity-10 backdrop-blur-lg ${cardHover} overflow-hidden`}>
+    : <Link href={`/user/counseling/${item.id}`}><div className={`flex items-center rounded-lg shadow-lg h-48 bg-white bg-opacity-10 backdrop-blur-lg ${cardHover} overflow-hidden`}>
       <section className='lg:text-xl text-lg text-center p-5'>
         <h1>Session</h1>
         <h1 className='lg:text-7xl text-6xl font-light'>{item.data.session}</h1>

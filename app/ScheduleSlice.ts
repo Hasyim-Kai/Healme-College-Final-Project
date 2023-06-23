@@ -1,7 +1,7 @@
 import { RootState } from "./store"
 import { toast } from "react-toastify";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
-import { getAllScheduleFirestore, saveScheduleFirestore, updateScheduleFirestore, delScheduleFirestore, getUserScheduleFirestore, getCounselorScheduleFirestore } from "../infrastructure/services/firebase/Schedule";
+import { getAllScheduleFirestore, saveScheduleFirestore, updateScheduleFirestore, delScheduleFirestore, getUserScheduleFirestore, getCounselorScheduleFirestore, getDetailScheduleFirestore } from "../infrastructure/services/firebase/Schedule";
 import { getCurrentDate, formatDate } from "../presentation/utils/DateFormatter";
 import { getAllUserFirebase } from "../infrastructure/services/firebase/User";
 import { NotifyNewScheduleToUsers } from "../infrastructure/services/mailer/Schedule";
@@ -19,16 +19,20 @@ export const getUserSchedule = createAsyncThunk('schedule/getUserSchedule', asyn
    return await getUserScheduleFirestore(name)
 })
 
+export const getDetailSchedule = createAsyncThunk('schedule/getDetailSchedule', async (id: any = '') => {
+   return await getDetailScheduleFirestore(id)
+})
+
 export const createSchedule = createAsyncThunk('schedule/createSchedule', async (data: any) => {
    const newSchedule = await saveScheduleFirestore(data)
-   if(data.isNotify){
+   if (data.isNotify) {
       const allUsers: any = await getAllUserFirebase() || { docs: [] }
       const allUsersEmail = allUsers.docs.map((doc: any) => {
          return doc.data().email
       })
       const notifyUsers = await NotifyNewScheduleToUsers(allUsersEmail)
       return notifyUsers
-   }   
+   }
    return newSchedule
 })
 
@@ -50,9 +54,17 @@ export const applySchedule = createAsyncThunk('schedule/applySchedule', async (d
    return notifyUsers
 })
 
+export const addNote = createAsyncThunk('schedule/addNote', async (data: any) => {
+   data.note = [...data.note, data.newNote]
+   delete data.newNote;
+   return await toast.promise(updateScheduleFirestore(data), {
+      pending: 'Updating ...', success: 'Update Complete 👌', error: 'Update Failed 🤯'
+   });
+})
+
 const initState: ScheduleSliceType = {
    schedules: [],
-   scheduleDetail: { session: '1', gmeetLink: '#' },
+   scheduleDetail: { session: '1', gmeetLink: '#', note: [] },
    isLoading: false,
    errorMessage: '',
    isBooked: false
@@ -73,8 +85,6 @@ const scheduleSlice = createSlice({
          state.isLoading = false
          state.schedules = action.payload.docs.map((doc: any) => {
             return { data: doc.data(), id: doc.id }
-         }).filter((schedule: any) => { // Filtering only today Schedule
-            return getCurrentDate() === formatDate(schedule.data.date)
          })
       })
       builder.addCase(getAllSchedule.rejected, (state, action) => {
@@ -102,6 +112,17 @@ const scheduleSlice = createSlice({
          })
       })
       builder.addCase(getUserSchedule.rejected, (state, action) => {
+         state.isLoading = false
+         state.errorMessage = action.error.message || 'Something went wrong'
+      })
+      // GET DETAIL SCHEDULE
+      builder.addCase(getDetailSchedule.pending, state => { state.isLoading = true; state.errorMessage = '' })
+      builder.addCase(getDetailSchedule.fulfilled, (state, action: any) => {
+         state.isLoading = false
+         console.log(action.payload)
+         state.scheduleDetail = { ...action.payload.data(), id: action.payload.id }
+      })
+      builder.addCase(getDetailSchedule.rejected, (state, action) => {
          state.isLoading = false
          state.errorMessage = action.error.message || 'Something went wrong'
       })
@@ -139,6 +160,13 @@ const scheduleSlice = createSlice({
          Toast('Applied Succesfully, Check your email to get the notification', ToastType.success)
       })
       builder.addCase(applySchedule.rejected, (state, action) => {
+         state.isLoading = false
+         state.errorMessage = action.error.message || 'Something went wrong'
+      })
+      // ADD NOTE
+      builder.addCase(addNote.pending, state => { state.isLoading = true; state.errorMessage = '' })
+      builder.addCase(addNote.fulfilled, (state) => { state.isLoading = false })
+      builder.addCase(addNote.rejected, (state, action) => {
          state.isLoading = false
          state.errorMessage = action.error.message || 'Something went wrong'
       })

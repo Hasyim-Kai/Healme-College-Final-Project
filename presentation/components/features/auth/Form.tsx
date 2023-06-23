@@ -2,7 +2,7 @@ import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../../../app/store'
-import { checkUserExistance, getUserFromLS, saveUser, selectUserState } from '../../../../app/UserSlice'
+import { checkUserExistance, getUserFromLocalStorage, saveUser, selectUserState } from '../../../../app/UserSlice'
 import { pinkGradientText, simpleInput, pinkGradientBg } from '../../../styles/TailwindStyle'
 import { Toast, ToastType } from '../../global/Alert';
 import Loading from '../../global/Loading'
@@ -29,7 +29,7 @@ export default function Form() {
   }
 
   useEffect(() => {
-    dispatch(getUserFromLS())
+    dispatch(getUserFromLocalStorage())
     if (userState.isLoggedIn && userState.isExist) { router.push('/user/counseling') }
     else if (userState.errorMessage !== '') { Toast(userState.errorMessage, ToastType.error) }
   }, [userState.isExist])
