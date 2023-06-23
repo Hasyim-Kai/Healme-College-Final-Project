@@ -7,7 +7,7 @@ import DefaultLayout from "../../../presentation/layout/DefaultLayout"
 
 const ScheduleDetailPage: NextPage = () => {
   const router = useRouter()
-  const { id = `1` } = router.query
+  const { id } = router.query
 
   return <DefaultLayout pageTitle='Your Journal' additionalStyle='relative'>
     <CounselorNavbar />

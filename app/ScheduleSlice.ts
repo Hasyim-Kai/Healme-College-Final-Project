@@ -1,7 +1,7 @@
 import { RootState } from "./store"
 import { toast } from "react-toastify";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
-import { getAllScheduleFirestore, saveScheduleFirestore, updateScheduleFirestore, delScheduleFirestore, getUserScheduleFirestore, getCounselorScheduleFirestore } from "../infrastructure/services/firebase/Schedule";
+import { getAllScheduleFirestore, saveScheduleFirestore, updateScheduleFirestore, delScheduleFirestore, getUserScheduleFirestore, getCounselorScheduleFirestore, getDetailScheduleFirestore } from "../infrastructure/services/firebase/Schedule";
 import { getCurrentDate, formatDate } from "../presentation/utils/DateFormatter";
 import { getAllUserFirebase } from "../infrastructure/services/firebase/User";
 import { NotifyNewScheduleToUsers } from "../infrastructure/services/mailer/Schedule";
@@ -17,6 +17,10 @@ export const getCounselorSchedule = createAsyncThunk('schedule/getCounselorSched
 
 export const getUserSchedule = createAsyncThunk('schedule/getUserSchedule', async (name: string | null = '') => {
    return await getUserScheduleFirestore(name)
+})
+
+export const getDetailSchedule = createAsyncThunk('schedule/getDetailSchedule', async (id: string = '') => {
+   return await getDetailScheduleFirestore(id)
 })
 
 export const createSchedule = createAsyncThunk('schedule/createSchedule', async (data: any) => {
@@ -106,6 +110,17 @@ const scheduleSlice = createSlice({
          })
       })
       builder.addCase(getUserSchedule.rejected, (state, action) => {
+         state.isLoading = false
+         state.errorMessage = action.error.message || 'Something went wrong'
+      })
+      // GET DETAIL SCHEDULE
+      builder.addCase(getDetailSchedule.pending, state => { state.isLoading = true; state.errorMessage = '' })
+      builder.addCase(getDetailSchedule.fulfilled, (state, action: any) => {
+         state.isLoading = false
+         console.log(action.payload)
+         state.scheduleDetail = { ...action.payload.data(), id: action.payload.id }
+      })
+      builder.addCase(getDetailSchedule.rejected, (state, action) => {
          state.isLoading = false
          state.errorMessage = action.error.message || 'Something went wrong'
       })
