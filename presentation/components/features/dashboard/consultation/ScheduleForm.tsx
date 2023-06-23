@@ -31,7 +31,7 @@ export default function ScheduleForm({ scheduleId = `1`, isEdit = false }: Props
   const handleSubmit = async (event: any) => {
     event.preventDefault()
     if (id !== `edit`) {
-      await dispatch(createSchedule({ counselor_email: userInfo.email, counselor_name: userInfo.name, gmeetLink, session, isNotify, meetDay }))
+      await dispatch(createSchedule({ counselor_email: userInfo.email, counselor_name: userInfo.name, gmeetLink, session, isNotify, meetDay, note: [] }))
     } else if (id === `edit`) {
       await dispatch(editSchedule({ id: scheduleState.scheduleDetail.id, counselor_email: userInfo.email, counselor_name: userInfo.name, gmeetLink, session, meetDay }))
     }

@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { toggleModal } from "../../../../../app/GlobalSlice";
-import { applySchedule, selectScheduleState } from "../../../../../app/ScheduleSlice";
+import { addNote, applySchedule, getDetailSchedule, selectScheduleState } from "../../../../../app/ScheduleSlice";
 import { useAppDispatch, useAppSelector } from "../../../../../app/store";
 import { selectUserState } from "../../../../../app/UserSlice";
 import ModalLayout from "../../../../layout/ModalLayout";
@@ -12,7 +12,7 @@ type Props = { isEdit?: boolean }
 
 export default function CounselorScheduleFormModal({ isEdit = false }: Props) {
   const router = useRouter()
-  const goToMySchedule = () => { router.push('/user/counseling') }
+  const { id } = router.query
 
   const dispatch = useAppDispatch();
   const { userInfo } = useAppSelector(selectUserState);
@@ -22,15 +22,16 @@ export default function CounselorScheduleFormModal({ isEdit = false }: Props) {
 
   const handleSubmit = async (event: any) => {
     event.preventDefault()
-    await dispatch(applySchedule({ id: scheduleState.scheduleDetail.id, patient_email: userInfo.email, patient_name: userInfo.name, summary }))
+    await dispatch(addNote({ id, note: scheduleState.scheduleDetail.note, newNote: summary }))
     dispatch(toggleModal())
-    goToMySchedule()
+    dispatch(getDetailSchedule(id));
+    setSummary(``)
   }
 
   return <ModalLayout>
     <form onSubmit={handleSubmit} className='text-gray-600'>
       <div>
-        <label htmlFor="Summary">Write a Summary</label><br />
+        <label htmlFor="Summary">Write a Note</label><br />
         <textarea className={simpleInput} name="Summary" id="Summary" cols={70} rows={10} placeholder="Write some Summary .."
           value={summary} onChange={handleSummary} required></textarea>
       </div>
