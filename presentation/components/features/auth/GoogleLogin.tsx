@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router'
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../../app/store';
-import { getUserFromLS, loginGoogle, loginGoogleAsCounselor, selectUserState } from '../../../../app/UserSlice';
+import { getUserFromLocalStorage, loginGoogle, loginGoogleAsCounselor, selectUserState } from '../../../../app/UserSlice';
 import { pinkGradientText } from '../../../styles/TailwindStyle'
 import Loading from '../../global/Loading';
 
@@ -14,12 +14,12 @@ export default function GoogleLogin({ isCounselor = false }: { isCounselor?: boo
   const router = useRouter()
   async function handleLogin() { isCounselor ? dispatch(loginGoogleAsCounselor()) : dispatch(loginGoogle()) }
   async function navigateUser() {
-    dispatch(getUserFromLS())
+    dispatch(getUserFromLocalStorage())
     if (userState.isLoggedIn && userState.isExist) { router.push('/user/counseling') }
     else if (userState.isLoggedIn) { router.push('/profile-form') }
   }
   async function navigateCounselor() {
-    dispatch(getUserFromLS())
+    dispatch(getUserFromLocalStorage())
     if (userState.isLoggedIn && userState.isExist) { router.push('/counselor/counseling') }
   }
 
