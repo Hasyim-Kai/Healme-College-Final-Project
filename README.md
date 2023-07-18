@@ -4,11 +4,11 @@
 Healme is a Web App that focus on Management of Consultation Schedule with Counselor. The other features are like Journaling and Circle Community for user. this App is Open for Public especially for Malang city residents.
 
 ### Tech Stack :trumpet:
-- Next Js ( Img Processing, Img Lazyload, Preload, SSG )
+- React - Next Js ( Img Processing, Img Lazyload, Preload, SSG )
 - Typescript
+- Redux Toolkit
 - Tailwind
-- Firebase Auth
-- Firebase Firestore
+- Firebase Auth & Firestore
 - Simple Clean Architecture
 
 ## :anchor: Landing Page Lighthouse Score
@@ -25,5 +25,15 @@ Healme is a Web App that focus on Management of Consultation Schedule with Couns
 ## :star: Login Page
 <img src="./public/screenshot/login.png" alt="Login Page" width="600">
 <br>
+
+## :star: Consultation List Page
+<img src="./public/screenshot/consultation list.png" alt="Consultation List Page" width="600">
 <br>
+
+## :star: Consultation Detail Page
+<img src="./public/screenshot/consultation detail.png" alt="Consultation Detail Page" width="600">
+<br>
+
+## :star: Counselor Consultation List Page
+<img src="./public/screenshot/counselor consultation list.png" alt="Counselor Consultation List Page" width="600">
 <br>
